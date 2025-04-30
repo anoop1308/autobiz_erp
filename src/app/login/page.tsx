@@ -3,12 +3,14 @@ import { LoginForm, LoginFormData } from "@/components/login-form"
 import { toast } from "@/hooks/use-toast"
 import { authClient, signIn } from "@/lib/auth-client"
 
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const redirect = useRouter().push
+
   const handleSubmit = async (formData: LoginFormData) => {
     const { data: session } = await authClient.getSession()
 

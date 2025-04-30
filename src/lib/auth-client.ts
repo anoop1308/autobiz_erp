@@ -15,6 +15,7 @@ export const authClient = createAuthClient({
     ]
 })
 
+export const { useSession } = createAuthClient();
 
 export const signUp = async (email: string, password: string, name: string) => {
     const { data, error } = await authClient.signUp.email({
@@ -104,13 +105,20 @@ export const updateTeam = async (name: string, teamId: string) => {
     return updatedTeam;
 }
 
+export const createOrganization = async (name: string) => {
+    const data = await authClient.organization.create({
+        name,
+        slug: generateSlug(name),
+    });
+    return data;
+}
+
 // Inviting a new member to the team
-export const inviteTeamMember = async (email: string, role: "member" | "admin" | "owner", teamId: string, organizationId: string) => {
-    const { data, error } = await authClient.organization.inviteMember({
+export const inviteTeamMember = async (email: string, role: "member" | "admin" | "owner", teamId: string) => {
+    const data = await authClient.organization.inviteMember({
         email,
         role,
         teamId,
-        organizationId,
     });
-    return { data, error };
+    return data;
 }

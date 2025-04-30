@@ -17,4 +17,3 @@ export const getActiveOrgForSession = async ({ userId }: { userId: string }) => 
   
     return org;
   };
-  

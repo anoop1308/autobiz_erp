@@ -14,7 +14,7 @@ export async function sendEmail({from, to, teamOrOrgName, inviteLink}: SendEmail
   const {data, error} = await resend.emails.send({
     from,
     to,
-    subject: "Invitation to join AutoBiz",
+    subject: "Invitation to join AutoBiz-erp",
     html: `
       <div>
         <h2>You've been invited to join ${teamOrOrgName}</h2>
