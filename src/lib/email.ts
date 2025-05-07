@@ -10,7 +10,8 @@ type SendEmailProps = {
   inviteLink: string;
 }
 
-export async function sendEmail({from, to, teamOrOrgName, inviteLink}: SendEmailProps) {
+export async function sendOrganizationInvitation({from, to, teamOrOrgName, inviteLink}: SendEmailProps) {
+  console.log("🚀 ~ sendOrganizationInvitation ~ inviteLink:", inviteLink)
   const {data, error} = await resend.emails.send({
     from,
     to,

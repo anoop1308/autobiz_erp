@@ -17,7 +17,7 @@ export const authClient = createAuthClient({
 
 export const { useSession } = createAuthClient();
 
-export const signUp = async (email: string, password: string, name: string) => {
+export const signUp = async (email: string, password: string, name: string, invitationId?: string) => {
     const { data, error } = await authClient.signUp.email({
         email,
         password,
@@ -30,22 +30,34 @@ export const signUp = async (email: string, password: string, name: string) => {
         })
         return { error };
     }
+    if (invitationId) {
+        const { error } = await authClient.organization.acceptInvitation({
+            invitationId,
+        });
+        if (error) {
+            toast({
+                title: "Error",
+                description: error.message,
+            })
+            return { error };
+        }
+    } else {
+        const orgResponse = await authClient.organization.create({
+            name: name,
+            slug: generateSlug(name),
+        });
 
-    const orgResponse = await authClient.organization.create({
-        name: name,
-        slug: generateSlug(name),
-    });
-
-    if (orgResponse.error) {
-        toast({
-            title: "Error",
-            description: orgResponse.error.message,
-        })
-        return { error: orgResponse.error };
+        if (orgResponse.error) {
+            toast({
+                title: "Error",
+                description: orgResponse.error.message,
+            })
+            return { error: orgResponse.error };
+        }
+        authClient.organization.setActive({
+            organizationId: orgResponse.data?.id,
+        });
     }
-    authClient.organization.setActive({
-        organizationId: orgResponse.data?.id,
-    });
     return { data, error };
 }
 
@@ -119,6 +131,36 @@ export const inviteTeamMember = async (email: string, role: "member" | "admin" |
         email,
         role,
         teamId,
+    });
+    return data;
+}
+
+export const updateOrganization = async (organizationId: string, name: string) => {
+    const data = await authClient.organization.update({
+        organizationId,
+        data: {
+            name,
+        }
+    });
+    return data;
+}
+
+export const deleteOrganization = async (organizationId: string) => {
+    const data = await authClient.organization.delete({
+        organizationId,
+    });
+    return data;
+}
+
+export const getFullOrganization = async () => {
+    const data = await authClient.organization.getFullOrganization();
+    return data;
+}
+
+export const inviteOrgMember = async (email: string, role: "member" | "admin" | "owner") => {
+    const data = await authClient.organization.inviteMember({
+        email,
+        role,
     });
     return data;
 }

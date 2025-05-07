@@ -1,7 +1,7 @@
 'use client'
 import { LoginForm, LoginFormData } from "@/components/login-form"
 import { toast } from "@/hooks/use-toast"
-import { authClient, signIn } from "@/lib/auth-client"
+import {  signIn } from "@/lib/auth-client"
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -11,22 +11,17 @@ export default function Page() {
   const [error, setError] = useState('')
   const redirect = useRouter().push
 
+
   const handleSubmit = async (formData: LoginFormData) => {
-    const { data: session } = await authClient.getSession()
-
-    console.log("🚀 ~ Page ~ handleSubmit ~ session:", session)
-
-    if (session?.user) {
-      return redirect('/dashboard');
-    }
 
     setIsLoading(true)
     setError('')
-
+    
     try {
       const { data, error } = await signIn(formData.email, formData.password)
-
+      
       if (error) {
+        setIsLoading(true)
         setError(error.message || 'An unknown error occurred')
       } else {
         toast({
@@ -38,14 +33,13 @@ export default function Page() {
         redirect('/dashboard')
       }
     } catch (error: unknown) {
+      setIsLoading(true)
       setError(error instanceof Error ? error.message : 'An unknown error occurred')
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : 'An unknown error occurred',
         variant: "destructive"
       })
-    } finally {
-      setIsLoading(false)
     }
   }
   return (

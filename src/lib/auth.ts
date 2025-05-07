@@ -4,10 +4,10 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { organization, openAPI } from "better-auth/plugins"
 import { getActiveOrgForSession } from "./auth-helper";
-import { sendEmail } from "./email";
+// import { sendOrganizationInvitation } from "./email";
 
 export const prisma = new PrismaClient();
-const link_url = process.env.NEXT_PUBLIC_URL;
+// const link_url = process.env.BETTER_AUTH_URL;
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
@@ -17,15 +17,16 @@ export const auth = betterAuth({
   },
   plugins: [
     organization({
-      async sendInvitationEmail(data) {
-        const inviteLink = `${link_url}/login/${data.id}`;
-        sendEmail({
-          from: data.inviter.user.email,
-          to: data.email,
-          teamOrOrgName: data.organization.name,
-          inviteLink,
-        });
-      },
+      // async sendInvitationEmail(data) {
+      //   const inviteLink = `${link_url}/login?signup=${data.id}`;
+      //   console.log("🚀 ~ sendInvitationEmail ~ inviteLink:", inviteLink)
+      //   sendOrganizationInvitation({
+      //     from: data.inviter.user.email,
+      //     to: data.email,
+      //     teamOrOrgName: data.organization.name,
+      //     inviteLink,
+      //   });
+      // },
       enabled: true,
       teams: {
         enabled: true,

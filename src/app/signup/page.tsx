@@ -1,30 +1,37 @@
 "use client"
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
-import { signUp } from '@/lib/auth-client'
+import { signUp, useSession } from '@/lib/auth-client'
+
 
 export default function SignUpPage() {
+  const searchParams = useSearchParams()
+  const invitationId = searchParams.get('invitationId')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const redirect = useRouter().push
   const { toast } = useToast()
+  const session = useSession()
 
+  if (session.data?.session) {
+    redirect('/dashboard')
+  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
 
-    const { data, error } = await signUp(email, password, name)
+    const { data, error } = await signUp(email, password, name, invitationId || undefined)
     console.log("🚀 ~ handleSubmit ~ data:", data)
 
     if (error) {
@@ -32,6 +39,7 @@ export default function SignUpPage() {
       setIsLoading(false)
       return
     }
+    redirect('/login')
 
     toast({
       title: "Success",
@@ -39,7 +47,6 @@ export default function SignUpPage() {
       variant: "default"
     })
     setIsLoading(false)
-    router.push('/login')
 
   }
 
