@@ -51,6 +51,22 @@ model Session {
   @@map("session")
 }
 
+model SupportTicket {
+  id             String       @id @default(cuid())
+  customerName   String
+  product        String
+  issueType      String
+  description    String
+  whatsapp       String
+  status         String       @default("open") // open, in-progress, resolved, closed
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("support_ticket")
+}
+
 model Account {
   userId                String
   scope                 String?
@@ -82,17 +98,18 @@ model Verification {
 }
 
 model Organization {
-  id               String       @id
+  id               String          @id
   name             String
   createdAt        DateTime
   logo             String?
   metadata         String?
-  slug             String?      @unique
-  theme            String?      @default("system")
+  slug             String?         @unique
+  theme            String?         @default("system")
   themePreferences Json?
   invitations      Invitation[]
   members          Member[]
   teams            Team[]
+  supportTickets   SupportTicket[]
 
   @@map("organization")
 }

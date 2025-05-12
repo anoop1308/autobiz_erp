@@ -51,6 +51,22 @@ model Session {
   @@map("session")
 }
 
+model SupportTicket {
+  id             String    @id @default(cuid())
+  customerName   String
+  product        String
+  issueType      String
+  description    String
+  whatsapp       String
+  status         String    @default("open") // open, in-progress, resolved, closed
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("support_ticket")
+}
+
 model Account {
   userId                String
   scope                 String?
@@ -93,6 +109,7 @@ model Organization {
   invitations      Invitation[]
   members          Member[]
   teams            Team[]
+  supportTickets   SupportTicket[]
 
   @@map("organization")
 }

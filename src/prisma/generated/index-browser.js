@@ -145,6 +145,19 @@ exports.Prisma.SessionScalarFieldEnum = {
   token: 'token'
 };
 
+exports.Prisma.SupportTicketScalarFieldEnum = {
+  id: 'id',
+  customerName: 'customerName',
+  product: 'product',
+  issueType: 'issueType',
+  description: 'description',
+  whatsapp: 'whatsapp',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organizationId: 'organizationId'
+};
+
 exports.Prisma.AccountScalarFieldEnum = {
   userId: 'userId',
   scope: 'scope',
@@ -241,6 +254,7 @@ exports.Prisma.JsonNullValueFilter = {
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
+  SupportTicket: 'SupportTicket',
   Account: 'Account',
   Verification: 'Verification',
   Organization: 'Organization',

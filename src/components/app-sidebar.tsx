@@ -39,6 +39,11 @@ const sidebarData = {
       url: "/team",
       icon: IconChartBar,
     },
+    {
+      title: "Support",
+      url: "/support",
+      icon: IconUsers,
+    },
     // {
     //   title: "Lifecycle",
     //   url: "#",

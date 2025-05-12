@@ -31,6 +31,23 @@ export const auth = betterAuth({
       teams: {
         enabled: true,
       },
+      // hooks: {
+      //   organization: {
+      //     create: {
+      //       after: async ({ organization }: { organization: { id: string } }) => {
+      //         const defaultTeams = ['Support Team', 'Sales Team', 'Engineers Team'];
+      //         for (const teamName of defaultTeams) {
+      //           await prisma.team.create({
+      //             data: {
+      //               name: teamName,
+      //               organizationId: organization.id
+      //             }
+      //           });
+      //         }
+      //       }
+      //     }
+      //   }  
+      // },
     }),
     openAPI(),
   ],

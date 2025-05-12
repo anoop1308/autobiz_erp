@@ -17,6 +17,8 @@ export const authClient = createAuthClient({
 
 export const { useSession } = createAuthClient();
 
+const teams = ['Support Team', 'Sales Team', 'Engineers Team']
+
 export const signUp = async (email: string, password: string, name: string, invitationId?: string) => {
     const { data, error } = await authClient.signUp.email({
         email,
@@ -57,6 +59,11 @@ export const signUp = async (email: string, password: string, name: string, invi
         authClient.organization.setActive({
             organizationId: orgResponse.data?.id,
         });
+
+        teams.forEach(async (team) => {
+             await createTeam(team);
+        })
+
     }
     return { data, error };
 }
