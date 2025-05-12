@@ -5,8 +5,9 @@ import {
   IconChartBar,
   IconDashboard,
   // IconFolder,
+  // IconFolder,
   // IconInnerShadowTop,
-  // IconListDetails,
+  IconListDetails,
   IconUsers,
 } from "@tabler/icons-react"
 
@@ -43,6 +44,11 @@ const sidebarData = {
       title: "Support",
       url: "/support",
       icon: IconUsers,
+    },
+    {
+      title: "Kanban",
+      url: "/kanban",
+      icon: IconListDetails,
     },
     // {
     //   title: "Lifecycle",
