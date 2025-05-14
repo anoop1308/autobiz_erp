@@ -5,7 +5,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { KanbanCard } from './kanban-card';
 
-type Status = 'new' | 'acknowledged' | 'investigation' | 'awaiting-customer-response' | 'stale' | 'in-progress' | 'escalated' | 'pending-external-action' | 'resolved' | 'closed' | 'reopened';
+type Status = 'new' | 'acknowledged' | 'investigation' | 'awaiting-customer-response' | 'in-progress' | 'resolved' | 'closed' | 'reopened';
 
 type Task = {
   id: string;
@@ -30,7 +30,7 @@ export function KanbanColumn({ id, title, tasks, description }: KanbanColumnProp
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <div className="flex flex-col gap-4 w-80">
+    <div className="flex flex-col gap-4 w-[500px]">
       <div className="bg-background p-4 rounded-lg shadow-sm">
         <div 
           className="relative" 

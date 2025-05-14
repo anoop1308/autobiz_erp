@@ -96,23 +96,25 @@ export function KanbanBoard() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-8 bg-gray-50 rounded-xl shadow-lg border border-gray-200 mx-4 my-6">
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
       >
-        <div className="flex gap-4 overflow-x-auto p-2">
-          {columns.map((column) => (
-            <KanbanColumn
-              key={column.id}
-              id={column.id}
-              title={column.title}
-              description={statusDescriptions[column.id]}
-              tasks={tasks.filter((task) => task.status === column.id)}
-            />
-          ))}
+        <div className="relative w-full overflow-x-auto">
+          <div className="flex gap-5 p-2 min-h-[600px]" style={{ minWidth: columns.length * 320 }}>
+            {columns.map((column) => (
+              <KanbanColumn
+                key={column.id}
+                id={column.id}
+                title={column.title}
+                description={statusDescriptions[column.id]}
+                tasks={tasks.filter((task) => task.status === column.id)}
+              />
+            ))}
+          </div>
         </div>
 
         <DragOverlay>
