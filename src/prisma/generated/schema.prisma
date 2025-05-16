@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/prisma/generated"
@@ -16,8 +10,8 @@ datasource db {
 
 model User {
   id            String       @id
-  name          String
   email         String       @unique
+  name          String
   emailVerified Boolean
   image         String?
   createdAt     DateTime
@@ -36,51 +30,54 @@ model User {
 }
 
 model Session {
-  userId               String
+  id                   String   @id @default(cuid())
+  expiresAt            DateTime
+  token                String   @unique
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-  activeOrganizationId String?
-  impersonatedBy       String?
   ipAddress            String?
   userAgent            String?
-  expiresAt            DateTime
-  id                   String   @id @default(cuid())
-  token                String   @unique
+  userId               String
+  activeOrganizationId String?
+  impersonatedBy       String?
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("session")
 }
 
 model SupportTicket {
-  id             String       @id @default(cuid())
+  id             String                 @id @default(cuid())
   customerName   String
   product        String
   issueType      String
   description    String
   whatsapp       String
-  status         String       @default("open") // open, in-progress, resolved, closed
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  assignedTo     Member[]               @relation("SupportTicketAssignedTo")
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  status         SupportTicketStatus    @default(New)
+  priority       SupportTicketPriority  @default(Low)
+  organization   Organization           @relation(fields: [organizationId], references: [id])
+  history        SupportTicketHistory[]
 
   @@map("support_ticket")
 }
 
 model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
   userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
   scope                 String?
+  password              String?
   createdAt             DateTime
   updatedAt             DateTime
-  accessToken           String?
-  accessTokenExpiresAt  DateTime?
-  accountId             String
-  idToken               String?
-  refreshToken          String?
-  id                    String    @id
-  password              String?
-  providerId            String
-  refreshTokenExpiresAt DateTime?
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
@@ -108,8 +105,8 @@ model Organization {
   themePreferences Json?
   invitations      Invitation[]
   members          Member[]
-  teams            Team[]
   supportTickets   SupportTicket[]
+  teams            Team[]
 
   @@map("organization")
 }
@@ -120,8 +117,8 @@ model Team {
   organizationId String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime?    @updatedAt
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   members        Member[]     @relation("TeamMembers")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@map("team")
 }
@@ -134,27 +131,57 @@ model Invitation {
   inviterId      String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime?    @updatedAt
-  status         String // InvitationStatus @default(pending)
-  role           String // Role?            @default(MEMBER)
+  status         String
+  role           String
+  teamId         String?
   user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-
-  teamId String?
 
   @@map("invitation")
 }
 
 model Member {
-  id             String       @id
-  organizationId String
-  userId         String
-  role           String
-  createdAt      DateTime
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  teamId         String?
-  team           Team?        @relation("TeamMembers", fields: [teamId], references: [id], onDelete: SetNull)
+  id              String          @id
+  organizationId  String
+  userId          String
+  role            String
+  createdAt       DateTime
+  teamId          String?
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  team            Team?           @relation("TeamMembers", fields: [teamId], references: [id])
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedTickets SupportTicket[] @relation("SupportTicketAssignedTo")
 
   @@index([teamId])
   @@map("member")
+}
+
+model SupportTicketHistory {
+  id              String                 @id @default(cuid())
+  supportTicketId String
+  beforeStatus    SupportTicketStatus?
+  afterStatus     SupportTicketStatus?
+  beforePriority  SupportTicketPriority?
+  afterPriority   SupportTicketPriority?
+  changedBy       String?
+  createdAt       DateTime               @default(now())
+  supportTicket   SupportTicket          @relation(fields: [supportTicketId], references: [id], onDelete: Cascade)
+
+  @@map("support_ticket_history")
+}
+
+enum SupportTicketStatus {
+  New
+  Acknowledged
+  Investigation
+  Awaiting_Customer_Response
+  In_Progress
+  Resolved
+  Closed
+}
+
+enum SupportTicketPriority {
+  Low
+  Medium
+  High
 }
