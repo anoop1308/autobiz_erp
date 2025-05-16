@@ -1,5 +1,7 @@
 import { auth, prisma } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
+import { SupportTicketStatus } from "@/prisma/generated";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,6 +13,10 @@ export async function POST(req: NextRequest) {
 
     try {
         const session = await authClient.getSession();
+        const session2 = await auth.api.getSession({
+            headers: await headers()
+        });
+        const user = session2?.user.name;
         if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
@@ -20,10 +26,10 @@ export async function POST(req: NextRequest) {
         }
         
         const data = await req.json();
-        const { customerName, product, issueType, description, whatsapp } = data;
+        const { customerName, product, issueType, description, whatsapp, priority } = data;
         
         // Validate required fields
-        if (!customerName || !product || !issueType || !description || !whatsapp) {
+        if (!customerName || !product || !issueType || !description || !whatsapp || !priority) {
             return new Response(JSON.stringify({
                 error: 'Missing required fields',
                 details: {
@@ -31,7 +37,8 @@ export async function POST(req: NextRequest) {
                     product: !product,
                     issueType: !issueType,
                     description: !description,
-                    whatsapp: !whatsapp
+                    whatsapp: !whatsapp,
+                    priority: !priority,
                 }
             }), {
                 status: 400,
@@ -47,11 +54,22 @@ export async function POST(req: NextRequest) {
                 issueType,
                 description,
                 whatsapp,
+                priority,
                 organizationId: org.id,
-                status: 'OPEN',
+                status: SupportTicketStatus.New,
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
+        });
+
+        await prisma.supportTicketHistory.create({
+            data: {
+                supportTicketId: ticket.id,
+                beforeStatus: SupportTicketStatus.New,
+                beforePriority: priority,
+                changedBy: user,
+                createdAt: new Date()
+            }
         });
 
         return new Response(JSON.stringify({

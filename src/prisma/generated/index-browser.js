@@ -119,8 +119,8 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
   email: 'email',
+  name: 'name',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
@@ -133,16 +133,16 @@ exports.Prisma.UserScalarFieldEnum = {
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
-  userId: 'userId',
+  id: 'id',
+  expiresAt: 'expiresAt',
+  token: 'token',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  activeOrganizationId: 'activeOrganizationId',
-  impersonatedBy: 'impersonatedBy',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
-  expiresAt: 'expiresAt',
-  id: 'id',
-  token: 'token'
+  userId: 'userId',
+  activeOrganizationId: 'activeOrganizationId',
+  impersonatedBy: 'impersonatedBy'
 };
 
 exports.Prisma.SupportTicketScalarFieldEnum = {
@@ -152,26 +152,27 @@ exports.Prisma.SupportTicketScalarFieldEnum = {
   issueType: 'issueType',
   description: 'description',
   whatsapp: 'whatsapp',
-  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  organizationId: 'organizationId'
+  organizationId: 'organizationId',
+  status: 'status',
+  priority: 'priority'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
-  userId: 'userId',
-  scope: 'scope',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  accessToken: 'accessToken',
-  accessTokenExpiresAt: 'accessTokenExpiresAt',
-  accountId: 'accountId',
-  idToken: 'idToken',
-  refreshToken: 'refreshToken',
   id: 'id',
-  password: 'password',
+  accountId: 'accountId',
   providerId: 'providerId',
-  refreshTokenExpiresAt: 'refreshTokenExpiresAt'
+  userId: 'userId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  idToken: 'idToken',
+  accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
+  scope: 'scope',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.VerificationScalarFieldEnum = {
@@ -224,6 +225,17 @@ exports.Prisma.MemberScalarFieldEnum = {
   teamId: 'teamId'
 };
 
+exports.Prisma.SupportTicketHistoryScalarFieldEnum = {
+  id: 'id',
+  supportTicketId: 'supportTicketId',
+  beforeStatus: 'beforeStatus',
+  afterStatus: 'afterStatus',
+  beforePriority: 'beforePriority',
+  afterPriority: 'afterPriority',
+  changedBy: 'changedBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -249,7 +261,21 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.SupportTicketStatus = exports.$Enums.SupportTicketStatus = {
+  New: 'New',
+  Acknowledged: 'Acknowledged',
+  Investigation: 'Investigation',
+  Awaiting_Customer_Response: 'Awaiting_Customer_Response',
+  In_Progress: 'In_Progress',
+  Resolved: 'Resolved',
+  Closed: 'Closed'
+};
 
+exports.SupportTicketPriority = exports.$Enums.SupportTicketPriority = {
+  Low: 'Low',
+  Medium: 'Medium',
+  High: 'High'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -260,7 +286,8 @@ exports.Prisma.ModelName = {
   Organization: 'Organization',
   Team: 'Team',
   Invitation: 'Invitation',
-  Member: 'Member'
+  Member: 'Member',
+  SupportTicketHistory: 'SupportTicketHistory'
 };
 
 /**

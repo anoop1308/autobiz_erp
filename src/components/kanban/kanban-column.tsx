@@ -4,19 +4,18 @@ import { useState } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { KanbanCard } from './kanban-card';
-
-type Status = 'new' | 'acknowledged' | 'investigation' | 'awaiting-customer-response' | 'in-progress' | 'resolved' | 'closed' | 'reopened';
+import { SupportTicketPriority, SupportTicketStatus } from '../../prisma/generated';
 
 type Task = {
   id: string;
   title: string;
-  status: Status;
+  status: SupportTicketStatus;
   description?: string;
-  priority?: 'low' | 'medium' | 'high';
+  priority?: SupportTicketPriority;
 };
 
 type KanbanColumnProps = {
-  id: Status;
+  id: SupportTicketStatus;
   title: string;
   tasks: Task[];
   description: string;

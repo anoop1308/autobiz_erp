@@ -58,6 +58,46 @@ export type Invitation = $Result.DefaultSelection<Prisma.$InvitationPayload>
  * 
  */
 export type Member = $Result.DefaultSelection<Prisma.$MemberPayload>
+/**
+ * Model SupportTicketHistory
+ * 
+ */
+export type SupportTicketHistory = $Result.DefaultSelection<Prisma.$SupportTicketHistoryPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const SupportTicketStatus: {
+  New: 'New',
+  Acknowledged: 'Acknowledged',
+  Investigation: 'Investigation',
+  Awaiting_Customer_Response: 'Awaiting_Customer_Response',
+  In_Progress: 'In_Progress',
+  Resolved: 'Resolved',
+  Closed: 'Closed'
+};
+
+export type SupportTicketStatus = (typeof SupportTicketStatus)[keyof typeof SupportTicketStatus]
+
+
+export const SupportTicketPriority: {
+  Low: 'Low',
+  Medium: 'Medium',
+  High: 'High'
+};
+
+export type SupportTicketPriority = (typeof SupportTicketPriority)[keyof typeof SupportTicketPriority]
+
+}
+
+export type SupportTicketStatus = $Enums.SupportTicketStatus
+
+export const SupportTicketStatus: typeof $Enums.SupportTicketStatus
+
+export type SupportTicketPriority = $Enums.SupportTicketPriority
+
+export const SupportTicketPriority: typeof $Enums.SupportTicketPriority
 
 /**
  * ##  Prisma Client ʲˢ
@@ -273,6 +313,16 @@ export class PrismaClient<
     * ```
     */
   get member(): Prisma.MemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.supportTicketHistory`: Exposes CRUD operations for the **SupportTicketHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SupportTicketHistories
+    * const supportTicketHistories = await prisma.supportTicketHistory.findMany()
+    * ```
+    */
+  get supportTicketHistory(): Prisma.SupportTicketHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -721,7 +771,8 @@ export namespace Prisma {
     Organization: 'Organization',
     Team: 'Team',
     Invitation: 'Invitation',
-    Member: 'Member'
+    Member: 'Member',
+    SupportTicketHistory: 'SupportTicketHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -740,7 +791,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "supportTicket" | "account" | "verification" | "organization" | "team" | "invitation" | "member"
+      modelProps: "user" | "session" | "supportTicket" | "account" | "verification" | "organization" | "team" | "invitation" | "member" | "supportTicketHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1410,6 +1461,80 @@ export namespace Prisma {
           }
         }
       }
+      SupportTicketHistory: {
+        payload: Prisma.$SupportTicketHistoryPayload<ExtArgs>
+        fields: Prisma.SupportTicketHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupportTicketHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupportTicketHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.SupportTicketHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupportTicketHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.SupportTicketHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.SupportTicketHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.SupportTicketHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SupportTicketHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.SupportTicketHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>
+          }
+          update: {
+            args: Prisma.SupportTicketHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.SupportTicketHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupportTicketHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SupportTicketHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.SupportTicketHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.SupportTicketHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupportTicketHistory>
+          }
+          groupBy: {
+            args: Prisma.SupportTicketHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupportTicketHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupportTicketHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<SupportTicketHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1503,6 +1628,7 @@ export namespace Prisma {
     team?: TeamOmit
     invitation?: InvitationOmit
     member?: MemberOmit
+    supportTicketHistory?: SupportTicketHistoryOmit
   }
 
   /* Types for Logging */
@@ -1651,21 +1777,61 @@ export namespace Prisma {
 
 
   /**
+   * Count Type SupportTicketCountOutputType
+   */
+
+  export type SupportTicketCountOutputType = {
+    assignedTo: number
+    history: number
+  }
+
+  export type SupportTicketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignedTo?: boolean | SupportTicketCountOutputTypeCountAssignedToArgs
+    history?: boolean | SupportTicketCountOutputTypeCountHistoryArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SupportTicketCountOutputType without action
+   */
+  export type SupportTicketCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketCountOutputType
+     */
+    select?: SupportTicketCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SupportTicketCountOutputType without action
+   */
+  export type SupportTicketCountOutputTypeCountAssignedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MemberWhereInput
+  }
+
+  /**
+   * SupportTicketCountOutputType without action
+   */
+  export type SupportTicketCountOutputTypeCountHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportTicketHistoryWhereInput
+  }
+
+
+  /**
    * Count Type OrganizationCountOutputType
    */
 
   export type OrganizationCountOutputType = {
     invitations: number
     members: number
-    teams: number
     supportTickets: number
+    teams: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invitations?: boolean | OrganizationCountOutputTypeCountInvitationsArgs
     members?: boolean | OrganizationCountOutputTypeCountMembersArgs
-    teams?: boolean | OrganizationCountOutputTypeCountTeamsArgs
     supportTickets?: boolean | OrganizationCountOutputTypeCountSupportTicketsArgs
+    teams?: boolean | OrganizationCountOutputTypeCountTeamsArgs
   }
 
   // Custom InputTypes
@@ -1696,15 +1862,15 @@ export namespace Prisma {
   /**
    * OrganizationCountOutputType without action
    */
-  export type OrganizationCountOutputTypeCountTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TeamWhereInput
+  export type OrganizationCountOutputTypeCountSupportTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportTicketWhereInput
   }
 
   /**
    * OrganizationCountOutputType without action
    */
-  export type OrganizationCountOutputTypeCountSupportTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SupportTicketWhereInput
+  export type OrganizationCountOutputTypeCountTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamWhereInput
   }
 
 
@@ -1740,6 +1906,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type MemberCountOutputType
+   */
+
+  export type MemberCountOutputType = {
+    assignedTickets: number
+  }
+
+  export type MemberCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignedTickets?: boolean | MemberCountOutputTypeCountAssignedTicketsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MemberCountOutputType without action
+   */
+  export type MemberCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MemberCountOutputType
+     */
+    select?: MemberCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MemberCountOutputType without action
+   */
+  export type MemberCountOutputTypeCountAssignedTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportTicketWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1755,8 +1952,8 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
-    name: string | null
     email: string | null
+    name: string | null
     emailVerified: boolean | null
     image: string | null
     createdAt: Date | null
@@ -1770,8 +1967,8 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: string | null
-    name: string | null
     email: string | null
+    name: string | null
     emailVerified: boolean | null
     image: string | null
     createdAt: Date | null
@@ -1785,8 +1982,8 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
-    name: number
     email: number
+    name: number
     emailVerified: number
     image: number
     createdAt: number
@@ -1802,8 +1999,8 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
-    name?: true
     email?: true
+    name?: true
     emailVerified?: true
     image?: true
     createdAt?: true
@@ -1817,8 +2014,8 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
-    name?: true
     email?: true
+    name?: true
     emailVerified?: true
     image?: true
     createdAt?: true
@@ -1832,8 +2029,8 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
-    name?: true
     email?: true
+    name?: true
     emailVerified?: true
     image?: true
     createdAt?: true
@@ -1920,8 +2117,8 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image: string | null
     createdAt: Date
@@ -1952,8 +2149,8 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     email?: boolean
+    name?: boolean
     emailVerified?: boolean
     image?: boolean
     createdAt?: boolean
@@ -1972,8 +2169,8 @@ export namespace Prisma {
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     email?: boolean
+    name?: boolean
     emailVerified?: boolean
     image?: boolean
     createdAt?: boolean
@@ -1987,8 +2184,8 @@ export namespace Prisma {
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     email?: boolean
+    name?: boolean
     emailVerified?: boolean
     image?: boolean
     createdAt?: boolean
@@ -2002,8 +2199,8 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
-    name?: boolean
     email?: boolean
+    name?: boolean
     emailVerified?: boolean
     image?: boolean
     createdAt?: boolean
@@ -2015,7 +2212,7 @@ export namespace Prisma {
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "banExpires" | "banReason" | "banned" | "lastLoginAt" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "banExpires" | "banReason" | "banned" | "lastLoginAt" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     invitations?: boolean | User$invitationsArgs<ExtArgs>
@@ -2036,8 +2233,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      name: string
       email: string
+      name: string
       emailVerified: boolean
       image: string | null
       createdAt: Date
@@ -2475,8 +2672,8 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
-    readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly name: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -2999,83 +3196,83 @@ export namespace Prisma {
   }
 
   export type SessionMinAggregateOutputType = {
-    userId: string | null
+    id: string | null
+    expiresAt: Date | null
+    token: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    activeOrganizationId: string | null
-    impersonatedBy: string | null
     ipAddress: string | null
     userAgent: string | null
-    expiresAt: Date | null
-    id: string | null
-    token: string | null
+    userId: string | null
+    activeOrganizationId: string | null
+    impersonatedBy: string | null
   }
 
   export type SessionMaxAggregateOutputType = {
-    userId: string | null
+    id: string | null
+    expiresAt: Date | null
+    token: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    activeOrganizationId: string | null
-    impersonatedBy: string | null
     ipAddress: string | null
     userAgent: string | null
-    expiresAt: Date | null
-    id: string | null
-    token: string | null
+    userId: string | null
+    activeOrganizationId: string | null
+    impersonatedBy: string | null
   }
 
   export type SessionCountAggregateOutputType = {
-    userId: number
+    id: number
+    expiresAt: number
+    token: number
     createdAt: number
     updatedAt: number
-    activeOrganizationId: number
-    impersonatedBy: number
     ipAddress: number
     userAgent: number
-    expiresAt: number
-    id: number
-    token: number
+    userId: number
+    activeOrganizationId: number
+    impersonatedBy: number
     _all: number
   }
 
 
   export type SessionMinAggregateInputType = {
-    userId?: true
+    id?: true
+    expiresAt?: true
+    token?: true
     createdAt?: true
     updatedAt?: true
-    activeOrganizationId?: true
-    impersonatedBy?: true
     ipAddress?: true
     userAgent?: true
-    expiresAt?: true
-    id?: true
-    token?: true
+    userId?: true
+    activeOrganizationId?: true
+    impersonatedBy?: true
   }
 
   export type SessionMaxAggregateInputType = {
-    userId?: true
+    id?: true
+    expiresAt?: true
+    token?: true
     createdAt?: true
     updatedAt?: true
-    activeOrganizationId?: true
-    impersonatedBy?: true
     ipAddress?: true
     userAgent?: true
-    expiresAt?: true
-    id?: true
-    token?: true
+    userId?: true
+    activeOrganizationId?: true
+    impersonatedBy?: true
   }
 
   export type SessionCountAggregateInputType = {
-    userId?: true
+    id?: true
+    expiresAt?: true
+    token?: true
     createdAt?: true
     updatedAt?: true
-    activeOrganizationId?: true
-    impersonatedBy?: true
     ipAddress?: true
     userAgent?: true
-    expiresAt?: true
-    id?: true
-    token?: true
+    userId?: true
+    activeOrganizationId?: true
+    impersonatedBy?: true
     _all?: true
   }
 
@@ -3152,16 +3349,16 @@ export namespace Prisma {
   }
 
   export type SessionGroupByOutputType = {
-    userId: string
+    id: string
+    expiresAt: Date
+    token: string
     createdAt: Date
     updatedAt: Date
-    activeOrganizationId: string | null
-    impersonatedBy: string | null
     ipAddress: string | null
     userAgent: string | null
-    expiresAt: Date
-    id: string
-    token: string
+    userId: string
+    activeOrganizationId: string | null
+    impersonatedBy: string | null
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -3182,61 +3379,61 @@ export namespace Prisma {
 
 
   export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userId?: boolean
+    id?: boolean
+    expiresAt?: boolean
+    token?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    activeOrganizationId?: boolean
-    impersonatedBy?: boolean
     ipAddress?: boolean
     userAgent?: boolean
-    expiresAt?: boolean
-    id?: boolean
-    token?: boolean
+    userId?: boolean
+    activeOrganizationId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userId?: boolean
+    id?: boolean
+    expiresAt?: boolean
+    token?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    activeOrganizationId?: boolean
-    impersonatedBy?: boolean
     ipAddress?: boolean
     userAgent?: boolean
-    expiresAt?: boolean
-    id?: boolean
-    token?: boolean
+    userId?: boolean
+    activeOrganizationId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userId?: boolean
+    id?: boolean
+    expiresAt?: boolean
+    token?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    activeOrganizationId?: boolean
-    impersonatedBy?: boolean
     ipAddress?: boolean
     userAgent?: boolean
-    expiresAt?: boolean
-    id?: boolean
-    token?: boolean
+    userId?: boolean
+    activeOrganizationId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectScalar = {
-    userId?: boolean
+    id?: boolean
+    expiresAt?: boolean
+    token?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    activeOrganizationId?: boolean
-    impersonatedBy?: boolean
     ipAddress?: boolean
     userAgent?: boolean
-    expiresAt?: boolean
-    id?: boolean
-    token?: boolean
+    userId?: boolean
+    activeOrganizationId?: boolean
+    impersonatedBy?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "createdAt" | "updatedAt" | "activeOrganizationId" | "impersonatedBy" | "ipAddress" | "userAgent" | "expiresAt" | "id" | "token", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "expiresAt" | "token" | "createdAt" | "updatedAt" | "ipAddress" | "userAgent" | "userId" | "activeOrganizationId" | "impersonatedBy", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3253,16 +3450,16 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      userId: string
+      id: string
+      expiresAt: Date
+      token: string
       createdAt: Date
       updatedAt: Date
-      activeOrganizationId: string | null
-      impersonatedBy: string | null
       ipAddress: string | null
       userAgent: string | null
-      expiresAt: Date
-      id: string
-      token: string
+      userId: string
+      activeOrganizationId: string | null
+      impersonatedBy: string | null
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -3346,8 +3543,8 @@ export namespace Prisma {
      * // Get first 10 Sessions
      * const sessions = await prisma.session.findMany({ take: 10 })
      * 
-     * // Only select the `userId`
-     * const sessionWithUserIdOnly = await prisma.session.findMany({ select: { userId: true } })
+     * // Only select the `id`
+     * const sessionWithIdOnly = await prisma.session.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends SessionFindManyArgs>(args?: SelectSubset<T, SessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -3391,9 +3588,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Sessions and only return the `userId`
-     * const sessionWithUserIdOnly = await prisma.session.createManyAndReturn({
-     *   select: { userId: true },
+     * // Create many Sessions and only return the `id`
+     * const sessionWithIdOnly = await prisma.session.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -3482,9 +3679,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Sessions and only return the `userId`
-     * const sessionWithUserIdOnly = await prisma.session.updateManyAndReturn({
-     *   select: { userId: true },
+     * // Update zero or more Sessions and only return the `id`
+     * const sessionWithIdOnly = await prisma.session.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3687,16 +3884,16 @@ export namespace Prisma {
    * Fields of the Session model
    */
   interface SessionFieldRefs {
-    readonly userId: FieldRef<"Session", 'String'>
+    readonly id: FieldRef<"Session", 'String'>
+    readonly expiresAt: FieldRef<"Session", 'DateTime'>
+    readonly token: FieldRef<"Session", 'String'>
     readonly createdAt: FieldRef<"Session", 'DateTime'>
     readonly updatedAt: FieldRef<"Session", 'DateTime'>
-    readonly activeOrganizationId: FieldRef<"Session", 'String'>
-    readonly impersonatedBy: FieldRef<"Session", 'String'>
     readonly ipAddress: FieldRef<"Session", 'String'>
     readonly userAgent: FieldRef<"Session", 'String'>
-    readonly expiresAt: FieldRef<"Session", 'DateTime'>
-    readonly id: FieldRef<"Session", 'String'>
-    readonly token: FieldRef<"Session", 'String'>
+    readonly userId: FieldRef<"Session", 'String'>
+    readonly activeOrganizationId: FieldRef<"Session", 'String'>
+    readonly impersonatedBy: FieldRef<"Session", 'String'>
   }
     
 
@@ -4128,10 +4325,11 @@ export namespace Prisma {
     issueType: string | null
     description: string | null
     whatsapp: string | null
-    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
     organizationId: string | null
+    status: $Enums.SupportTicketStatus | null
+    priority: $Enums.SupportTicketPriority | null
   }
 
   export type SupportTicketMaxAggregateOutputType = {
@@ -4141,10 +4339,11 @@ export namespace Prisma {
     issueType: string | null
     description: string | null
     whatsapp: string | null
-    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
     organizationId: string | null
+    status: $Enums.SupportTicketStatus | null
+    priority: $Enums.SupportTicketPriority | null
   }
 
   export type SupportTicketCountAggregateOutputType = {
@@ -4154,10 +4353,11 @@ export namespace Prisma {
     issueType: number
     description: number
     whatsapp: number
-    status: number
     createdAt: number
     updatedAt: number
     organizationId: number
+    status: number
+    priority: number
     _all: number
   }
 
@@ -4169,10 +4369,11 @@ export namespace Prisma {
     issueType?: true
     description?: true
     whatsapp?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
     organizationId?: true
+    status?: true
+    priority?: true
   }
 
   export type SupportTicketMaxAggregateInputType = {
@@ -4182,10 +4383,11 @@ export namespace Prisma {
     issueType?: true
     description?: true
     whatsapp?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
     organizationId?: true
+    status?: true
+    priority?: true
   }
 
   export type SupportTicketCountAggregateInputType = {
@@ -4195,10 +4397,11 @@ export namespace Prisma {
     issueType?: true
     description?: true
     whatsapp?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
     organizationId?: true
+    status?: true
+    priority?: true
     _all?: true
   }
 
@@ -4281,10 +4484,11 @@ export namespace Prisma {
     issueType: string
     description: string
     whatsapp: string
-    status: string
     createdAt: Date
     updatedAt: Date
     organizationId: string
+    status: $Enums.SupportTicketStatus
+    priority: $Enums.SupportTicketPriority
     _count: SupportTicketCountAggregateOutputType | null
     _min: SupportTicketMinAggregateOutputType | null
     _max: SupportTicketMaxAggregateOutputType | null
@@ -4311,11 +4515,15 @@ export namespace Prisma {
     issueType?: boolean
     description?: boolean
     whatsapp?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizationId?: boolean
+    status?: boolean
+    priority?: boolean
+    assignedTo?: boolean | SupportTicket$assignedToArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    history?: boolean | SupportTicket$historyArgs<ExtArgs>
+    _count?: boolean | SupportTicketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supportTicket"]>
 
   export type SupportTicketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4325,10 +4533,11 @@ export namespace Prisma {
     issueType?: boolean
     description?: boolean
     whatsapp?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizationId?: boolean
+    status?: boolean
+    priority?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supportTicket"]>
 
@@ -4339,10 +4548,11 @@ export namespace Prisma {
     issueType?: boolean
     description?: boolean
     whatsapp?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizationId?: boolean
+    status?: boolean
+    priority?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supportTicket"]>
 
@@ -4353,15 +4563,19 @@ export namespace Prisma {
     issueType?: boolean
     description?: boolean
     whatsapp?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizationId?: boolean
+    status?: boolean
+    priority?: boolean
   }
 
-  export type SupportTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerName" | "product" | "issueType" | "description" | "whatsapp" | "status" | "createdAt" | "updatedAt" | "organizationId", ExtArgs["result"]["supportTicket"]>
+  export type SupportTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerName" | "product" | "issueType" | "description" | "whatsapp" | "createdAt" | "updatedAt" | "organizationId" | "status" | "priority", ExtArgs["result"]["supportTicket"]>
   export type SupportTicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignedTo?: boolean | SupportTicket$assignedToArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    history?: boolean | SupportTicket$historyArgs<ExtArgs>
+    _count?: boolean | SupportTicketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SupportTicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
@@ -4373,7 +4587,9 @@ export namespace Prisma {
   export type $SupportTicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SupportTicket"
     objects: {
+      assignedTo: Prisma.$MemberPayload<ExtArgs>[]
       organization: Prisma.$OrganizationPayload<ExtArgs>
+      history: Prisma.$SupportTicketHistoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4382,10 +4598,11 @@ export namespace Prisma {
       issueType: string
       description: string
       whatsapp: string
-      status: string
       createdAt: Date
       updatedAt: Date
       organizationId: string
+      status: $Enums.SupportTicketStatus
+      priority: $Enums.SupportTicketPriority
     }, ExtArgs["result"]["supportTicket"]>
     composites: {}
   }
@@ -4780,7 +4997,9 @@ export namespace Prisma {
    */
   export interface Prisma__SupportTicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    assignedTo<T extends SupportTicket$assignedToArgs<ExtArgs> = {}>(args?: Subset<T, SupportTicket$assignedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    history<T extends SupportTicket$historyArgs<ExtArgs> = {}>(args?: Subset<T, SupportTicket$historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4816,10 +5035,11 @@ export namespace Prisma {
     readonly issueType: FieldRef<"SupportTicket", 'String'>
     readonly description: FieldRef<"SupportTicket", 'String'>
     readonly whatsapp: FieldRef<"SupportTicket", 'String'>
-    readonly status: FieldRef<"SupportTicket", 'String'>
     readonly createdAt: FieldRef<"SupportTicket", 'DateTime'>
     readonly updatedAt: FieldRef<"SupportTicket", 'DateTime'>
     readonly organizationId: FieldRef<"SupportTicket", 'String'>
+    readonly status: FieldRef<"SupportTicket", 'SupportTicketStatus'>
+    readonly priority: FieldRef<"SupportTicket", 'SupportTicketPriority'>
   }
     
 
@@ -5216,6 +5436,54 @@ export namespace Prisma {
   }
 
   /**
+   * SupportTicket.assignedTo
+   */
+  export type SupportTicket$assignedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Member
+     */
+    select?: MemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Member
+     */
+    omit?: MemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MemberInclude<ExtArgs> | null
+    where?: MemberWhereInput
+    orderBy?: MemberOrderByWithRelationInput | MemberOrderByWithRelationInput[]
+    cursor?: MemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MemberScalarFieldEnum | MemberScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicket.history
+   */
+  export type SupportTicket$historyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    where?: SupportTicketHistoryWhereInput
+    orderBy?: SupportTicketHistoryOrderByWithRelationInput | SupportTicketHistoryOrderByWithRelationInput[]
+    cursor?: SupportTicketHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupportTicketHistoryScalarFieldEnum | SupportTicketHistoryScalarFieldEnum[]
+  }
+
+  /**
    * SupportTicket without action
    */
   export type SupportTicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5245,101 +5513,101 @@ export namespace Prisma {
   }
 
   export type AccountMinAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    providerId: string | null
     userId: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    idToken: string | null
+    accessTokenExpiresAt: Date | null
+    refreshTokenExpiresAt: Date | null
     scope: string | null
+    password: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    accessToken: string | null
-    accessTokenExpiresAt: Date | null
-    accountId: string | null
-    idToken: string | null
-    refreshToken: string | null
-    id: string | null
-    password: string | null
-    providerId: string | null
-    refreshTokenExpiresAt: Date | null
   }
 
   export type AccountMaxAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    providerId: string | null
     userId: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    idToken: string | null
+    accessTokenExpiresAt: Date | null
+    refreshTokenExpiresAt: Date | null
     scope: string | null
+    password: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    accessToken: string | null
-    accessTokenExpiresAt: Date | null
-    accountId: string | null
-    idToken: string | null
-    refreshToken: string | null
-    id: string | null
-    password: string | null
-    providerId: string | null
-    refreshTokenExpiresAt: Date | null
   }
 
   export type AccountCountAggregateOutputType = {
+    id: number
+    accountId: number
+    providerId: number
     userId: number
+    accessToken: number
+    refreshToken: number
+    idToken: number
+    accessTokenExpiresAt: number
+    refreshTokenExpiresAt: number
     scope: number
+    password: number
     createdAt: number
     updatedAt: number
-    accessToken: number
-    accessTokenExpiresAt: number
-    accountId: number
-    idToken: number
-    refreshToken: number
-    id: number
-    password: number
-    providerId: number
-    refreshTokenExpiresAt: number
     _all: number
   }
 
 
   export type AccountMinAggregateInputType = {
+    id?: true
+    accountId?: true
+    providerId?: true
     userId?: true
+    accessToken?: true
+    refreshToken?: true
+    idToken?: true
+    accessTokenExpiresAt?: true
+    refreshTokenExpiresAt?: true
     scope?: true
+    password?: true
     createdAt?: true
     updatedAt?: true
-    accessToken?: true
-    accessTokenExpiresAt?: true
-    accountId?: true
-    idToken?: true
-    refreshToken?: true
-    id?: true
-    password?: true
-    providerId?: true
-    refreshTokenExpiresAt?: true
   }
 
   export type AccountMaxAggregateInputType = {
+    id?: true
+    accountId?: true
+    providerId?: true
     userId?: true
+    accessToken?: true
+    refreshToken?: true
+    idToken?: true
+    accessTokenExpiresAt?: true
+    refreshTokenExpiresAt?: true
     scope?: true
+    password?: true
     createdAt?: true
     updatedAt?: true
-    accessToken?: true
-    accessTokenExpiresAt?: true
-    accountId?: true
-    idToken?: true
-    refreshToken?: true
-    id?: true
-    password?: true
-    providerId?: true
-    refreshTokenExpiresAt?: true
   }
 
   export type AccountCountAggregateInputType = {
+    id?: true
+    accountId?: true
+    providerId?: true
     userId?: true
+    accessToken?: true
+    refreshToken?: true
+    idToken?: true
+    accessTokenExpiresAt?: true
+    refreshTokenExpiresAt?: true
     scope?: true
+    password?: true
     createdAt?: true
     updatedAt?: true
-    accessToken?: true
-    accessTokenExpiresAt?: true
-    accountId?: true
-    idToken?: true
-    refreshToken?: true
-    id?: true
-    password?: true
-    providerId?: true
-    refreshTokenExpiresAt?: true
     _all?: true
   }
 
@@ -5416,19 +5684,19 @@ export namespace Prisma {
   }
 
   export type AccountGroupByOutputType = {
+    id: string
+    accountId: string
+    providerId: string
     userId: string
+    accessToken: string | null
+    refreshToken: string | null
+    idToken: string | null
+    accessTokenExpiresAt: Date | null
+    refreshTokenExpiresAt: Date | null
     scope: string | null
+    password: string | null
     createdAt: Date
     updatedAt: Date
-    accessToken: string | null
-    accessTokenExpiresAt: Date | null
-    accountId: string
-    idToken: string | null
-    refreshToken: string | null
-    id: string
-    password: string | null
-    providerId: string
-    refreshTokenExpiresAt: Date | null
     _count: AccountCountAggregateOutputType | null
     _min: AccountMinAggregateOutputType | null
     _max: AccountMaxAggregateOutputType | null
@@ -5449,73 +5717,73 @@ export namespace Prisma {
 
 
   export type AccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
+    password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    accessToken?: boolean
-    accessTokenExpiresAt?: boolean
-    accountId?: boolean
-    idToken?: boolean
-    refreshToken?: boolean
-    id?: boolean
-    password?: boolean
-    providerId?: boolean
-    refreshTokenExpiresAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
   export type AccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
+    password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    accessToken?: boolean
-    accessTokenExpiresAt?: boolean
-    accountId?: boolean
-    idToken?: boolean
-    refreshToken?: boolean
-    id?: boolean
-    password?: boolean
-    providerId?: boolean
-    refreshTokenExpiresAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
   export type AccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
+    password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    accessToken?: boolean
-    accessTokenExpiresAt?: boolean
-    accountId?: boolean
-    idToken?: boolean
-    refreshToken?: boolean
-    id?: boolean
-    password?: boolean
-    providerId?: boolean
-    refreshTokenExpiresAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
   export type AccountSelectScalar = {
+    id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
+    password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    accessToken?: boolean
-    accessTokenExpiresAt?: boolean
-    accountId?: boolean
-    idToken?: boolean
-    refreshToken?: boolean
-    id?: boolean
-    password?: boolean
-    providerId?: boolean
-    refreshTokenExpiresAt?: boolean
   }
 
-  export type AccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "scope" | "createdAt" | "updatedAt" | "accessToken" | "accessTokenExpiresAt" | "accountId" | "idToken" | "refreshToken" | "id" | "password" | "providerId" | "refreshTokenExpiresAt", ExtArgs["result"]["account"]>
+  export type AccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "providerId" | "userId" | "accessToken" | "refreshToken" | "idToken" | "accessTokenExpiresAt" | "refreshTokenExpiresAt" | "scope" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["account"]>
   export type AccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5532,19 +5800,19 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accountId: string
+      providerId: string
       userId: string
+      accessToken: string | null
+      refreshToken: string | null
+      idToken: string | null
+      accessTokenExpiresAt: Date | null
+      refreshTokenExpiresAt: Date | null
       scope: string | null
+      password: string | null
       createdAt: Date
       updatedAt: Date
-      accessToken: string | null
-      accessTokenExpiresAt: Date | null
-      accountId: string
-      idToken: string | null
-      refreshToken: string | null
-      id: string
-      password: string | null
-      providerId: string
-      refreshTokenExpiresAt: Date | null
     }, ExtArgs["result"]["account"]>
     composites: {}
   }
@@ -5628,8 +5896,8 @@ export namespace Prisma {
      * // Get first 10 Accounts
      * const accounts = await prisma.account.findMany({ take: 10 })
      * 
-     * // Only select the `userId`
-     * const accountWithUserIdOnly = await prisma.account.findMany({ select: { userId: true } })
+     * // Only select the `id`
+     * const accountWithIdOnly = await prisma.account.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends AccountFindManyArgs>(args?: SelectSubset<T, AccountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -5673,9 +5941,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Accounts and only return the `userId`
-     * const accountWithUserIdOnly = await prisma.account.createManyAndReturn({
-     *   select: { userId: true },
+     * // Create many Accounts and only return the `id`
+     * const accountWithIdOnly = await prisma.account.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -5764,9 +6032,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Accounts and only return the `userId`
-     * const accountWithUserIdOnly = await prisma.account.updateManyAndReturn({
-     *   select: { userId: true },
+     * // Update zero or more Accounts and only return the `id`
+     * const accountWithIdOnly = await prisma.account.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5969,19 +6237,19 @@ export namespace Prisma {
    * Fields of the Account model
    */
   interface AccountFieldRefs {
+    readonly id: FieldRef<"Account", 'String'>
+    readonly accountId: FieldRef<"Account", 'String'>
+    readonly providerId: FieldRef<"Account", 'String'>
     readonly userId: FieldRef<"Account", 'String'>
+    readonly accessToken: FieldRef<"Account", 'String'>
+    readonly refreshToken: FieldRef<"Account", 'String'>
+    readonly idToken: FieldRef<"Account", 'String'>
+    readonly accessTokenExpiresAt: FieldRef<"Account", 'DateTime'>
+    readonly refreshTokenExpiresAt: FieldRef<"Account", 'DateTime'>
     readonly scope: FieldRef<"Account", 'String'>
+    readonly password: FieldRef<"Account", 'String'>
     readonly createdAt: FieldRef<"Account", 'DateTime'>
     readonly updatedAt: FieldRef<"Account", 'DateTime'>
-    readonly accessToken: FieldRef<"Account", 'String'>
-    readonly accessTokenExpiresAt: FieldRef<"Account", 'DateTime'>
-    readonly accountId: FieldRef<"Account", 'String'>
-    readonly idToken: FieldRef<"Account", 'String'>
-    readonly refreshToken: FieldRef<"Account", 'String'>
-    readonly id: FieldRef<"Account", 'String'>
-    readonly password: FieldRef<"Account", 'String'>
-    readonly providerId: FieldRef<"Account", 'String'>
-    readonly refreshTokenExpiresAt: FieldRef<"Account", 'DateTime'>
   }
     
 
@@ -7590,8 +7858,8 @@ export namespace Prisma {
     themePreferences?: boolean
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
     members?: boolean | Organization$membersArgs<ExtArgs>
-    teams?: boolean | Organization$teamsArgs<ExtArgs>
     supportTickets?: boolean | Organization$supportTicketsArgs<ExtArgs>
+    teams?: boolean | Organization$teamsArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -7632,8 +7900,8 @@ export namespace Prisma {
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
     members?: boolean | Organization$membersArgs<ExtArgs>
-    teams?: boolean | Organization$teamsArgs<ExtArgs>
     supportTickets?: boolean | Organization$supportTicketsArgs<ExtArgs>
+    teams?: boolean | Organization$teamsArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7644,8 +7912,8 @@ export namespace Prisma {
     objects: {
       invitations: Prisma.$InvitationPayload<ExtArgs>[]
       members: Prisma.$MemberPayload<ExtArgs>[]
-      teams: Prisma.$TeamPayload<ExtArgs>[]
       supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
+      teams: Prisma.$TeamPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8052,8 +8320,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     invitations<T extends Organization$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends Organization$membersArgs<ExtArgs> = {}>(args?: Subset<T, Organization$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    teams<T extends Organization$teamsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportTickets<T extends Organization$supportTicketsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teams<T extends Organization$teamsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8527,30 +8795,6 @@ export namespace Prisma {
   }
 
   /**
-   * Organization.teams
-   */
-  export type Organization$teamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Team
-     */
-    select?: TeamSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Team
-     */
-    omit?: TeamOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeamInclude<ExtArgs> | null
-    where?: TeamWhereInput
-    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
-    cursor?: TeamWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
-  }
-
-  /**
    * Organization.supportTickets
    */
   export type Organization$supportTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8572,6 +8816,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SupportTicketScalarFieldEnum | SupportTicketScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.teams
+   */
+  export type Organization$teamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    where?: TeamWhereInput
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    cursor?: TeamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
   }
 
   /**
@@ -8757,8 +9025,8 @@ export namespace Prisma {
     organizationId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
@@ -8790,8 +9058,8 @@ export namespace Prisma {
 
   export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["team"]>
   export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8804,8 +9072,8 @@ export namespace Prisma {
   export type $TeamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Team"
     objects: {
-      organization: Prisma.$OrganizationPayload<ExtArgs>
       members: Prisma.$MemberPayload<ExtArgs>[]
+      organization: Prisma.$OrganizationPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9207,8 +9475,8 @@ export namespace Prisma {
    */
   export interface Prisma__TeamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     members<T extends Team$membersArgs<ExtArgs> = {}>(args?: Subset<T, Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10985,8 +11253,10 @@ export namespace Prisma {
     createdAt?: boolean
     teamId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     team?: boolean | Member$teamArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedTickets?: boolean | Member$assignedTicketsArgs<ExtArgs>
+    _count?: boolean | MemberCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["member"]>
 
   export type MemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10997,8 +11267,8 @@ export namespace Prisma {
     createdAt?: boolean
     teamId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     team?: boolean | Member$teamArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["member"]>
 
   export type MemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11009,8 +11279,8 @@ export namespace Prisma {
     createdAt?: boolean
     teamId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     team?: boolean | Member$teamArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["member"]>
 
   export type MemberSelectScalar = {
@@ -11025,26 +11295,29 @@ export namespace Prisma {
   export type MemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "userId" | "role" | "createdAt" | "teamId", ExtArgs["result"]["member"]>
   export type MemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     team?: boolean | Member$teamArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedTickets?: boolean | Member$assignedTicketsArgs<ExtArgs>
+    _count?: boolean | MemberCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     team?: boolean | Member$teamArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type MemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     team?: boolean | Member$teamArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $MemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Member"
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
-      user: Prisma.$UserPayload<ExtArgs>
       team: Prisma.$TeamPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
+      assignedTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11448,8 +11721,9 @@ export namespace Prisma {
   export interface Prisma__MemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     team<T extends Member$teamArgs<ExtArgs> = {}>(args?: Subset<T, Member$teamArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignedTickets<T extends Member$assignedTicketsArgs<ExtArgs> = {}>(args?: Subset<T, Member$assignedTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11900,6 +12174,30 @@ export namespace Prisma {
   }
 
   /**
+   * Member.assignedTickets
+   */
+  export type Member$assignedTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketInclude<ExtArgs> | null
+    where?: SupportTicketWhereInput
+    orderBy?: SupportTicketOrderByWithRelationInput | SupportTicketOrderByWithRelationInput[]
+    cursor?: SupportTicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupportTicketScalarFieldEnum | SupportTicketScalarFieldEnum[]
+  }
+
+  /**
    * Member without action
    */
   export type MemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11919,6 +12217,1103 @@ export namespace Prisma {
 
 
   /**
+   * Model SupportTicketHistory
+   */
+
+  export type AggregateSupportTicketHistory = {
+    _count: SupportTicketHistoryCountAggregateOutputType | null
+    _min: SupportTicketHistoryMinAggregateOutputType | null
+    _max: SupportTicketHistoryMaxAggregateOutputType | null
+  }
+
+  export type SupportTicketHistoryMinAggregateOutputType = {
+    id: string | null
+    supportTicketId: string | null
+    beforeStatus: $Enums.SupportTicketStatus | null
+    afterStatus: $Enums.SupportTicketStatus | null
+    beforePriority: $Enums.SupportTicketPriority | null
+    afterPriority: $Enums.SupportTicketPriority | null
+    changedBy: string | null
+    createdAt: Date | null
+  }
+
+  export type SupportTicketHistoryMaxAggregateOutputType = {
+    id: string | null
+    supportTicketId: string | null
+    beforeStatus: $Enums.SupportTicketStatus | null
+    afterStatus: $Enums.SupportTicketStatus | null
+    beforePriority: $Enums.SupportTicketPriority | null
+    afterPriority: $Enums.SupportTicketPriority | null
+    changedBy: string | null
+    createdAt: Date | null
+  }
+
+  export type SupportTicketHistoryCountAggregateOutputType = {
+    id: number
+    supportTicketId: number
+    beforeStatus: number
+    afterStatus: number
+    beforePriority: number
+    afterPriority: number
+    changedBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SupportTicketHistoryMinAggregateInputType = {
+    id?: true
+    supportTicketId?: true
+    beforeStatus?: true
+    afterStatus?: true
+    beforePriority?: true
+    afterPriority?: true
+    changedBy?: true
+    createdAt?: true
+  }
+
+  export type SupportTicketHistoryMaxAggregateInputType = {
+    id?: true
+    supportTicketId?: true
+    beforeStatus?: true
+    afterStatus?: true
+    beforePriority?: true
+    afterPriority?: true
+    changedBy?: true
+    createdAt?: true
+  }
+
+  export type SupportTicketHistoryCountAggregateInputType = {
+    id?: true
+    supportTicketId?: true
+    beforeStatus?: true
+    afterStatus?: true
+    beforePriority?: true
+    afterPriority?: true
+    changedBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SupportTicketHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportTicketHistory to aggregate.
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTicketHistories to fetch.
+     */
+    orderBy?: SupportTicketHistoryOrderByWithRelationInput | SupportTicketHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SupportTicketHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTicketHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTicketHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SupportTicketHistories
+    **/
+    _count?: true | SupportTicketHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SupportTicketHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SupportTicketHistoryMaxAggregateInputType
+  }
+
+  export type GetSupportTicketHistoryAggregateType<T extends SupportTicketHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateSupportTicketHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSupportTicketHistory[P]>
+      : GetScalarType<T[P], AggregateSupportTicketHistory[P]>
+  }
+
+
+
+
+  export type SupportTicketHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportTicketHistoryWhereInput
+    orderBy?: SupportTicketHistoryOrderByWithAggregationInput | SupportTicketHistoryOrderByWithAggregationInput[]
+    by: SupportTicketHistoryScalarFieldEnum[] | SupportTicketHistoryScalarFieldEnum
+    having?: SupportTicketHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SupportTicketHistoryCountAggregateInputType | true
+    _min?: SupportTicketHistoryMinAggregateInputType
+    _max?: SupportTicketHistoryMaxAggregateInputType
+  }
+
+  export type SupportTicketHistoryGroupByOutputType = {
+    id: string
+    supportTicketId: string
+    beforeStatus: $Enums.SupportTicketStatus | null
+    afterStatus: $Enums.SupportTicketStatus | null
+    beforePriority: $Enums.SupportTicketPriority | null
+    afterPriority: $Enums.SupportTicketPriority | null
+    changedBy: string | null
+    createdAt: Date
+    _count: SupportTicketHistoryCountAggregateOutputType | null
+    _min: SupportTicketHistoryMinAggregateOutputType | null
+    _max: SupportTicketHistoryMaxAggregateOutputType | null
+  }
+
+  type GetSupportTicketHistoryGroupByPayload<T extends SupportTicketHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SupportTicketHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SupportTicketHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SupportTicketHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], SupportTicketHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SupportTicketHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    supportTicketId?: boolean
+    beforeStatus?: boolean
+    afterStatus?: boolean
+    beforePriority?: boolean
+    afterPriority?: boolean
+    changedBy?: boolean
+    createdAt?: boolean
+    supportTicket?: boolean | SupportTicketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportTicketHistory"]>
+
+  export type SupportTicketHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    supportTicketId?: boolean
+    beforeStatus?: boolean
+    afterStatus?: boolean
+    beforePriority?: boolean
+    afterPriority?: boolean
+    changedBy?: boolean
+    createdAt?: boolean
+    supportTicket?: boolean | SupportTicketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportTicketHistory"]>
+
+  export type SupportTicketHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    supportTicketId?: boolean
+    beforeStatus?: boolean
+    afterStatus?: boolean
+    beforePriority?: boolean
+    afterPriority?: boolean
+    changedBy?: boolean
+    createdAt?: boolean
+    supportTicket?: boolean | SupportTicketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supportTicketHistory"]>
+
+  export type SupportTicketHistorySelectScalar = {
+    id?: boolean
+    supportTicketId?: boolean
+    beforeStatus?: boolean
+    afterStatus?: boolean
+    beforePriority?: boolean
+    afterPriority?: boolean
+    changedBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type SupportTicketHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supportTicketId" | "beforeStatus" | "afterStatus" | "beforePriority" | "afterPriority" | "changedBy" | "createdAt", ExtArgs["result"]["supportTicketHistory"]>
+  export type SupportTicketHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supportTicket?: boolean | SupportTicketDefaultArgs<ExtArgs>
+  }
+  export type SupportTicketHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supportTicket?: boolean | SupportTicketDefaultArgs<ExtArgs>
+  }
+  export type SupportTicketHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supportTicket?: boolean | SupportTicketDefaultArgs<ExtArgs>
+  }
+
+  export type $SupportTicketHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SupportTicketHistory"
+    objects: {
+      supportTicket: Prisma.$SupportTicketPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      supportTicketId: string
+      beforeStatus: $Enums.SupportTicketStatus | null
+      afterStatus: $Enums.SupportTicketStatus | null
+      beforePriority: $Enums.SupportTicketPriority | null
+      afterPriority: $Enums.SupportTicketPriority | null
+      changedBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["supportTicketHistory"]>
+    composites: {}
+  }
+
+  type SupportTicketHistoryGetPayload<S extends boolean | null | undefined | SupportTicketHistoryDefaultArgs> = $Result.GetResult<Prisma.$SupportTicketHistoryPayload, S>
+
+  type SupportTicketHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SupportTicketHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SupportTicketHistoryCountAggregateInputType | true
+    }
+
+  export interface SupportTicketHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SupportTicketHistory'], meta: { name: 'SupportTicketHistory' } }
+    /**
+     * Find zero or one SupportTicketHistory that matches the filter.
+     * @param {SupportTicketHistoryFindUniqueArgs} args - Arguments to find a SupportTicketHistory
+     * @example
+     * // Get one SupportTicketHistory
+     * const supportTicketHistory = await prisma.supportTicketHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SupportTicketHistoryFindUniqueArgs>(args: SelectSubset<T, SupportTicketHistoryFindUniqueArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SupportTicketHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SupportTicketHistoryFindUniqueOrThrowArgs} args - Arguments to find a SupportTicketHistory
+     * @example
+     * // Get one SupportTicketHistory
+     * const supportTicketHistory = await prisma.supportTicketHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SupportTicketHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, SupportTicketHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportTicketHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryFindFirstArgs} args - Arguments to find a SupportTicketHistory
+     * @example
+     * // Get one SupportTicketHistory
+     * const supportTicketHistory = await prisma.supportTicketHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SupportTicketHistoryFindFirstArgs>(args?: SelectSubset<T, SupportTicketHistoryFindFirstArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportTicketHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryFindFirstOrThrowArgs} args - Arguments to find a SupportTicketHistory
+     * @example
+     * // Get one SupportTicketHistory
+     * const supportTicketHistory = await prisma.supportTicketHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SupportTicketHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, SupportTicketHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SupportTicketHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SupportTicketHistories
+     * const supportTicketHistories = await prisma.supportTicketHistory.findMany()
+     * 
+     * // Get first 10 SupportTicketHistories
+     * const supportTicketHistories = await prisma.supportTicketHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const supportTicketHistoryWithIdOnly = await prisma.supportTicketHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SupportTicketHistoryFindManyArgs>(args?: SelectSubset<T, SupportTicketHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SupportTicketHistory.
+     * @param {SupportTicketHistoryCreateArgs} args - Arguments to create a SupportTicketHistory.
+     * @example
+     * // Create one SupportTicketHistory
+     * const SupportTicketHistory = await prisma.supportTicketHistory.create({
+     *   data: {
+     *     // ... data to create a SupportTicketHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends SupportTicketHistoryCreateArgs>(args: SelectSubset<T, SupportTicketHistoryCreateArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SupportTicketHistories.
+     * @param {SupportTicketHistoryCreateManyArgs} args - Arguments to create many SupportTicketHistories.
+     * @example
+     * // Create many SupportTicketHistories
+     * const supportTicketHistory = await prisma.supportTicketHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SupportTicketHistoryCreateManyArgs>(args?: SelectSubset<T, SupportTicketHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SupportTicketHistories and returns the data saved in the database.
+     * @param {SupportTicketHistoryCreateManyAndReturnArgs} args - Arguments to create many SupportTicketHistories.
+     * @example
+     * // Create many SupportTicketHistories
+     * const supportTicketHistory = await prisma.supportTicketHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SupportTicketHistories and only return the `id`
+     * const supportTicketHistoryWithIdOnly = await prisma.supportTicketHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SupportTicketHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, SupportTicketHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SupportTicketHistory.
+     * @param {SupportTicketHistoryDeleteArgs} args - Arguments to delete one SupportTicketHistory.
+     * @example
+     * // Delete one SupportTicketHistory
+     * const SupportTicketHistory = await prisma.supportTicketHistory.delete({
+     *   where: {
+     *     // ... filter to delete one SupportTicketHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SupportTicketHistoryDeleteArgs>(args: SelectSubset<T, SupportTicketHistoryDeleteArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SupportTicketHistory.
+     * @param {SupportTicketHistoryUpdateArgs} args - Arguments to update one SupportTicketHistory.
+     * @example
+     * // Update one SupportTicketHistory
+     * const supportTicketHistory = await prisma.supportTicketHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SupportTicketHistoryUpdateArgs>(args: SelectSubset<T, SupportTicketHistoryUpdateArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SupportTicketHistories.
+     * @param {SupportTicketHistoryDeleteManyArgs} args - Arguments to filter SupportTicketHistories to delete.
+     * @example
+     * // Delete a few SupportTicketHistories
+     * const { count } = await prisma.supportTicketHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SupportTicketHistoryDeleteManyArgs>(args?: SelectSubset<T, SupportTicketHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportTicketHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SupportTicketHistories
+     * const supportTicketHistory = await prisma.supportTicketHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SupportTicketHistoryUpdateManyArgs>(args: SelectSubset<T, SupportTicketHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportTicketHistories and returns the data updated in the database.
+     * @param {SupportTicketHistoryUpdateManyAndReturnArgs} args - Arguments to update many SupportTicketHistories.
+     * @example
+     * // Update many SupportTicketHistories
+     * const supportTicketHistory = await prisma.supportTicketHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SupportTicketHistories and only return the `id`
+     * const supportTicketHistoryWithIdOnly = await prisma.supportTicketHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SupportTicketHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, SupportTicketHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SupportTicketHistory.
+     * @param {SupportTicketHistoryUpsertArgs} args - Arguments to update or create a SupportTicketHistory.
+     * @example
+     * // Update or create a SupportTicketHistory
+     * const supportTicketHistory = await prisma.supportTicketHistory.upsert({
+     *   create: {
+     *     // ... data to create a SupportTicketHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SupportTicketHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SupportTicketHistoryUpsertArgs>(args: SelectSubset<T, SupportTicketHistoryUpsertArgs<ExtArgs>>): Prisma__SupportTicketHistoryClient<$Result.GetResult<Prisma.$SupportTicketHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SupportTicketHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryCountArgs} args - Arguments to filter SupportTicketHistories to count.
+     * @example
+     * // Count the number of SupportTicketHistories
+     * const count = await prisma.supportTicketHistory.count({
+     *   where: {
+     *     // ... the filter for the SupportTicketHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends SupportTicketHistoryCountArgs>(
+      args?: Subset<T, SupportTicketHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SupportTicketHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SupportTicketHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SupportTicketHistoryAggregateArgs>(args: Subset<T, SupportTicketHistoryAggregateArgs>): Prisma.PrismaPromise<GetSupportTicketHistoryAggregateType<T>>
+
+    /**
+     * Group by SupportTicketHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SupportTicketHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SupportTicketHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: SupportTicketHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SupportTicketHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSupportTicketHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SupportTicketHistory model
+   */
+  readonly fields: SupportTicketHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SupportTicketHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SupportTicketHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    supportTicket<T extends SupportTicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SupportTicketDefaultArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SupportTicketHistory model
+   */
+  interface SupportTicketHistoryFieldRefs {
+    readonly id: FieldRef<"SupportTicketHistory", 'String'>
+    readonly supportTicketId: FieldRef<"SupportTicketHistory", 'String'>
+    readonly beforeStatus: FieldRef<"SupportTicketHistory", 'SupportTicketStatus'>
+    readonly afterStatus: FieldRef<"SupportTicketHistory", 'SupportTicketStatus'>
+    readonly beforePriority: FieldRef<"SupportTicketHistory", 'SupportTicketPriority'>
+    readonly afterPriority: FieldRef<"SupportTicketHistory", 'SupportTicketPriority'>
+    readonly changedBy: FieldRef<"SupportTicketHistory", 'String'>
+    readonly createdAt: FieldRef<"SupportTicketHistory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SupportTicketHistory findUnique
+   */
+  export type SupportTicketHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportTicketHistory to fetch.
+     */
+    where: SupportTicketHistoryWhereUniqueInput
+  }
+
+  /**
+   * SupportTicketHistory findUniqueOrThrow
+   */
+  export type SupportTicketHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportTicketHistory to fetch.
+     */
+    where: SupportTicketHistoryWhereUniqueInput
+  }
+
+  /**
+   * SupportTicketHistory findFirst
+   */
+  export type SupportTicketHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportTicketHistory to fetch.
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTicketHistories to fetch.
+     */
+    orderBy?: SupportTicketHistoryOrderByWithRelationInput | SupportTicketHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportTicketHistories.
+     */
+    cursor?: SupportTicketHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTicketHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTicketHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportTicketHistories.
+     */
+    distinct?: SupportTicketHistoryScalarFieldEnum | SupportTicketHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicketHistory findFirstOrThrow
+   */
+  export type SupportTicketHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportTicketHistory to fetch.
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTicketHistories to fetch.
+     */
+    orderBy?: SupportTicketHistoryOrderByWithRelationInput | SupportTicketHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportTicketHistories.
+     */
+    cursor?: SupportTicketHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTicketHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTicketHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportTicketHistories.
+     */
+    distinct?: SupportTicketHistoryScalarFieldEnum | SupportTicketHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicketHistory findMany
+   */
+  export type SupportTicketHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SupportTicketHistories to fetch.
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTicketHistories to fetch.
+     */
+    orderBy?: SupportTicketHistoryOrderByWithRelationInput | SupportTicketHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SupportTicketHistories.
+     */
+    cursor?: SupportTicketHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTicketHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTicketHistories.
+     */
+    skip?: number
+    distinct?: SupportTicketHistoryScalarFieldEnum | SupportTicketHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicketHistory create
+   */
+  export type SupportTicketHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SupportTicketHistory.
+     */
+    data: XOR<SupportTicketHistoryCreateInput, SupportTicketHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * SupportTicketHistory createMany
+   */
+  export type SupportTicketHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SupportTicketHistories.
+     */
+    data: SupportTicketHistoryCreateManyInput | SupportTicketHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SupportTicketHistory createManyAndReturn
+   */
+  export type SupportTicketHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many SupportTicketHistories.
+     */
+    data: SupportTicketHistoryCreateManyInput | SupportTicketHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupportTicketHistory update
+   */
+  export type SupportTicketHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SupportTicketHistory.
+     */
+    data: XOR<SupportTicketHistoryUpdateInput, SupportTicketHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which SupportTicketHistory to update.
+     */
+    where: SupportTicketHistoryWhereUniqueInput
+  }
+
+  /**
+   * SupportTicketHistory updateMany
+   */
+  export type SupportTicketHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SupportTicketHistories.
+     */
+    data: XOR<SupportTicketHistoryUpdateManyMutationInput, SupportTicketHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportTicketHistories to update
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * Limit how many SupportTicketHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportTicketHistory updateManyAndReturn
+   */
+  export type SupportTicketHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update SupportTicketHistories.
+     */
+    data: XOR<SupportTicketHistoryUpdateManyMutationInput, SupportTicketHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportTicketHistories to update
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * Limit how many SupportTicketHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupportTicketHistory upsert
+   */
+  export type SupportTicketHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SupportTicketHistory to update in case it exists.
+     */
+    where: SupportTicketHistoryWhereUniqueInput
+    /**
+     * In case the SupportTicketHistory found by the `where` argument doesn't exist, create a new SupportTicketHistory with this data.
+     */
+    create: XOR<SupportTicketHistoryCreateInput, SupportTicketHistoryUncheckedCreateInput>
+    /**
+     * In case the SupportTicketHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SupportTicketHistoryUpdateInput, SupportTicketHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * SupportTicketHistory delete
+   */
+  export type SupportTicketHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which SupportTicketHistory to delete.
+     */
+    where: SupportTicketHistoryWhereUniqueInput
+  }
+
+  /**
+   * SupportTicketHistory deleteMany
+   */
+  export type SupportTicketHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportTicketHistories to delete
+     */
+    where?: SupportTicketHistoryWhereInput
+    /**
+     * Limit how many SupportTicketHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportTicketHistory without action
+   */
+  export type SupportTicketHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicketHistory
+     */
+    select?: SupportTicketHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicketHistory
+     */
+    omit?: SupportTicketHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupportTicketHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11934,8 +13329,8 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    name: 'name',
     email: 'email',
+    name: 'name',
     emailVerified: 'emailVerified',
     image: 'image',
     createdAt: 'createdAt',
@@ -11951,16 +13346,16 @@ export namespace Prisma {
 
 
   export const SessionScalarFieldEnum: {
-    userId: 'userId',
+    id: 'id',
+    expiresAt: 'expiresAt',
+    token: 'token',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    activeOrganizationId: 'activeOrganizationId',
-    impersonatedBy: 'impersonatedBy',
     ipAddress: 'ipAddress',
     userAgent: 'userAgent',
-    expiresAt: 'expiresAt',
-    id: 'id',
-    token: 'token'
+    userId: 'userId',
+    activeOrganizationId: 'activeOrganizationId',
+    impersonatedBy: 'impersonatedBy'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -11973,29 +13368,30 @@ export namespace Prisma {
     issueType: 'issueType',
     description: 'description',
     whatsapp: 'whatsapp',
-    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    organizationId: 'organizationId'
+    organizationId: 'organizationId',
+    status: 'status',
+    priority: 'priority'
   };
 
   export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
 
 
   export const AccountScalarFieldEnum: {
-    userId: 'userId',
-    scope: 'scope',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    accessToken: 'accessToken',
-    accessTokenExpiresAt: 'accessTokenExpiresAt',
-    accountId: 'accountId',
-    idToken: 'idToken',
-    refreshToken: 'refreshToken',
     id: 'id',
-    password: 'password',
+    accountId: 'accountId',
     providerId: 'providerId',
-    refreshTokenExpiresAt: 'refreshTokenExpiresAt'
+    userId: 'userId',
+    accessToken: 'accessToken',
+    refreshToken: 'refreshToken',
+    idToken: 'idToken',
+    accessTokenExpiresAt: 'accessTokenExpiresAt',
+    refreshTokenExpiresAt: 'refreshTokenExpiresAt',
+    scope: 'scope',
+    password: 'password',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
@@ -12064,6 +13460,20 @@ export namespace Prisma {
   };
 
   export type MemberScalarFieldEnum = (typeof MemberScalarFieldEnum)[keyof typeof MemberScalarFieldEnum]
+
+
+  export const SupportTicketHistoryScalarFieldEnum: {
+    id: 'id',
+    supportTicketId: 'supportTicketId',
+    beforeStatus: 'beforeStatus',
+    afterStatus: 'afterStatus',
+    beforePriority: 'beforePriority',
+    afterPriority: 'afterPriority',
+    changedBy: 'changedBy',
+    createdAt: 'createdAt'
+  };
+
+  export type SupportTicketHistoryScalarFieldEnum = (typeof SupportTicketHistoryScalarFieldEnum)[keyof typeof SupportTicketHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12148,6 +13558,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'SupportTicketStatus'
+   */
+  export type EnumSupportTicketStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupportTicketStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SupportTicketStatus[]'
+   */
+  export type ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupportTicketStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SupportTicketPriority'
+   */
+  export type EnumSupportTicketPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupportTicketPriority'>
+    
+
+
+  /**
+   * Reference to a field of type 'SupportTicketPriority[]'
+   */
+  export type ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupportTicketPriority[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -12183,8 +13621,8 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -12202,8 +13640,8 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
+    name?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -12243,8 +13681,8 @@ export namespace Prisma {
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
+    name?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -12264,8 +13702,8 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
-    name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    name?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -12281,30 +13719,30 @@ export namespace Prisma {
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
-    userId?: StringFilter<"Session"> | string
+    id?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    token?: StringFilter<"Session"> | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     updatedAt?: DateTimeFilter<"Session"> | Date | string
-    activeOrganizationId?: StringNullableFilter<"Session"> | string | null
-    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
-    expiresAt?: DateTimeFilter<"Session"> | Date | string
-    id?: StringFilter<"Session"> | string
-    token?: StringFilter<"Session"> | string
+    userId?: StringFilter<"Session"> | string
+    activeOrganizationId?: StringNullableFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type SessionOrderByWithRelationInput = {
-    userId?: SortOrder
+    id?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    activeOrganizationId?: SortOrderInput | SortOrder
-    impersonatedBy?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
-    expiresAt?: SortOrder
-    id?: SortOrder
-    token?: SortOrder
+    userId?: SortOrder
+    activeOrganizationId?: SortOrderInput | SortOrder
+    impersonatedBy?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -12314,28 +13752,28 @@ export namespace Prisma {
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
-    userId?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     updatedAt?: DateTimeFilter<"Session"> | Date | string
-    activeOrganizationId?: StringNullableFilter<"Session"> | string | null
-    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
-    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    userId?: StringFilter<"Session"> | string
+    activeOrganizationId?: StringNullableFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "token">
 
   export type SessionOrderByWithAggregationInput = {
-    userId?: SortOrder
+    id?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    activeOrganizationId?: SortOrderInput | SortOrder
-    impersonatedBy?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
-    expiresAt?: SortOrder
-    id?: SortOrder
-    token?: SortOrder
+    userId?: SortOrder
+    activeOrganizationId?: SortOrderInput | SortOrder
+    impersonatedBy?: SortOrderInput | SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -12345,16 +13783,16 @@ export namespace Prisma {
     AND?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     OR?: SessionScalarWhereWithAggregatesInput[]
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
-    userId?: StringWithAggregatesFilter<"Session"> | string
+    id?: StringWithAggregatesFilter<"Session"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    token?: StringWithAggregatesFilter<"Session"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    activeOrganizationId?: StringNullableWithAggregatesFilter<"Session"> | string | null
-    impersonatedBy?: StringNullableWithAggregatesFilter<"Session"> | string | null
     ipAddress?: StringNullableWithAggregatesFilter<"Session"> | string | null
     userAgent?: StringNullableWithAggregatesFilter<"Session"> | string | null
-    expiresAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    id?: StringWithAggregatesFilter<"Session"> | string
-    token?: StringWithAggregatesFilter<"Session"> | string
+    userId?: StringWithAggregatesFilter<"Session"> | string
+    activeOrganizationId?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableWithAggregatesFilter<"Session"> | string | null
   }
 
   export type SupportTicketWhereInput = {
@@ -12367,11 +13805,14 @@ export namespace Prisma {
     issueType?: StringFilter<"SupportTicket"> | string
     description?: StringFilter<"SupportTicket"> | string
     whatsapp?: StringFilter<"SupportTicket"> | string
-    status?: StringFilter<"SupportTicket"> | string
     createdAt?: DateTimeFilter<"SupportTicket"> | Date | string
     updatedAt?: DateTimeFilter<"SupportTicket"> | Date | string
     organizationId?: StringFilter<"SupportTicket"> | string
+    status?: EnumSupportTicketStatusFilter<"SupportTicket"> | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFilter<"SupportTicket"> | $Enums.SupportTicketPriority
+    assignedTo?: MemberListRelationFilter
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    history?: SupportTicketHistoryListRelationFilter
   }
 
   export type SupportTicketOrderByWithRelationInput = {
@@ -12381,11 +13822,14 @@ export namespace Prisma {
     issueType?: SortOrder
     description?: SortOrder
     whatsapp?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organizationId?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+    assignedTo?: MemberOrderByRelationAggregateInput
     organization?: OrganizationOrderByWithRelationInput
+    history?: SupportTicketHistoryOrderByRelationAggregateInput
   }
 
   export type SupportTicketWhereUniqueInput = Prisma.AtLeast<{
@@ -12398,11 +13842,14 @@ export namespace Prisma {
     issueType?: StringFilter<"SupportTicket"> | string
     description?: StringFilter<"SupportTicket"> | string
     whatsapp?: StringFilter<"SupportTicket"> | string
-    status?: StringFilter<"SupportTicket"> | string
     createdAt?: DateTimeFilter<"SupportTicket"> | Date | string
     updatedAt?: DateTimeFilter<"SupportTicket"> | Date | string
     organizationId?: StringFilter<"SupportTicket"> | string
+    status?: EnumSupportTicketStatusFilter<"SupportTicket"> | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFilter<"SupportTicket"> | $Enums.SupportTicketPriority
+    assignedTo?: MemberListRelationFilter
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    history?: SupportTicketHistoryListRelationFilter
   }, "id">
 
   export type SupportTicketOrderByWithAggregationInput = {
@@ -12412,10 +13859,11 @@ export namespace Prisma {
     issueType?: SortOrder
     description?: SortOrder
     whatsapp?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organizationId?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
     _count?: SupportTicketCountOrderByAggregateInput
     _max?: SupportTicketMaxOrderByAggregateInput
     _min?: SupportTicketMinOrderByAggregateInput
@@ -12431,46 +13879,47 @@ export namespace Prisma {
     issueType?: StringWithAggregatesFilter<"SupportTicket"> | string
     description?: StringWithAggregatesFilter<"SupportTicket"> | string
     whatsapp?: StringWithAggregatesFilter<"SupportTicket"> | string
-    status?: StringWithAggregatesFilter<"SupportTicket"> | string
     createdAt?: DateTimeWithAggregatesFilter<"SupportTicket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SupportTicket"> | Date | string
     organizationId?: StringWithAggregatesFilter<"SupportTicket"> | string
+    status?: EnumSupportTicketStatusWithAggregatesFilter<"SupportTicket"> | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityWithAggregatesFilter<"SupportTicket"> | $Enums.SupportTicketPriority
   }
 
   export type AccountWhereInput = {
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
+    id?: StringFilter<"Account"> | string
+    accountId?: StringFilter<"Account"> | string
+    providerId?: StringFilter<"Account"> | string
     userId?: StringFilter<"Account"> | string
+    accessToken?: StringNullableFilter<"Account"> | string | null
+    refreshToken?: StringNullableFilter<"Account"> | string | null
+    idToken?: StringNullableFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     scope?: StringNullableFilter<"Account"> | string | null
+    password?: StringNullableFilter<"Account"> | string | null
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
-    accessToken?: StringNullableFilter<"Account"> | string | null
-    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
-    accountId?: StringFilter<"Account"> | string
-    idToken?: StringNullableFilter<"Account"> | string | null
-    refreshToken?: StringNullableFilter<"Account"> | string | null
-    id?: StringFilter<"Account"> | string
-    password?: StringNullableFilter<"Account"> | string | null
-    providerId?: StringFilter<"Account"> | string
-    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type AccountOrderByWithRelationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
+    accessToken?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    idToken?: SortOrderInput | SortOrder
+    accessTokenExpiresAt?: SortOrderInput | SortOrder
+    refreshTokenExpiresAt?: SortOrderInput | SortOrder
     scope?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    accessToken?: SortOrderInput | SortOrder
-    accessTokenExpiresAt?: SortOrderInput | SortOrder
-    accountId?: SortOrder
-    idToken?: SortOrderInput | SortOrder
-    refreshToken?: SortOrderInput | SortOrder
-    id?: SortOrder
-    password?: SortOrderInput | SortOrder
-    providerId?: SortOrder
-    refreshTokenExpiresAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -12479,35 +13928,35 @@ export namespace Prisma {
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
+    accountId?: StringFilter<"Account"> | string
+    providerId?: StringFilter<"Account"> | string
     userId?: StringFilter<"Account"> | string
+    accessToken?: StringNullableFilter<"Account"> | string | null
+    refreshToken?: StringNullableFilter<"Account"> | string | null
+    idToken?: StringNullableFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     scope?: StringNullableFilter<"Account"> | string | null
+    password?: StringNullableFilter<"Account"> | string | null
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
-    accessToken?: StringNullableFilter<"Account"> | string | null
-    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
-    accountId?: StringFilter<"Account"> | string
-    idToken?: StringNullableFilter<"Account"> | string | null
-    refreshToken?: StringNullableFilter<"Account"> | string | null
-    password?: StringNullableFilter<"Account"> | string | null
-    providerId?: StringFilter<"Account"> | string
-    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type AccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
+    accessToken?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    idToken?: SortOrderInput | SortOrder
+    accessTokenExpiresAt?: SortOrderInput | SortOrder
+    refreshTokenExpiresAt?: SortOrderInput | SortOrder
     scope?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    accessToken?: SortOrderInput | SortOrder
-    accessTokenExpiresAt?: SortOrderInput | SortOrder
-    accountId?: SortOrder
-    idToken?: SortOrderInput | SortOrder
-    refreshToken?: SortOrderInput | SortOrder
-    id?: SortOrder
-    password?: SortOrderInput | SortOrder
-    providerId?: SortOrder
-    refreshTokenExpiresAt?: SortOrderInput | SortOrder
     _count?: AccountCountOrderByAggregateInput
     _max?: AccountMaxOrderByAggregateInput
     _min?: AccountMinOrderByAggregateInput
@@ -12517,19 +13966,19 @@ export namespace Prisma {
     AND?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
     OR?: AccountScalarWhereWithAggregatesInput[]
     NOT?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Account"> | string
+    accountId?: StringWithAggregatesFilter<"Account"> | string
+    providerId?: StringWithAggregatesFilter<"Account"> | string
     userId?: StringWithAggregatesFilter<"Account"> | string
+    accessToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    refreshToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    idToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Account"> | Date | string | null
     scope?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    password?: StringNullableWithAggregatesFilter<"Account"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
-    accessToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    accessTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Account"> | Date | string | null
-    accountId?: StringWithAggregatesFilter<"Account"> | string
-    idToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    refreshToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    id?: StringWithAggregatesFilter<"Account"> | string
-    password?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    providerId?: StringWithAggregatesFilter<"Account"> | string
-    refreshTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Account"> | Date | string | null
   }
 
   export type VerificationWhereInput = {
@@ -12603,8 +14052,8 @@ export namespace Prisma {
     themePreferences?: JsonNullableFilter<"Organization">
     invitations?: InvitationListRelationFilter
     members?: MemberListRelationFilter
-    teams?: TeamListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
+    teams?: TeamListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -12618,8 +14067,8 @@ export namespace Prisma {
     themePreferences?: SortOrderInput | SortOrder
     invitations?: InvitationOrderByRelationAggregateInput
     members?: MemberOrderByRelationAggregateInput
-    teams?: TeamOrderByRelationAggregateInput
     supportTickets?: SupportTicketOrderByRelationAggregateInput
+    teams?: TeamOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -12636,8 +14085,8 @@ export namespace Prisma {
     themePreferences?: JsonNullableFilter<"Organization">
     invitations?: InvitationListRelationFilter
     members?: MemberListRelationFilter
-    teams?: TeamListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
+    teams?: TeamListRelationFilter
   }, "id" | "slug">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -12677,8 +14126,8 @@ export namespace Prisma {
     organizationId?: StringFilter<"Team"> | string
     createdAt?: DateTimeFilter<"Team"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Team"> | Date | string | null
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     members?: MemberListRelationFilter
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
   }
 
   export type TeamOrderByWithRelationInput = {
@@ -12687,8 +14136,8 @@ export namespace Prisma {
     organizationId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
-    organization?: OrganizationOrderByWithRelationInput
     members?: MemberOrderByRelationAggregateInput
+    organization?: OrganizationOrderByWithRelationInput
   }
 
   export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -12700,8 +14149,8 @@ export namespace Prisma {
     organizationId?: StringFilter<"Team"> | string
     createdAt?: DateTimeFilter<"Team"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Team"> | Date | string | null
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     members?: MemberListRelationFilter
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
   }, "id">
 
   export type TeamOrderByWithAggregationInput = {
@@ -12820,8 +14269,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Member"> | Date | string
     teamId?: StringNullableFilter<"Member"> | string | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     team?: XOR<TeamNullableScalarRelationFilter, TeamWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    assignedTickets?: SupportTicketListRelationFilter
   }
 
   export type MemberOrderByWithRelationInput = {
@@ -12832,8 +14282,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     teamId?: SortOrderInput | SortOrder
     organization?: OrganizationOrderByWithRelationInput
-    user?: UserOrderByWithRelationInput
     team?: TeamOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    assignedTickets?: SupportTicketOrderByRelationAggregateInput
   }
 
   export type MemberWhereUniqueInput = Prisma.AtLeast<{
@@ -12847,8 +14298,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Member"> | Date | string
     teamId?: StringNullableFilter<"Member"> | string | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     team?: XOR<TeamNullableScalarRelationFilter, TeamWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    assignedTickets?: SupportTicketListRelationFilter
   }, "id">
 
   export type MemberOrderByWithAggregationInput = {
@@ -12875,10 +14327,80 @@ export namespace Prisma {
     teamId?: StringNullableWithAggregatesFilter<"Member"> | string | null
   }
 
+  export type SupportTicketHistoryWhereInput = {
+    AND?: SupportTicketHistoryWhereInput | SupportTicketHistoryWhereInput[]
+    OR?: SupportTicketHistoryWhereInput[]
+    NOT?: SupportTicketHistoryWhereInput | SupportTicketHistoryWhereInput[]
+    id?: StringFilter<"SupportTicketHistory"> | string
+    supportTicketId?: StringFilter<"SupportTicketHistory"> | string
+    beforeStatus?: EnumSupportTicketStatusNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    afterStatus?: EnumSupportTicketStatusNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    beforePriority?: EnumSupportTicketPriorityNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    afterPriority?: EnumSupportTicketPriorityNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    changedBy?: StringNullableFilter<"SupportTicketHistory"> | string | null
+    createdAt?: DateTimeFilter<"SupportTicketHistory"> | Date | string
+    supportTicket?: XOR<SupportTicketScalarRelationFilter, SupportTicketWhereInput>
+  }
+
+  export type SupportTicketHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    supportTicketId?: SortOrder
+    beforeStatus?: SortOrderInput | SortOrder
+    afterStatus?: SortOrderInput | SortOrder
+    beforePriority?: SortOrderInput | SortOrder
+    afterPriority?: SortOrderInput | SortOrder
+    changedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    supportTicket?: SupportTicketOrderByWithRelationInput
+  }
+
+  export type SupportTicketHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SupportTicketHistoryWhereInput | SupportTicketHistoryWhereInput[]
+    OR?: SupportTicketHistoryWhereInput[]
+    NOT?: SupportTicketHistoryWhereInput | SupportTicketHistoryWhereInput[]
+    supportTicketId?: StringFilter<"SupportTicketHistory"> | string
+    beforeStatus?: EnumSupportTicketStatusNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    afterStatus?: EnumSupportTicketStatusNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    beforePriority?: EnumSupportTicketPriorityNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    afterPriority?: EnumSupportTicketPriorityNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    changedBy?: StringNullableFilter<"SupportTicketHistory"> | string | null
+    createdAt?: DateTimeFilter<"SupportTicketHistory"> | Date | string
+    supportTicket?: XOR<SupportTicketScalarRelationFilter, SupportTicketWhereInput>
+  }, "id">
+
+  export type SupportTicketHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    supportTicketId?: SortOrder
+    beforeStatus?: SortOrderInput | SortOrder
+    afterStatus?: SortOrderInput | SortOrder
+    beforePriority?: SortOrderInput | SortOrder
+    afterPriority?: SortOrderInput | SortOrder
+    changedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SupportTicketHistoryCountOrderByAggregateInput
+    _max?: SupportTicketHistoryMaxOrderByAggregateInput
+    _min?: SupportTicketHistoryMinOrderByAggregateInput
+  }
+
+  export type SupportTicketHistoryScalarWhereWithAggregatesInput = {
+    AND?: SupportTicketHistoryScalarWhereWithAggregatesInput | SupportTicketHistoryScalarWhereWithAggregatesInput[]
+    OR?: SupportTicketHistoryScalarWhereWithAggregatesInput[]
+    NOT?: SupportTicketHistoryScalarWhereWithAggregatesInput | SupportTicketHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SupportTicketHistory"> | string
+    supportTicketId?: StringWithAggregatesFilter<"SupportTicketHistory"> | string
+    beforeStatus?: EnumSupportTicketStatusNullableWithAggregatesFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    afterStatus?: EnumSupportTicketStatusNullableWithAggregatesFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    beforePriority?: EnumSupportTicketPriorityNullableWithAggregatesFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    afterPriority?: EnumSupportTicketPriorityNullableWithAggregatesFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    changedBy?: StringNullableWithAggregatesFilter<"SupportTicketHistory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SupportTicketHistory"> | Date | string
+  }
+
   export type UserCreateInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -12896,8 +14418,8 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -12915,8 +14437,8 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12934,8 +14456,8 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12953,8 +14475,8 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -12968,8 +14490,8 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12983,8 +14505,8 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12997,93 +14519,93 @@ export namespace Prisma {
   }
 
   export type SessionCreateInput = {
+    id?: string
+    expiresAt: Date | string
+    token: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    activeOrganizationId?: string | null
-    impersonatedBy?: string | null
     ipAddress?: string | null
     userAgent?: string | null
-    expiresAt: Date | string
-    id?: string
-    token: string
+    activeOrganizationId?: string | null
+    impersonatedBy?: string | null
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
   export type SessionUncheckedCreateInput = {
-    userId: string
+    id?: string
+    expiresAt: Date | string
+    token: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    activeOrganizationId?: string | null
-    impersonatedBy?: string | null
     ipAddress?: string | null
     userAgent?: string | null
-    expiresAt: Date | string
-    id?: string
-    token: string
+    userId: string
+    activeOrganizationId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
   export type SessionUncheckedUpdateInput = {
-    userId?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateManyInput = {
-    userId: string
+    id?: string
+    expiresAt: Date | string
+    token: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    activeOrganizationId?: string | null
-    impersonatedBy?: string | null
     ipAddress?: string | null
     userAgent?: string | null
-    expiresAt: Date | string
-    id?: string
-    token: string
+    userId: string
+    activeOrganizationId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyInput = {
-    userId?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SupportTicketCreateInput = {
@@ -13093,10 +14615,13 @@ export namespace Prisma {
     issueType: string
     description: string
     whatsapp: string
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    assignedTo?: MemberCreateNestedManyWithoutAssignedTicketsInput
     organization: OrganizationCreateNestedOneWithoutSupportTicketsInput
+    history?: SupportTicketHistoryCreateNestedManyWithoutSupportTicketInput
   }
 
   export type SupportTicketUncheckedCreateInput = {
@@ -13106,10 +14631,13 @@ export namespace Prisma {
     issueType: string
     description: string
     whatsapp: string
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     organizationId: string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    assignedTo?: MemberUncheckedCreateNestedManyWithoutAssignedTicketsInput
+    history?: SupportTicketHistoryUncheckedCreateNestedManyWithoutSupportTicketInput
   }
 
   export type SupportTicketUpdateInput = {
@@ -13119,10 +14647,13 @@ export namespace Prisma {
     issueType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    assignedTo?: MemberUpdateManyWithoutAssignedTicketsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutSupportTicketsNestedInput
+    history?: SupportTicketHistoryUpdateManyWithoutSupportTicketNestedInput
   }
 
   export type SupportTicketUncheckedUpdateInput = {
@@ -13132,10 +14663,13 @@ export namespace Prisma {
     issueType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    assignedTo?: MemberUncheckedUpdateManyWithoutAssignedTicketsNestedInput
+    history?: SupportTicketHistoryUncheckedUpdateManyWithoutSupportTicketNestedInput
   }
 
   export type SupportTicketCreateManyInput = {
@@ -13145,10 +14679,11 @@ export namespace Prisma {
     issueType: string
     description: string
     whatsapp: string
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     organizationId: string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
   }
 
   export type SupportTicketUpdateManyMutationInput = {
@@ -13158,9 +14693,10 @@ export namespace Prisma {
     issueType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
   }
 
   export type SupportTicketUncheckedUpdateManyInput = {
@@ -13170,121 +14706,122 @@ export namespace Prisma {
     issueType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
   }
 
   export type AccountCreateInput = {
+    id: string
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
+    password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    accessToken?: string | null
-    accessTokenExpiresAt?: Date | string | null
-    accountId: string
-    idToken?: string | null
-    refreshToken?: string | null
-    id: string
-    password?: string | null
-    providerId: string
-    refreshTokenExpiresAt?: Date | string | null
     user: UserCreateNestedOneWithoutAccountsInput
   }
 
   export type AccountUncheckedCreateInput = {
+    id: string
+    accountId: string
+    providerId: string
     userId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
+    password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    accessToken?: string | null
-    accessTokenExpiresAt?: Date | string | null
-    accountId: string
-    idToken?: string | null
-    refreshToken?: string | null
-    id: string
-    password?: string | null
-    providerId: string
-    refreshTokenExpiresAt?: Date | string | null
   }
 
   export type AccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
   }
 
   export type AccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AccountCreateManyInput = {
+    id: string
+    accountId: string
+    providerId: string
     userId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
+    password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    accessToken?: string | null
-    accessTokenExpiresAt?: Date | string | null
-    accountId: string
-    idToken?: string | null
-    refreshToken?: string | null
-    id: string
-    password?: string | null
-    providerId: string
-    refreshTokenExpiresAt?: Date | string | null
   }
 
   export type AccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VerificationCreateInput = {
@@ -13361,8 +14898,8 @@ export namespace Prisma {
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
     members?: MemberCreateNestedManyWithoutOrganizationInput
-    teams?: TeamCreateNestedManyWithoutOrganizationInput
     supportTickets?: SupportTicketCreateNestedManyWithoutOrganizationInput
+    teams?: TeamCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -13376,8 +14913,8 @@ export namespace Prisma {
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
     members?: MemberUncheckedCreateNestedManyWithoutOrganizationInput
-    teams?: TeamUncheckedCreateNestedManyWithoutOrganizationInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutOrganizationInput
+    teams?: TeamUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUpdateInput = {
@@ -13391,8 +14928,8 @@ export namespace Prisma {
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
     members?: MemberUpdateManyWithoutOrganizationNestedInput
-    teams?: TeamUpdateManyWithoutOrganizationNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutOrganizationNestedInput
+    teams?: TeamUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -13406,8 +14943,8 @@ export namespace Prisma {
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: MemberUncheckedUpdateManyWithoutOrganizationNestedInput
-    teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutOrganizationNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -13448,8 +14985,8 @@ export namespace Prisma {
     name: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    organization: OrganizationCreateNestedOneWithoutTeamsInput
     members?: MemberCreateNestedManyWithoutTeamInput
+    organization: OrganizationCreateNestedOneWithoutTeamsInput
   }
 
   export type TeamUncheckedCreateInput = {
@@ -13466,8 +15003,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    organization?: OrganizationUpdateOneRequiredWithoutTeamsNestedInput
     members?: MemberUpdateManyWithoutTeamNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutTeamsNestedInput
   }
 
   export type TeamUncheckedUpdateInput = {
@@ -13596,8 +15133,9 @@ export namespace Prisma {
     role: string
     createdAt: Date | string
     organization: OrganizationCreateNestedOneWithoutMembersInput
-    user: UserCreateNestedOneWithoutMembersInput
     team?: TeamCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembersInput
+    assignedTickets?: SupportTicketCreateNestedManyWithoutAssignedToInput
   }
 
   export type MemberUncheckedCreateInput = {
@@ -13607,6 +15145,7 @@ export namespace Prisma {
     role: string
     createdAt: Date | string
     teamId?: string | null
+    assignedTickets?: SupportTicketUncheckedCreateNestedManyWithoutAssignedToInput
   }
 
   export type MemberUpdateInput = {
@@ -13614,8 +15153,9 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
-    user?: UserUpdateOneRequiredWithoutMembersNestedInput
     team?: TeamUpdateOneWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembersNestedInput
+    assignedTickets?: SupportTicketUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateInput = {
@@ -13625,6 +15165,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedTickets?: SupportTicketUncheckedUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberCreateManyInput = {
@@ -13649,6 +15190,82 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SupportTicketHistoryCreateInput = {
+    id?: string
+    beforeStatus?: $Enums.SupportTicketStatus | null
+    afterStatus?: $Enums.SupportTicketStatus | null
+    beforePriority?: $Enums.SupportTicketPriority | null
+    afterPriority?: $Enums.SupportTicketPriority | null
+    changedBy?: string | null
+    createdAt?: Date | string
+    supportTicket: SupportTicketCreateNestedOneWithoutHistoryInput
+  }
+
+  export type SupportTicketHistoryUncheckedCreateInput = {
+    id?: string
+    supportTicketId: string
+    beforeStatus?: $Enums.SupportTicketStatus | null
+    afterStatus?: $Enums.SupportTicketStatus | null
+    beforePriority?: $Enums.SupportTicketPriority | null
+    afterPriority?: $Enums.SupportTicketPriority | null
+    changedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    supportTicket?: SupportTicketUpdateOneRequiredWithoutHistoryNestedInput
+  }
+
+  export type SupportTicketHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supportTicketId?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketHistoryCreateManyInput = {
+    id?: string
+    supportTicketId: string
+    beforeStatus?: $Enums.SupportTicketStatus | null
+    afterStatus?: $Enums.SupportTicketStatus | null
+    beforePriority?: $Enums.SupportTicketPriority | null
+    afterPriority?: $Enums.SupportTicketPriority | null
+    changedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supportTicketId?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13760,8 +15377,8 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
+    name?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
@@ -13775,8 +15392,8 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
+    name?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
@@ -13790,8 +15407,8 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
+    name?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
@@ -13889,47 +15506,71 @@ export namespace Prisma {
   }
 
   export type SessionCountOrderByAggregateInput = {
-    userId?: SortOrder
+    id?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    activeOrganizationId?: SortOrder
-    impersonatedBy?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
-    expiresAt?: SortOrder
-    id?: SortOrder
-    token?: SortOrder
+    userId?: SortOrder
+    activeOrganizationId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
-    userId?: SortOrder
+    id?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    activeOrganizationId?: SortOrder
-    impersonatedBy?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
-    expiresAt?: SortOrder
-    id?: SortOrder
-    token?: SortOrder
+    userId?: SortOrder
+    activeOrganizationId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
-    userId?: SortOrder
+    id?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    activeOrganizationId?: SortOrder
-    impersonatedBy?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
-    expiresAt?: SortOrder
-    id?: SortOrder
-    token?: SortOrder
+    userId?: SortOrder
+    activeOrganizationId?: SortOrder
+    impersonatedBy?: SortOrder
+  }
+
+  export type EnumSupportTicketStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketStatusFilter<$PrismaModel> | $Enums.SupportTicketStatus
+  }
+
+  export type EnumSupportTicketPriorityFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketPriorityFilter<$PrismaModel> | $Enums.SupportTicketPriority
   }
 
   export type OrganizationScalarRelationFilter = {
     is?: OrganizationWhereInput
     isNot?: OrganizationWhereInput
+  }
+
+  export type SupportTicketHistoryListRelationFilter = {
+    every?: SupportTicketHistoryWhereInput
+    some?: SupportTicketHistoryWhereInput
+    none?: SupportTicketHistoryWhereInput
+  }
+
+  export type SupportTicketHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SupportTicketCountOrderByAggregateInput = {
@@ -13939,10 +15580,11 @@ export namespace Prisma {
     issueType?: SortOrder
     description?: SortOrder
     whatsapp?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organizationId?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
   }
 
   export type SupportTicketMaxOrderByAggregateInput = {
@@ -13952,10 +15594,11 @@ export namespace Prisma {
     issueType?: SortOrder
     description?: SortOrder
     whatsapp?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organizationId?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
   }
 
   export type SupportTicketMinOrderByAggregateInput = {
@@ -13965,58 +15608,79 @@ export namespace Prisma {
     issueType?: SortOrder
     description?: SortOrder
     whatsapp?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organizationId?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+  }
+
+  export type EnumSupportTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketStatusWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
+  }
+
+  export type EnumSupportTicketPriorityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketPriorityWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketPriority
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketPriorityFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketPriorityFilter<$PrismaModel>
   }
 
   export type AccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    idToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    refreshTokenExpiresAt?: SortOrder
     scope?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    accessToken?: SortOrder
-    accessTokenExpiresAt?: SortOrder
-    accountId?: SortOrder
-    idToken?: SortOrder
-    refreshToken?: SortOrder
-    id?: SortOrder
-    password?: SortOrder
-    providerId?: SortOrder
-    refreshTokenExpiresAt?: SortOrder
   }
 
   export type AccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    idToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    refreshTokenExpiresAt?: SortOrder
     scope?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    accessToken?: SortOrder
-    accessTokenExpiresAt?: SortOrder
-    accountId?: SortOrder
-    idToken?: SortOrder
-    refreshToken?: SortOrder
-    id?: SortOrder
-    password?: SortOrder
-    providerId?: SortOrder
-    refreshTokenExpiresAt?: SortOrder
   }
 
   export type AccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    idToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    refreshTokenExpiresAt?: SortOrder
     scope?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    accessToken?: SortOrder
-    accessTokenExpiresAt?: SortOrder
-    accountId?: SortOrder
-    idToken?: SortOrder
-    refreshToken?: SortOrder
-    id?: SortOrder
-    password?: SortOrder
-    providerId?: SortOrder
-    refreshTokenExpiresAt?: SortOrder
   }
 
   export type VerificationCountOrderByAggregateInput = {
@@ -14069,23 +15733,23 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type TeamListRelationFilter = {
-    every?: TeamWhereInput
-    some?: TeamWhereInput
-    none?: TeamWhereInput
-  }
-
   export type SupportTicketListRelationFilter = {
     every?: SupportTicketWhereInput
     some?: SupportTicketWhereInput
     none?: SupportTicketWhereInput
   }
 
-  export type TeamOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type TeamListRelationFilter = {
+    every?: TeamWhereInput
+    some?: TeamWhereInput
+    none?: TeamWhereInput
   }
 
   export type SupportTicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeamOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14239,6 +15903,78 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     teamId?: SortOrder
+  }
+
+  export type EnumSupportTicketStatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketStatusNullableFilter<$PrismaModel> | $Enums.SupportTicketStatus | null
+  }
+
+  export type EnumSupportTicketPriorityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel> | $Enums.SupportTicketPriority | null
+  }
+
+  export type SupportTicketScalarRelationFilter = {
+    is?: SupportTicketWhereInput
+    isNot?: SupportTicketWhereInput
+  }
+
+  export type SupportTicketHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    supportTicketId?: SortOrder
+    beforeStatus?: SortOrder
+    afterStatus?: SortOrder
+    beforePriority?: SortOrder
+    afterPriority?: SortOrder
+    changedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportTicketHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    supportTicketId?: SortOrder
+    beforeStatus?: SortOrder
+    afterStatus?: SortOrder
+    beforePriority?: SortOrder
+    afterPriority?: SortOrder
+    changedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportTicketHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    supportTicketId?: SortOrder
+    beforeStatus?: SortOrder
+    afterStatus?: SortOrder
+    beforePriority?: SortOrder
+    afterPriority?: SortOrder
+    changedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumSupportTicketStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketStatus | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketStatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketStatusNullableFilter<$PrismaModel>
+  }
+
+  export type EnumSupportTicketPriorityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketPriorityNullableWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketPriority | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -14447,10 +16183,57 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
   }
 
+  export type MemberCreateNestedManyWithoutAssignedTicketsInput = {
+    create?: XOR<MemberCreateWithoutAssignedTicketsInput, MemberUncheckedCreateWithoutAssignedTicketsInput> | MemberCreateWithoutAssignedTicketsInput[] | MemberUncheckedCreateWithoutAssignedTicketsInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutAssignedTicketsInput | MemberCreateOrConnectWithoutAssignedTicketsInput[]
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+  }
+
   export type OrganizationCreateNestedOneWithoutSupportTicketsInput = {
     create?: XOR<OrganizationCreateWithoutSupportTicketsInput, OrganizationUncheckedCreateWithoutSupportTicketsInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutSupportTicketsInput
     connect?: OrganizationWhereUniqueInput
+  }
+
+  export type SupportTicketHistoryCreateNestedManyWithoutSupportTicketInput = {
+    create?: XOR<SupportTicketHistoryCreateWithoutSupportTicketInput, SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput> | SupportTicketHistoryCreateWithoutSupportTicketInput[] | SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput[]
+    connectOrCreate?: SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput | SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput[]
+    createMany?: SupportTicketHistoryCreateManySupportTicketInputEnvelope
+    connect?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+  }
+
+  export type MemberUncheckedCreateNestedManyWithoutAssignedTicketsInput = {
+    create?: XOR<MemberCreateWithoutAssignedTicketsInput, MemberUncheckedCreateWithoutAssignedTicketsInput> | MemberCreateWithoutAssignedTicketsInput[] | MemberUncheckedCreateWithoutAssignedTicketsInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutAssignedTicketsInput | MemberCreateOrConnectWithoutAssignedTicketsInput[]
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+  }
+
+  export type SupportTicketHistoryUncheckedCreateNestedManyWithoutSupportTicketInput = {
+    create?: XOR<SupportTicketHistoryCreateWithoutSupportTicketInput, SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput> | SupportTicketHistoryCreateWithoutSupportTicketInput[] | SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput[]
+    connectOrCreate?: SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput | SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput[]
+    createMany?: SupportTicketHistoryCreateManySupportTicketInputEnvelope
+    connect?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+  }
+
+  export type EnumSupportTicketStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SupportTicketStatus
+  }
+
+  export type EnumSupportTicketPriorityFieldUpdateOperationsInput = {
+    set?: $Enums.SupportTicketPriority
+  }
+
+  export type MemberUpdateManyWithoutAssignedTicketsNestedInput = {
+    create?: XOR<MemberCreateWithoutAssignedTicketsInput, MemberUncheckedCreateWithoutAssignedTicketsInput> | MemberCreateWithoutAssignedTicketsInput[] | MemberUncheckedCreateWithoutAssignedTicketsInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutAssignedTicketsInput | MemberCreateOrConnectWithoutAssignedTicketsInput[]
+    upsert?: MemberUpsertWithWhereUniqueWithoutAssignedTicketsInput | MemberUpsertWithWhereUniqueWithoutAssignedTicketsInput[]
+    set?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    disconnect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    delete?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    update?: MemberUpdateWithWhereUniqueWithoutAssignedTicketsInput | MemberUpdateWithWhereUniqueWithoutAssignedTicketsInput[]
+    updateMany?: MemberUpdateManyWithWhereWithoutAssignedTicketsInput | MemberUpdateManyWithWhereWithoutAssignedTicketsInput[]
+    deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
   }
 
   export type OrganizationUpdateOneRequiredWithoutSupportTicketsNestedInput = {
@@ -14459,6 +16242,47 @@ export namespace Prisma {
     upsert?: OrganizationUpsertWithoutSupportTicketsInput
     connect?: OrganizationWhereUniqueInput
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutSupportTicketsInput, OrganizationUpdateWithoutSupportTicketsInput>, OrganizationUncheckedUpdateWithoutSupportTicketsInput>
+  }
+
+  export type SupportTicketHistoryUpdateManyWithoutSupportTicketNestedInput = {
+    create?: XOR<SupportTicketHistoryCreateWithoutSupportTicketInput, SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput> | SupportTicketHistoryCreateWithoutSupportTicketInput[] | SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput[]
+    connectOrCreate?: SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput | SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput[]
+    upsert?: SupportTicketHistoryUpsertWithWhereUniqueWithoutSupportTicketInput | SupportTicketHistoryUpsertWithWhereUniqueWithoutSupportTicketInput[]
+    createMany?: SupportTicketHistoryCreateManySupportTicketInputEnvelope
+    set?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    disconnect?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    delete?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    connect?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    update?: SupportTicketHistoryUpdateWithWhereUniqueWithoutSupportTicketInput | SupportTicketHistoryUpdateWithWhereUniqueWithoutSupportTicketInput[]
+    updateMany?: SupportTicketHistoryUpdateManyWithWhereWithoutSupportTicketInput | SupportTicketHistoryUpdateManyWithWhereWithoutSupportTicketInput[]
+    deleteMany?: SupportTicketHistoryScalarWhereInput | SupportTicketHistoryScalarWhereInput[]
+  }
+
+  export type MemberUncheckedUpdateManyWithoutAssignedTicketsNestedInput = {
+    create?: XOR<MemberCreateWithoutAssignedTicketsInput, MemberUncheckedCreateWithoutAssignedTicketsInput> | MemberCreateWithoutAssignedTicketsInput[] | MemberUncheckedCreateWithoutAssignedTicketsInput[]
+    connectOrCreate?: MemberCreateOrConnectWithoutAssignedTicketsInput | MemberCreateOrConnectWithoutAssignedTicketsInput[]
+    upsert?: MemberUpsertWithWhereUniqueWithoutAssignedTicketsInput | MemberUpsertWithWhereUniqueWithoutAssignedTicketsInput[]
+    set?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    disconnect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    delete?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+    update?: MemberUpdateWithWhereUniqueWithoutAssignedTicketsInput | MemberUpdateWithWhereUniqueWithoutAssignedTicketsInput[]
+    updateMany?: MemberUpdateManyWithWhereWithoutAssignedTicketsInput | MemberUpdateManyWithWhereWithoutAssignedTicketsInput[]
+    deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
+  }
+
+  export type SupportTicketHistoryUncheckedUpdateManyWithoutSupportTicketNestedInput = {
+    create?: XOR<SupportTicketHistoryCreateWithoutSupportTicketInput, SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput> | SupportTicketHistoryCreateWithoutSupportTicketInput[] | SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput[]
+    connectOrCreate?: SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput | SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput[]
+    upsert?: SupportTicketHistoryUpsertWithWhereUniqueWithoutSupportTicketInput | SupportTicketHistoryUpsertWithWhereUniqueWithoutSupportTicketInput[]
+    createMany?: SupportTicketHistoryCreateManySupportTicketInputEnvelope
+    set?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    disconnect?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    delete?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    connect?: SupportTicketHistoryWhereUniqueInput | SupportTicketHistoryWhereUniqueInput[]
+    update?: SupportTicketHistoryUpdateWithWhereUniqueWithoutSupportTicketInput | SupportTicketHistoryUpdateWithWhereUniqueWithoutSupportTicketInput[]
+    updateMany?: SupportTicketHistoryUpdateManyWithWhereWithoutSupportTicketInput | SupportTicketHistoryUpdateManyWithWhereWithoutSupportTicketInput[]
+    deleteMany?: SupportTicketHistoryScalarWhereInput | SupportTicketHistoryScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -14489,18 +16313,18 @@ export namespace Prisma {
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
   }
 
-  export type TeamCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
-    createMany?: TeamCreateManyOrganizationInputEnvelope
-    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-  }
-
   export type SupportTicketCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput> | SupportTicketCreateWithoutOrganizationInput[] | SupportTicketUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: SupportTicketCreateOrConnectWithoutOrganizationInput | SupportTicketCreateOrConnectWithoutOrganizationInput[]
     createMany?: SupportTicketCreateManyOrganizationInputEnvelope
     connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+  }
+
+  export type TeamCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
+    createMany?: TeamCreateManyOrganizationInputEnvelope
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
   }
 
   export type InvitationUncheckedCreateNestedManyWithoutOrganizationInput = {
@@ -14517,18 +16341,18 @@ export namespace Prisma {
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
   }
 
-  export type TeamUncheckedCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
-    createMany?: TeamCreateManyOrganizationInputEnvelope
-    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-  }
-
   export type SupportTicketUncheckedCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput> | SupportTicketCreateWithoutOrganizationInput[] | SupportTicketUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: SupportTicketCreateOrConnectWithoutOrganizationInput | SupportTicketCreateOrConnectWithoutOrganizationInput[]
     createMany?: SupportTicketCreateManyOrganizationInputEnvelope
     connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+  }
+
+  export type TeamUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
+    createMany?: TeamCreateManyOrganizationInputEnvelope
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
   }
 
   export type InvitationUpdateManyWithoutOrganizationNestedInput = {
@@ -14559,20 +16383,6 @@ export namespace Prisma {
     deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
   }
 
-  export type TeamUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
-    upsert?: TeamUpsertWithWhereUniqueWithoutOrganizationInput | TeamUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: TeamCreateManyOrganizationInputEnvelope
-    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    update?: TeamUpdateWithWhereUniqueWithoutOrganizationInput | TeamUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: TeamUpdateManyWithWhereWithoutOrganizationInput | TeamUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
-  }
-
   export type SupportTicketUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput> | SupportTicketCreateWithoutOrganizationInput[] | SupportTicketUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: SupportTicketCreateOrConnectWithoutOrganizationInput | SupportTicketCreateOrConnectWithoutOrganizationInput[]
@@ -14585,6 +16395,20 @@ export namespace Prisma {
     update?: SupportTicketUpdateWithWhereUniqueWithoutOrganizationInput | SupportTicketUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: SupportTicketUpdateManyWithWhereWithoutOrganizationInput | SupportTicketUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
+  }
+
+  export type TeamUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
+    upsert?: TeamUpsertWithWhereUniqueWithoutOrganizationInput | TeamUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: TeamCreateManyOrganizationInputEnvelope
+    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    update?: TeamUpdateWithWhereUniqueWithoutOrganizationInput | TeamUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: TeamUpdateManyWithWhereWithoutOrganizationInput | TeamUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
   }
 
   export type InvitationUncheckedUpdateManyWithoutOrganizationNestedInput = {
@@ -14615,20 +16439,6 @@ export namespace Prisma {
     deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
   }
 
-  export type TeamUncheckedUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
-    upsert?: TeamUpsertWithWhereUniqueWithoutOrganizationInput | TeamUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: TeamCreateManyOrganizationInputEnvelope
-    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-    update?: TeamUpdateWithWhereUniqueWithoutOrganizationInput | TeamUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: TeamUpdateManyWithWhereWithoutOrganizationInput | TeamUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
-  }
-
   export type SupportTicketUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput> | SupportTicketCreateWithoutOrganizationInput[] | SupportTicketUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: SupportTicketCreateOrConnectWithoutOrganizationInput | SupportTicketCreateOrConnectWithoutOrganizationInput[]
@@ -14643,10 +16453,18 @@ export namespace Prisma {
     deleteMany?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
   }
 
-  export type OrganizationCreateNestedOneWithoutTeamsInput = {
-    create?: XOR<OrganizationCreateWithoutTeamsInput, OrganizationUncheckedCreateWithoutTeamsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutTeamsInput
-    connect?: OrganizationWhereUniqueInput
+  export type TeamUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<TeamCreateWithoutOrganizationInput, TeamUncheckedCreateWithoutOrganizationInput> | TeamCreateWithoutOrganizationInput[] | TeamUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutOrganizationInput | TeamCreateOrConnectWithoutOrganizationInput[]
+    upsert?: TeamUpsertWithWhereUniqueWithoutOrganizationInput | TeamUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: TeamCreateManyOrganizationInputEnvelope
+    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    update?: TeamUpdateWithWhereUniqueWithoutOrganizationInput | TeamUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: TeamUpdateManyWithWhereWithoutOrganizationInput | TeamUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
   }
 
   export type MemberCreateNestedManyWithoutTeamInput = {
@@ -14656,19 +16474,17 @@ export namespace Prisma {
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
   }
 
+  export type OrganizationCreateNestedOneWithoutTeamsInput = {
+    create?: XOR<OrganizationCreateWithoutTeamsInput, OrganizationUncheckedCreateWithoutTeamsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutTeamsInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
   export type MemberUncheckedCreateNestedManyWithoutTeamInput = {
     create?: XOR<MemberCreateWithoutTeamInput, MemberUncheckedCreateWithoutTeamInput> | MemberCreateWithoutTeamInput[] | MemberUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutTeamInput | MemberCreateOrConnectWithoutTeamInput[]
     createMany?: MemberCreateManyTeamInputEnvelope
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
-  }
-
-  export type OrganizationUpdateOneRequiredWithoutTeamsNestedInput = {
-    create?: XOR<OrganizationCreateWithoutTeamsInput, OrganizationUncheckedCreateWithoutTeamsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutTeamsInput
-    upsert?: OrganizationUpsertWithoutTeamsInput
-    connect?: OrganizationWhereUniqueInput
-    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutTeamsInput, OrganizationUpdateWithoutTeamsInput>, OrganizationUncheckedUpdateWithoutTeamsInput>
   }
 
   export type MemberUpdateManyWithoutTeamNestedInput = {
@@ -14683,6 +16499,14 @@ export namespace Prisma {
     update?: MemberUpdateWithWhereUniqueWithoutTeamInput | MemberUpdateWithWhereUniqueWithoutTeamInput[]
     updateMany?: MemberUpdateManyWithWhereWithoutTeamInput | MemberUpdateManyWithWhereWithoutTeamInput[]
     deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutTeamsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutTeamsInput, OrganizationUncheckedCreateWithoutTeamsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutTeamsInput
+    upsert?: OrganizationUpsertWithoutTeamsInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutTeamsInput, OrganizationUpdateWithoutTeamsInput>, OrganizationUncheckedUpdateWithoutTeamsInput>
   }
 
   export type MemberUncheckedUpdateManyWithoutTeamNestedInput = {
@@ -14733,16 +16557,28 @@ export namespace Prisma {
     connect?: OrganizationWhereUniqueInput
   }
 
+  export type TeamCreateNestedOneWithoutMembersInput = {
+    create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
+    connect?: TeamWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutMembersInput = {
     create?: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
     connectOrCreate?: UserCreateOrConnectWithoutMembersInput
     connect?: UserWhereUniqueInput
   }
 
-  export type TeamCreateNestedOneWithoutMembersInput = {
-    create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
-    connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
-    connect?: TeamWhereUniqueInput
+  export type SupportTicketCreateNestedManyWithoutAssignedToInput = {
+    create?: XOR<SupportTicketCreateWithoutAssignedToInput, SupportTicketUncheckedCreateWithoutAssignedToInput> | SupportTicketCreateWithoutAssignedToInput[] | SupportTicketUncheckedCreateWithoutAssignedToInput[]
+    connectOrCreate?: SupportTicketCreateOrConnectWithoutAssignedToInput | SupportTicketCreateOrConnectWithoutAssignedToInput[]
+    connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+  }
+
+  export type SupportTicketUncheckedCreateNestedManyWithoutAssignedToInput = {
+    create?: XOR<SupportTicketCreateWithoutAssignedToInput, SupportTicketUncheckedCreateWithoutAssignedToInput> | SupportTicketCreateWithoutAssignedToInput[] | SupportTicketUncheckedCreateWithoutAssignedToInput[]
+    connectOrCreate?: SupportTicketCreateOrConnectWithoutAssignedToInput | SupportTicketCreateOrConnectWithoutAssignedToInput[]
+    connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
   }
 
   export type OrganizationUpdateOneRequiredWithoutMembersNestedInput = {
@@ -14753,14 +16589,6 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutMembersInput, OrganizationUpdateWithoutMembersInput>, OrganizationUncheckedUpdateWithoutMembersInput>
   }
 
-  export type UserUpdateOneRequiredWithoutMembersNestedInput = {
-    create?: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMembersInput
-    upsert?: UserUpsertWithoutMembersInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMembersInput, UserUpdateWithoutMembersInput>, UserUncheckedUpdateWithoutMembersInput>
-  }
-
   export type TeamUpdateOneWithoutMembersNestedInput = {
     create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
     connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
@@ -14769,6 +16597,62 @@ export namespace Prisma {
     delete?: TeamWhereInput | boolean
     connect?: TeamWhereUniqueInput
     update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutMembersInput, TeamUpdateWithoutMembersInput>, TeamUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMembersInput
+    upsert?: UserUpsertWithoutMembersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMembersInput, UserUpdateWithoutMembersInput>, UserUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type SupportTicketUpdateManyWithoutAssignedToNestedInput = {
+    create?: XOR<SupportTicketCreateWithoutAssignedToInput, SupportTicketUncheckedCreateWithoutAssignedToInput> | SupportTicketCreateWithoutAssignedToInput[] | SupportTicketUncheckedCreateWithoutAssignedToInput[]
+    connectOrCreate?: SupportTicketCreateOrConnectWithoutAssignedToInput | SupportTicketCreateOrConnectWithoutAssignedToInput[]
+    upsert?: SupportTicketUpsertWithWhereUniqueWithoutAssignedToInput | SupportTicketUpsertWithWhereUniqueWithoutAssignedToInput[]
+    set?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    disconnect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    delete?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    update?: SupportTicketUpdateWithWhereUniqueWithoutAssignedToInput | SupportTicketUpdateWithWhereUniqueWithoutAssignedToInput[]
+    updateMany?: SupportTicketUpdateManyWithWhereWithoutAssignedToInput | SupportTicketUpdateManyWithWhereWithoutAssignedToInput[]
+    deleteMany?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
+  }
+
+  export type SupportTicketUncheckedUpdateManyWithoutAssignedToNestedInput = {
+    create?: XOR<SupportTicketCreateWithoutAssignedToInput, SupportTicketUncheckedCreateWithoutAssignedToInput> | SupportTicketCreateWithoutAssignedToInput[] | SupportTicketUncheckedCreateWithoutAssignedToInput[]
+    connectOrCreate?: SupportTicketCreateOrConnectWithoutAssignedToInput | SupportTicketCreateOrConnectWithoutAssignedToInput[]
+    upsert?: SupportTicketUpsertWithWhereUniqueWithoutAssignedToInput | SupportTicketUpsertWithWhereUniqueWithoutAssignedToInput[]
+    set?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    disconnect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    delete?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+    update?: SupportTicketUpdateWithWhereUniqueWithoutAssignedToInput | SupportTicketUpdateWithWhereUniqueWithoutAssignedToInput[]
+    updateMany?: SupportTicketUpdateManyWithWhereWithoutAssignedToInput | SupportTicketUpdateManyWithWhereWithoutAssignedToInput[]
+    deleteMany?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
+  }
+
+  export type SupportTicketCreateNestedOneWithoutHistoryInput = {
+    create?: XOR<SupportTicketCreateWithoutHistoryInput, SupportTicketUncheckedCreateWithoutHistoryInput>
+    connectOrCreate?: SupportTicketCreateOrConnectWithoutHistoryInput
+    connect?: SupportTicketWhereUniqueInput
+  }
+
+  export type NullableEnumSupportTicketStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SupportTicketStatus | null
+  }
+
+  export type NullableEnumSupportTicketPriorityFieldUpdateOperationsInput = {
+    set?: $Enums.SupportTicketPriority | null
+  }
+
+  export type SupportTicketUpdateOneRequiredWithoutHistoryNestedInput = {
+    create?: XOR<SupportTicketCreateWithoutHistoryInput, SupportTicketUncheckedCreateWithoutHistoryInput>
+    connectOrCreate?: SupportTicketCreateOrConnectWithoutHistoryInput
+    upsert?: SupportTicketUpsertWithoutHistoryInput
+    connect?: SupportTicketWhereUniqueInput
+    update?: XOR<XOR<SupportTicketUpdateToOneWithWhereWithoutHistoryInput, SupportTicketUpdateWithoutHistoryInput>, SupportTicketUncheckedUpdateWithoutHistoryInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14930,6 +16814,40 @@ export namespace Prisma {
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
+
+  export type NestedEnumSupportTicketStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketStatusFilter<$PrismaModel> | $Enums.SupportTicketStatus
+  }
+
+  export type NestedEnumSupportTicketPriorityFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketPriorityFilter<$PrismaModel> | $Enums.SupportTicketPriority
+  }
+
+  export type NestedEnumSupportTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketStatusWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSupportTicketPriorityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumSupportTicketPriorityWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketPriority
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketPriorityFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketPriorityFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -14954,34 +16872,68 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumSupportTicketStatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketStatusNullableFilter<$PrismaModel> | $Enums.SupportTicketStatus | null
+  }
+
+  export type NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel> | $Enums.SupportTicketPriority | null
+  }
+
+  export type NestedEnumSupportTicketStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketStatus | EnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketStatus[] | ListEnumSupportTicketStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketStatus | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketStatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketStatusNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSupportTicketPriorityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportTicketPriority | EnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SupportTicketPriority[] | ListEnumSupportTicketPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSupportTicketPriorityNullableWithAggregatesFilter<$PrismaModel> | $Enums.SupportTicketPriority | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel>
+    _max?: NestedEnumSupportTicketPriorityNullableFilter<$PrismaModel>
+  }
+
   export type AccountCreateWithoutUserInput = {
+    id: string
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
+    password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    accessToken?: string | null
-    accessTokenExpiresAt?: Date | string | null
-    accountId: string
-    idToken?: string | null
-    refreshToken?: string | null
-    id: string
-    password?: string | null
-    providerId: string
-    refreshTokenExpiresAt?: Date | string | null
   }
 
   export type AccountUncheckedCreateWithoutUserInput = {
+    id: string
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
+    password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    accessToken?: string | null
-    accessTokenExpiresAt?: Date | string | null
-    accountId: string
-    idToken?: string | null
-    refreshToken?: string | null
-    id: string
-    password?: string | null
-    providerId: string
-    refreshTokenExpiresAt?: Date | string | null
   }
 
   export type AccountCreateOrConnectWithoutUserInput = {
@@ -15034,6 +16986,7 @@ export namespace Prisma {
     createdAt: Date | string
     organization: OrganizationCreateNestedOneWithoutMembersInput
     team?: TeamCreateNestedOneWithoutMembersInput
+    assignedTickets?: SupportTicketCreateNestedManyWithoutAssignedToInput
   }
 
   export type MemberUncheckedCreateWithoutUserInput = {
@@ -15042,6 +16995,7 @@ export namespace Prisma {
     role: string
     createdAt: Date | string
     teamId?: string | null
+    assignedTickets?: SupportTicketUncheckedCreateNestedManyWithoutAssignedToInput
   }
 
   export type MemberCreateOrConnectWithoutUserInput = {
@@ -15055,27 +17009,27 @@ export namespace Prisma {
   }
 
   export type SessionCreateWithoutUserInput = {
+    id?: string
+    expiresAt: Date | string
+    token: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    activeOrganizationId?: string | null
-    impersonatedBy?: string | null
     ipAddress?: string | null
     userAgent?: string | null
-    expiresAt: Date | string
-    id?: string
-    token: string
+    activeOrganizationId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    expiresAt: Date | string
+    token: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    activeOrganizationId?: string | null
-    impersonatedBy?: string | null
     ipAddress?: string | null
     userAgent?: string | null
-    expiresAt: Date | string
-    id?: string
-    token: string
+    activeOrganizationId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -15108,19 +17062,19 @@ export namespace Prisma {
     AND?: AccountScalarWhereInput | AccountScalarWhereInput[]
     OR?: AccountScalarWhereInput[]
     NOT?: AccountScalarWhereInput | AccountScalarWhereInput[]
+    id?: StringFilter<"Account"> | string
+    accountId?: StringFilter<"Account"> | string
+    providerId?: StringFilter<"Account"> | string
     userId?: StringFilter<"Account"> | string
+    accessToken?: StringNullableFilter<"Account"> | string | null
+    refreshToken?: StringNullableFilter<"Account"> | string | null
+    idToken?: StringNullableFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     scope?: StringNullableFilter<"Account"> | string | null
+    password?: StringNullableFilter<"Account"> | string | null
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
-    accessToken?: StringNullableFilter<"Account"> | string | null
-    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
-    accountId?: StringFilter<"Account"> | string
-    idToken?: StringNullableFilter<"Account"> | string | null
-    refreshToken?: StringNullableFilter<"Account"> | string | null
-    id?: StringFilter<"Account"> | string
-    password?: StringNullableFilter<"Account"> | string | null
-    providerId?: StringFilter<"Account"> | string
-    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
   }
 
   export type InvitationUpsertWithWhereUniqueWithoutUserInput = {
@@ -15203,22 +17157,22 @@ export namespace Prisma {
     AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
     OR?: SessionScalarWhereInput[]
     NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    userId?: StringFilter<"Session"> | string
+    id?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    token?: StringFilter<"Session"> | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     updatedAt?: DateTimeFilter<"Session"> | Date | string
-    activeOrganizationId?: StringNullableFilter<"Session"> | string | null
-    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
-    expiresAt?: DateTimeFilter<"Session"> | Date | string
-    id?: StringFilter<"Session"> | string
-    token?: StringFilter<"Session"> | string
+    userId?: StringFilter<"Session"> | string
+    activeOrganizationId?: StringNullableFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
   }
 
   export type UserCreateWithoutSessionsInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -15235,8 +17189,8 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutSessionsInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -15269,8 +17223,8 @@ export namespace Prisma {
 
   export type UserUpdateWithoutSessionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15287,8 +17241,8 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15301,6 +17255,29 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type MemberCreateWithoutAssignedTicketsInput = {
+    id: string
+    role: string
+    createdAt: Date | string
+    organization: OrganizationCreateNestedOneWithoutMembersInput
+    team?: TeamCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembersInput
+  }
+
+  export type MemberUncheckedCreateWithoutAssignedTicketsInput = {
+    id: string
+    organizationId: string
+    userId: string
+    role: string
+    createdAt: Date | string
+    teamId?: string | null
+  }
+
+  export type MemberCreateOrConnectWithoutAssignedTicketsInput = {
+    where: MemberWhereUniqueInput
+    create: XOR<MemberCreateWithoutAssignedTicketsInput, MemberUncheckedCreateWithoutAssignedTicketsInput>
   }
 
   export type OrganizationCreateWithoutSupportTicketsInput = {
@@ -15334,6 +17311,52 @@ export namespace Prisma {
   export type OrganizationCreateOrConnectWithoutSupportTicketsInput = {
     where: OrganizationWhereUniqueInput
     create: XOR<OrganizationCreateWithoutSupportTicketsInput, OrganizationUncheckedCreateWithoutSupportTicketsInput>
+  }
+
+  export type SupportTicketHistoryCreateWithoutSupportTicketInput = {
+    id?: string
+    beforeStatus?: $Enums.SupportTicketStatus | null
+    afterStatus?: $Enums.SupportTicketStatus | null
+    beforePriority?: $Enums.SupportTicketPriority | null
+    afterPriority?: $Enums.SupportTicketPriority | null
+    changedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput = {
+    id?: string
+    beforeStatus?: $Enums.SupportTicketStatus | null
+    afterStatus?: $Enums.SupportTicketStatus | null
+    beforePriority?: $Enums.SupportTicketPriority | null
+    afterPriority?: $Enums.SupportTicketPriority | null
+    changedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketHistoryCreateOrConnectWithoutSupportTicketInput = {
+    where: SupportTicketHistoryWhereUniqueInput
+    create: XOR<SupportTicketHistoryCreateWithoutSupportTicketInput, SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput>
+  }
+
+  export type SupportTicketHistoryCreateManySupportTicketInputEnvelope = {
+    data: SupportTicketHistoryCreateManySupportTicketInput | SupportTicketHistoryCreateManySupportTicketInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MemberUpsertWithWhereUniqueWithoutAssignedTicketsInput = {
+    where: MemberWhereUniqueInput
+    update: XOR<MemberUpdateWithoutAssignedTicketsInput, MemberUncheckedUpdateWithoutAssignedTicketsInput>
+    create: XOR<MemberCreateWithoutAssignedTicketsInput, MemberUncheckedCreateWithoutAssignedTicketsInput>
+  }
+
+  export type MemberUpdateWithWhereUniqueWithoutAssignedTicketsInput = {
+    where: MemberWhereUniqueInput
+    data: XOR<MemberUpdateWithoutAssignedTicketsInput, MemberUncheckedUpdateWithoutAssignedTicketsInput>
+  }
+
+  export type MemberUpdateManyWithWhereWithoutAssignedTicketsInput = {
+    where: MemberScalarWhereInput
+    data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutAssignedTicketsInput>
   }
 
   export type OrganizationUpsertWithoutSupportTicketsInput = {
@@ -15375,10 +17398,40 @@ export namespace Prisma {
     teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
+  export type SupportTicketHistoryUpsertWithWhereUniqueWithoutSupportTicketInput = {
+    where: SupportTicketHistoryWhereUniqueInput
+    update: XOR<SupportTicketHistoryUpdateWithoutSupportTicketInput, SupportTicketHistoryUncheckedUpdateWithoutSupportTicketInput>
+    create: XOR<SupportTicketHistoryCreateWithoutSupportTicketInput, SupportTicketHistoryUncheckedCreateWithoutSupportTicketInput>
+  }
+
+  export type SupportTicketHistoryUpdateWithWhereUniqueWithoutSupportTicketInput = {
+    where: SupportTicketHistoryWhereUniqueInput
+    data: XOR<SupportTicketHistoryUpdateWithoutSupportTicketInput, SupportTicketHistoryUncheckedUpdateWithoutSupportTicketInput>
+  }
+
+  export type SupportTicketHistoryUpdateManyWithWhereWithoutSupportTicketInput = {
+    where: SupportTicketHistoryScalarWhereInput
+    data: XOR<SupportTicketHistoryUpdateManyMutationInput, SupportTicketHistoryUncheckedUpdateManyWithoutSupportTicketInput>
+  }
+
+  export type SupportTicketHistoryScalarWhereInput = {
+    AND?: SupportTicketHistoryScalarWhereInput | SupportTicketHistoryScalarWhereInput[]
+    OR?: SupportTicketHistoryScalarWhereInput[]
+    NOT?: SupportTicketHistoryScalarWhereInput | SupportTicketHistoryScalarWhereInput[]
+    id?: StringFilter<"SupportTicketHistory"> | string
+    supportTicketId?: StringFilter<"SupportTicketHistory"> | string
+    beforeStatus?: EnumSupportTicketStatusNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    afterStatus?: EnumSupportTicketStatusNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketStatus | null
+    beforePriority?: EnumSupportTicketPriorityNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    afterPriority?: EnumSupportTicketPriorityNullableFilter<"SupportTicketHistory"> | $Enums.SupportTicketPriority | null
+    changedBy?: StringNullableFilter<"SupportTicketHistory"> | string | null
+    createdAt?: DateTimeFilter<"SupportTicketHistory"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -15395,8 +17448,8 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutAccountsInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -15429,8 +17482,8 @@ export namespace Prisma {
 
   export type UserUpdateWithoutAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15447,8 +17500,8 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15501,8 +17554,9 @@ export namespace Prisma {
     id: string
     role: string
     createdAt: Date | string
-    user: UserCreateNestedOneWithoutMembersInput
     team?: TeamCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembersInput
+    assignedTickets?: SupportTicketCreateNestedManyWithoutAssignedToInput
   }
 
   export type MemberUncheckedCreateWithoutOrganizationInput = {
@@ -15511,6 +17565,7 @@ export namespace Prisma {
     role: string
     createdAt: Date | string
     teamId?: string | null
+    assignedTickets?: SupportTicketUncheckedCreateNestedManyWithoutAssignedToInput
   }
 
   export type MemberCreateOrConnectWithoutOrganizationInput = {
@@ -15520,6 +17575,46 @@ export namespace Prisma {
 
   export type MemberCreateManyOrganizationInputEnvelope = {
     data: MemberCreateManyOrganizationInput | MemberCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SupportTicketCreateWithoutOrganizationInput = {
+    id?: string
+    customerName: string
+    product: string
+    issueType: string
+    description: string
+    whatsapp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    assignedTo?: MemberCreateNestedManyWithoutAssignedTicketsInput
+    history?: SupportTicketHistoryCreateNestedManyWithoutSupportTicketInput
+  }
+
+  export type SupportTicketUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    customerName: string
+    product: string
+    issueType: string
+    description: string
+    whatsapp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    assignedTo?: MemberUncheckedCreateNestedManyWithoutAssignedTicketsInput
+    history?: SupportTicketHistoryUncheckedCreateNestedManyWithoutSupportTicketInput
+  }
+
+  export type SupportTicketCreateOrConnectWithoutOrganizationInput = {
+    where: SupportTicketWhereUniqueInput
+    create: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type SupportTicketCreateManyOrganizationInputEnvelope = {
+    data: SupportTicketCreateManyOrganizationInput | SupportTicketCreateManyOrganizationInput[]
     skipDuplicates?: boolean
   }
 
@@ -15546,40 +17641,6 @@ export namespace Prisma {
 
   export type TeamCreateManyOrganizationInputEnvelope = {
     data: TeamCreateManyOrganizationInput | TeamCreateManyOrganizationInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type SupportTicketCreateWithoutOrganizationInput = {
-    id?: string
-    customerName: string
-    product: string
-    issueType: string
-    description: string
-    whatsapp: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SupportTicketUncheckedCreateWithoutOrganizationInput = {
-    id?: string
-    customerName: string
-    product: string
-    issueType: string
-    description: string
-    whatsapp: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SupportTicketCreateOrConnectWithoutOrganizationInput = {
-    where: SupportTicketWhereUniqueInput
-    create: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type SupportTicketCreateManyOrganizationInputEnvelope = {
-    data: SupportTicketCreateManyOrganizationInput | SupportTicketCreateManyOrganizationInput[]
     skipDuplicates?: boolean
   }
 
@@ -15615,6 +17676,39 @@ export namespace Prisma {
     data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutOrganizationInput>
   }
 
+  export type SupportTicketUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: SupportTicketWhereUniqueInput
+    update: XOR<SupportTicketUpdateWithoutOrganizationInput, SupportTicketUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type SupportTicketUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: SupportTicketWhereUniqueInput
+    data: XOR<SupportTicketUpdateWithoutOrganizationInput, SupportTicketUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type SupportTicketUpdateManyWithWhereWithoutOrganizationInput = {
+    where: SupportTicketScalarWhereInput
+    data: XOR<SupportTicketUpdateManyMutationInput, SupportTicketUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type SupportTicketScalarWhereInput = {
+    AND?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
+    OR?: SupportTicketScalarWhereInput[]
+    NOT?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
+    id?: StringFilter<"SupportTicket"> | string
+    customerName?: StringFilter<"SupportTicket"> | string
+    product?: StringFilter<"SupportTicket"> | string
+    issueType?: StringFilter<"SupportTicket"> | string
+    description?: StringFilter<"SupportTicket"> | string
+    whatsapp?: StringFilter<"SupportTicket"> | string
+    createdAt?: DateTimeFilter<"SupportTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"SupportTicket"> | Date | string
+    organizationId?: StringFilter<"SupportTicket"> | string
+    status?: EnumSupportTicketStatusFilter<"SupportTicket"> | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFilter<"SupportTicket"> | $Enums.SupportTicketPriority
+  }
+
   export type TeamUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: TeamWhereUniqueInput
     update: XOR<TeamUpdateWithoutOrganizationInput, TeamUncheckedUpdateWithoutOrganizationInput>
@@ -15642,36 +17736,32 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Team"> | Date | string | null
   }
 
-  export type SupportTicketUpsertWithWhereUniqueWithoutOrganizationInput = {
-    where: SupportTicketWhereUniqueInput
-    update: XOR<SupportTicketUpdateWithoutOrganizationInput, SupportTicketUncheckedUpdateWithoutOrganizationInput>
-    create: XOR<SupportTicketCreateWithoutOrganizationInput, SupportTicketUncheckedCreateWithoutOrganizationInput>
+  export type MemberCreateWithoutTeamInput = {
+    id: string
+    role: string
+    createdAt: Date | string
+    organization: OrganizationCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembersInput
+    assignedTickets?: SupportTicketCreateNestedManyWithoutAssignedToInput
   }
 
-  export type SupportTicketUpdateWithWhereUniqueWithoutOrganizationInput = {
-    where: SupportTicketWhereUniqueInput
-    data: XOR<SupportTicketUpdateWithoutOrganizationInput, SupportTicketUncheckedUpdateWithoutOrganizationInput>
+  export type MemberUncheckedCreateWithoutTeamInput = {
+    id: string
+    organizationId: string
+    userId: string
+    role: string
+    createdAt: Date | string
+    assignedTickets?: SupportTicketUncheckedCreateNestedManyWithoutAssignedToInput
   }
 
-  export type SupportTicketUpdateManyWithWhereWithoutOrganizationInput = {
-    where: SupportTicketScalarWhereInput
-    data: XOR<SupportTicketUpdateManyMutationInput, SupportTicketUncheckedUpdateManyWithoutOrganizationInput>
+  export type MemberCreateOrConnectWithoutTeamInput = {
+    where: MemberWhereUniqueInput
+    create: XOR<MemberCreateWithoutTeamInput, MemberUncheckedCreateWithoutTeamInput>
   }
 
-  export type SupportTicketScalarWhereInput = {
-    AND?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
-    OR?: SupportTicketScalarWhereInput[]
-    NOT?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
-    id?: StringFilter<"SupportTicket"> | string
-    customerName?: StringFilter<"SupportTicket"> | string
-    product?: StringFilter<"SupportTicket"> | string
-    issueType?: StringFilter<"SupportTicket"> | string
-    description?: StringFilter<"SupportTicket"> | string
-    whatsapp?: StringFilter<"SupportTicket"> | string
-    status?: StringFilter<"SupportTicket"> | string
-    createdAt?: DateTimeFilter<"SupportTicket"> | Date | string
-    updatedAt?: DateTimeFilter<"SupportTicket"> | Date | string
-    organizationId?: StringFilter<"SupportTicket"> | string
+  export type MemberCreateManyTeamInputEnvelope = {
+    data: MemberCreateManyTeamInput | MemberCreateManyTeamInput[]
+    skipDuplicates?: boolean
   }
 
   export type OrganizationCreateWithoutTeamsInput = {
@@ -15707,30 +17797,20 @@ export namespace Prisma {
     create: XOR<OrganizationCreateWithoutTeamsInput, OrganizationUncheckedCreateWithoutTeamsInput>
   }
 
-  export type MemberCreateWithoutTeamInput = {
-    id: string
-    role: string
-    createdAt: Date | string
-    organization: OrganizationCreateNestedOneWithoutMembersInput
-    user: UserCreateNestedOneWithoutMembersInput
-  }
-
-  export type MemberUncheckedCreateWithoutTeamInput = {
-    id: string
-    organizationId: string
-    userId: string
-    role: string
-    createdAt: Date | string
-  }
-
-  export type MemberCreateOrConnectWithoutTeamInput = {
+  export type MemberUpsertWithWhereUniqueWithoutTeamInput = {
     where: MemberWhereUniqueInput
+    update: XOR<MemberUpdateWithoutTeamInput, MemberUncheckedUpdateWithoutTeamInput>
     create: XOR<MemberCreateWithoutTeamInput, MemberUncheckedCreateWithoutTeamInput>
   }
 
-  export type MemberCreateManyTeamInputEnvelope = {
-    data: MemberCreateManyTeamInput | MemberCreateManyTeamInput[]
-    skipDuplicates?: boolean
+  export type MemberUpdateWithWhereUniqueWithoutTeamInput = {
+    where: MemberWhereUniqueInput
+    data: XOR<MemberUpdateWithoutTeamInput, MemberUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type MemberUpdateManyWithWhereWithoutTeamInput = {
+    where: MemberScalarWhereInput
+    data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutTeamInput>
   }
 
   export type OrganizationUpsertWithoutTeamsInput = {
@@ -15772,26 +17852,10 @@ export namespace Prisma {
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
-  export type MemberUpsertWithWhereUniqueWithoutTeamInput = {
-    where: MemberWhereUniqueInput
-    update: XOR<MemberUpdateWithoutTeamInput, MemberUncheckedUpdateWithoutTeamInput>
-    create: XOR<MemberCreateWithoutTeamInput, MemberUncheckedCreateWithoutTeamInput>
-  }
-
-  export type MemberUpdateWithWhereUniqueWithoutTeamInput = {
-    where: MemberWhereUniqueInput
-    data: XOR<MemberUpdateWithoutTeamInput, MemberUncheckedUpdateWithoutTeamInput>
-  }
-
-  export type MemberUpdateManyWithWhereWithoutTeamInput = {
-    where: MemberScalarWhereInput
-    data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutTeamInput>
-  }
-
   export type UserCreateWithoutInvitationsInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -15808,8 +17872,8 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutInvitationsInput = {
     id: string
-    name: string
     email: string
+    name: string
     emailVerified: boolean
     image?: string | null
     createdAt: Date | string
@@ -15839,8 +17903,8 @@ export namespace Prisma {
     theme?: string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     members?: MemberCreateNestedManyWithoutOrganizationInput
-    teams?: TeamCreateNestedManyWithoutOrganizationInput
     supportTickets?: SupportTicketCreateNestedManyWithoutOrganizationInput
+    teams?: TeamCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvitationsInput = {
@@ -15853,8 +17917,8 @@ export namespace Prisma {
     theme?: string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     members?: MemberUncheckedCreateNestedManyWithoutOrganizationInput
-    teams?: TeamUncheckedCreateNestedManyWithoutOrganizationInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutOrganizationInput
+    teams?: TeamUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvitationsInput = {
@@ -15875,8 +17939,8 @@ export namespace Prisma {
 
   export type UserUpdateWithoutInvitationsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15893,8 +17957,8 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutInvitationsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15930,8 +17994,8 @@ export namespace Prisma {
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     members?: MemberUpdateManyWithoutOrganizationNestedInput
-    teams?: TeamUpdateManyWithoutOrganizationNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutOrganizationNestedInput
+    teams?: TeamUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvitationsInput = {
@@ -15944,8 +18008,8 @@ export namespace Prisma {
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     members?: MemberUncheckedUpdateManyWithoutOrganizationNestedInput
-    teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutOrganizationNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutMembersInput = {
@@ -15958,8 +18022,8 @@ export namespace Prisma {
     theme?: string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
-    teams?: TeamCreateNestedManyWithoutOrganizationInput
     supportTickets?: SupportTicketCreateNestedManyWithoutOrganizationInput
+    teams?: TeamCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembersInput = {
@@ -15972,54 +18036,13 @@ export namespace Prisma {
     theme?: string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
-    teams?: TeamUncheckedCreateNestedManyWithoutOrganizationInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutOrganizationInput
+    teams?: TeamUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembersInput = {
     where: OrganizationWhereUniqueInput
     create: XOR<OrganizationCreateWithoutMembersInput, OrganizationUncheckedCreateWithoutMembersInput>
-  }
-
-  export type UserCreateWithoutMembersInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    banExpires?: Date | string | null
-    banReason?: string | null
-    banned?: boolean | null
-    lastLoginAt?: Date | string | null
-    role?: string | null
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    invitations?: InvitationCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutMembersInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    banExpires?: Date | string | null
-    banReason?: string | null
-    banned?: boolean | null
-    lastLoginAt?: Date | string | null
-    role?: string | null
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutMembersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
   }
 
   export type TeamCreateWithoutMembersInput = {
@@ -16043,6 +18066,82 @@ export namespace Prisma {
     create: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
   }
 
+  export type UserCreateWithoutMembersInput = {
+    id: string
+    email: string
+    name: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    banExpires?: Date | string | null
+    banReason?: string | null
+    banned?: boolean | null
+    lastLoginAt?: Date | string | null
+    role?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    invitations?: InvitationCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMembersInput = {
+    id: string
+    email: string
+    name: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    banExpires?: Date | string | null
+    banReason?: string | null
+    banned?: boolean | null
+    lastLoginAt?: Date | string | null
+    role?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMembersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
+  }
+
+  export type SupportTicketCreateWithoutAssignedToInput = {
+    id?: string
+    customerName: string
+    product: string
+    issueType: string
+    description: string
+    whatsapp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    organization: OrganizationCreateNestedOneWithoutSupportTicketsInput
+    history?: SupportTicketHistoryCreateNestedManyWithoutSupportTicketInput
+  }
+
+  export type SupportTicketUncheckedCreateWithoutAssignedToInput = {
+    id?: string
+    customerName: string
+    product: string
+    issueType: string
+    description: string
+    whatsapp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organizationId: string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    history?: SupportTicketHistoryUncheckedCreateNestedManyWithoutSupportTicketInput
+  }
+
+  export type SupportTicketCreateOrConnectWithoutAssignedToInput = {
+    where: SupportTicketWhereUniqueInput
+    create: XOR<SupportTicketCreateWithoutAssignedToInput, SupportTicketUncheckedCreateWithoutAssignedToInput>
+  }
+
   export type OrganizationUpsertWithoutMembersInput = {
     update: XOR<OrganizationUpdateWithoutMembersInput, OrganizationUncheckedUpdateWithoutMembersInput>
     create: XOR<OrganizationCreateWithoutMembersInput, OrganizationUncheckedCreateWithoutMembersInput>
@@ -16064,8 +18163,8 @@ export namespace Prisma {
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
-    teams?: TeamUpdateManyWithoutOrganizationNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutOrganizationNestedInput
+    teams?: TeamUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembersInput = {
@@ -16078,55 +18177,8 @@ export namespace Prisma {
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     themePreferences?: NullableJsonNullValueInput | InputJsonValue
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
-    teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutOrganizationNestedInput
-  }
-
-  export type UserUpsertWithoutMembersInput = {
-    update: XOR<UserUpdateWithoutMembersInput, UserUncheckedUpdateWithoutMembersInput>
-    create: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutMembersInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutMembersInput, UserUncheckedUpdateWithoutMembersInput>
-  }
-
-  export type UserUpdateWithoutMembersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    invitations?: InvitationUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutMembersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type TeamUpsertWithoutMembersInput = {
@@ -16156,19 +18208,158 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type UserUpsertWithoutMembersInput = {
+    update: XOR<UserUpdateWithoutMembersInput, UserUncheckedUpdateWithoutMembersInput>
+    create: XOR<UserCreateWithoutMembersInput, UserUncheckedCreateWithoutMembersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMembersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMembersInput, UserUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SupportTicketUpsertWithWhereUniqueWithoutAssignedToInput = {
+    where: SupportTicketWhereUniqueInput
+    update: XOR<SupportTicketUpdateWithoutAssignedToInput, SupportTicketUncheckedUpdateWithoutAssignedToInput>
+    create: XOR<SupportTicketCreateWithoutAssignedToInput, SupportTicketUncheckedCreateWithoutAssignedToInput>
+  }
+
+  export type SupportTicketUpdateWithWhereUniqueWithoutAssignedToInput = {
+    where: SupportTicketWhereUniqueInput
+    data: XOR<SupportTicketUpdateWithoutAssignedToInput, SupportTicketUncheckedUpdateWithoutAssignedToInput>
+  }
+
+  export type SupportTicketUpdateManyWithWhereWithoutAssignedToInput = {
+    where: SupportTicketScalarWhereInput
+    data: XOR<SupportTicketUpdateManyMutationInput, SupportTicketUncheckedUpdateManyWithoutAssignedToInput>
+  }
+
+  export type SupportTicketCreateWithoutHistoryInput = {
+    id?: string
+    customerName: string
+    product: string
+    issueType: string
+    description: string
+    whatsapp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    assignedTo?: MemberCreateNestedManyWithoutAssignedTicketsInput
+    organization: OrganizationCreateNestedOneWithoutSupportTicketsInput
+  }
+
+  export type SupportTicketUncheckedCreateWithoutHistoryInput = {
+    id?: string
+    customerName: string
+    product: string
+    issueType: string
+    description: string
+    whatsapp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organizationId: string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+    assignedTo?: MemberUncheckedCreateNestedManyWithoutAssignedTicketsInput
+  }
+
+  export type SupportTicketCreateOrConnectWithoutHistoryInput = {
+    where: SupportTicketWhereUniqueInput
+    create: XOR<SupportTicketCreateWithoutHistoryInput, SupportTicketUncheckedCreateWithoutHistoryInput>
+  }
+
+  export type SupportTicketUpsertWithoutHistoryInput = {
+    update: XOR<SupportTicketUpdateWithoutHistoryInput, SupportTicketUncheckedUpdateWithoutHistoryInput>
+    create: XOR<SupportTicketCreateWithoutHistoryInput, SupportTicketUncheckedCreateWithoutHistoryInput>
+    where?: SupportTicketWhereInput
+  }
+
+  export type SupportTicketUpdateToOneWithWhereWithoutHistoryInput = {
+    where?: SupportTicketWhereInput
+    data: XOR<SupportTicketUpdateWithoutHistoryInput, SupportTicketUncheckedUpdateWithoutHistoryInput>
+  }
+
+  export type SupportTicketUpdateWithoutHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    assignedTo?: MemberUpdateManyWithoutAssignedTicketsNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutSupportTicketsNestedInput
+  }
+
+  export type SupportTicketUncheckedUpdateWithoutHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    assignedTo?: MemberUncheckedUpdateManyWithoutAssignedTicketsNestedInput
+  }
+
   export type AccountCreateManyUserInput = {
+    id: string
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
+    password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    accessToken?: string | null
-    accessTokenExpiresAt?: Date | string | null
-    accountId: string
-    idToken?: string | null
-    refreshToken?: string | null
-    id: string
-    password?: string | null
-    providerId: string
-    refreshTokenExpiresAt?: Date | string | null
   }
 
   export type InvitationCreateManyUserInput = {
@@ -16192,60 +18383,60 @@ export namespace Prisma {
   }
 
   export type SessionCreateManyUserInput = {
+    id?: string
+    expiresAt: Date | string
+    token: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    activeOrganizationId?: string | null
-    impersonatedBy?: string | null
     ipAddress?: string | null
     userAgent?: string | null
-    expiresAt: Date | string
-    id?: string
-    token: string
+    activeOrganizationId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AccountUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AccountUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
-    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
-    idToken?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: StringFieldUpdateOperationsInput | string
-    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvitationUpdateWithoutUserInput = {
@@ -16290,6 +18481,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
     team?: TeamUpdateOneWithoutMembersNestedInput
+    assignedTickets?: SupportTicketUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateWithoutUserInput = {
@@ -16298,6 +18490,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedTickets?: SupportTicketUncheckedUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateManyWithoutUserInput = {
@@ -16309,39 +18502,106 @@ export namespace Prisma {
   }
 
   export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SupportTicketHistoryCreateManySupportTicketInput = {
+    id?: string
+    beforeStatus?: $Enums.SupportTicketStatus | null
+    afterStatus?: $Enums.SupportTicketStatus | null
+    beforePriority?: $Enums.SupportTicketPriority | null
+    afterPriority?: $Enums.SupportTicketPriority | null
+    changedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MemberUpdateWithoutAssignedTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
+    team?: TeamUpdateOneWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type MemberUncheckedUpdateWithoutAssignedTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MemberUncheckedUpdateManyWithoutAssignedTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SupportTicketHistoryUpdateWithoutSupportTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketHistoryUncheckedUpdateWithoutSupportTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketHistoryUncheckedUpdateManyWithoutSupportTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    afterStatus?: NullableEnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus | null
+    beforePriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    afterPriority?: NullableEnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority | null
+    changedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InvitationCreateManyOrganizationInput = {
@@ -16364,13 +18624,6 @@ export namespace Prisma {
     teamId?: string | null
   }
 
-  export type TeamCreateManyOrganizationInput = {
-    id?: string
-    name: string
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-  }
-
   export type SupportTicketCreateManyOrganizationInput = {
     id?: string
     customerName: string
@@ -16378,9 +18631,17 @@ export namespace Prisma {
     issueType: string
     description: string
     whatsapp: string
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: $Enums.SupportTicketStatus
+    priority?: $Enums.SupportTicketPriority
+  }
+
+  export type TeamCreateManyOrganizationInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type InvitationUpdateWithoutOrganizationInput = {
@@ -16423,8 +18684,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutMembersNestedInput
     team?: TeamUpdateOneWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembersNestedInput
+    assignedTickets?: SupportTicketUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateWithoutOrganizationInput = {
@@ -16433,6 +18695,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedTickets?: SupportTicketUncheckedUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateManyWithoutOrganizationInput = {
@@ -16441,6 +18704,49 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SupportTicketUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    assignedTo?: MemberUpdateManyWithoutAssignedTicketsNestedInput
+    history?: SupportTicketHistoryUpdateManyWithoutSupportTicketNestedInput
+  }
+
+  export type SupportTicketUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    assignedTo?: MemberUncheckedUpdateManyWithoutAssignedTicketsNestedInput
+    history?: SupportTicketHistoryUncheckedUpdateManyWithoutSupportTicketNestedInput
+  }
+
+  export type SupportTicketUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
   }
 
   export type TeamUpdateWithoutOrganizationInput = {
@@ -16466,42 +18772,6 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type SupportTicketUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    customerName?: StringFieldUpdateOperationsInput | string
-    product?: StringFieldUpdateOperationsInput | string
-    issueType?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SupportTicketUncheckedUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    customerName?: StringFieldUpdateOperationsInput | string
-    product?: StringFieldUpdateOperationsInput | string
-    issueType?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SupportTicketUncheckedUpdateManyWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    customerName?: StringFieldUpdateOperationsInput | string
-    product?: StringFieldUpdateOperationsInput | string
-    issueType?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    whatsapp?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type MemberCreateManyTeamInput = {
     id: string
     organizationId: string
@@ -16516,6 +18786,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
     user?: UserUpdateOneRequiredWithoutMembersNestedInput
+    assignedTickets?: SupportTicketUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateWithoutTeamInput = {
@@ -16524,6 +18795,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedTickets?: SupportTicketUncheckedUpdateManyWithoutAssignedToNestedInput
   }
 
   export type MemberUncheckedUpdateManyWithoutTeamInput = {
@@ -16532,6 +18804,50 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketUpdateWithoutAssignedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    organization?: OrganizationUpdateOneRequiredWithoutSupportTicketsNestedInput
+    history?: SupportTicketHistoryUpdateManyWithoutSupportTicketNestedInput
+  }
+
+  export type SupportTicketUncheckedUpdateWithoutAssignedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
+    history?: SupportTicketHistoryUncheckedUpdateManyWithoutSupportTicketNestedInput
+  }
+
+  export type SupportTicketUncheckedUpdateManyWithoutAssignedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    product?: StringFieldUpdateOperationsInput | string
+    issueType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportTicketStatusFieldUpdateOperationsInput | $Enums.SupportTicketStatus
+    priority?: EnumSupportTicketPriorityFieldUpdateOperationsInput | $Enums.SupportTicketPriority
   }
 
 
