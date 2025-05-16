@@ -53,6 +53,7 @@ export function KanbanCard({ task }: KanbanCardProps) {
   const [loadingMembers, setLoadingMembers] = useState(false);
   const [assignLoading, setAssignLoading] = useState(false);
   const [assignedMembers, setAssignedMembers] = useState<{ id: string; name: string; email: string }[]>(task.assignedTo || []);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -81,6 +82,7 @@ export function KanbanCard({ task }: KanbanCardProps) {
     assignedMembers.some((m) => m.id === memberId);
 
   const toggleAssignment = async (memberId: string) => {
+    console.log(memberId);
     setAssignLoading(true);
     const updatedIds = isAssigned(memberId)
      ? assignedMembers.filter((m) => m.id !== memberId).map((m) => m.id) :
@@ -102,6 +104,7 @@ export function KanbanCard({ task }: KanbanCardProps) {
           title: 'Success',
           description: 'Members assigned successfully'
         });
+        setIsPopoverOpen(false);
       } else {
         toast({
           title: 'Failed to assign members',
@@ -197,8 +200,7 @@ export function KanbanCard({ task }: KanbanCardProps) {
           </select>
           {isUpdating && <span className="text-xs text-gray-400 ml-2">Updating...</span>}
         </div>
-        {/* ASSINED TO FEATURE ADDITION */}
-        <Popover>
+        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className='text-xs' onPointerDown={(e) => {
               e.stopPropagation();

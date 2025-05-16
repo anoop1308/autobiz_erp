@@ -38,7 +38,7 @@ interface KanbanBoardProps {
     statuses: Status[];
     assignedTo: string;
   };
-  filterType: 'status' | 'priority';
+  filterType: 'status' | 'priority' ;
 }
 
 type KanbanTask = {
@@ -58,7 +58,8 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const fetchedTasks = await getSupportTickets(filter);
+      const { priorities, statuses } = filter;
+      const fetchedTasks = await getSupportTickets({ priorities, statuses });
       setTasks(fetchedTasks.map(task => ({
         ...task,
         assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : []
@@ -169,7 +170,7 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
                     title={column.title}
                     description={statusDescriptions[column.id]}
                     tasks={tasks.filter((task) => 
-                      task.status === column.id && 
+                      task.status === column.id &&
                       (!filter.assignedTo || (task.assignedTo && task.assignedTo.some(member => member.name.toLowerCase().includes(filter.assignedTo.toLowerCase()))))
                     )}
                   />
@@ -183,7 +184,7 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
                   description={statusDescriptions[column.id]}
                   tasks={tasks.filter((task) => 
                     task.status === column.id && 
-                    filter.priorities.includes(task.priority || SupportTicketPriority.Low) &&
+                    filter.priorities.includes(task.priority || SupportTicketPriority.Low) && 
                     (!filter.assignedTo || (task.assignedTo && task.assignedTo.some(member => member.name.toLowerCase().includes(filter.assignedTo.toLowerCase()))))
                   )}
                 />

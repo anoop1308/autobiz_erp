@@ -8,6 +8,7 @@ export async function POST(req: Request) {
             headers: await headers()
         });
         const user = session?.user.name;
+        const activeOrgId = session?.session.activeOrganizationId;
 
         if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
         const validMembers = await prisma.member.findMany({
             where: {
                 id: { in: memberIds },
-                organizationId: session.session.activeOrganizationId
+                organizationId: activeOrgId || '',
             },
             select: { id: true },
         });
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
         }
 
         const validMemberIds = validMembers.map((m) => ({ id: m.id}));
+        console.log(validMemberIds);
 
         const updatedTicket = await prisma.supportTicket.update({
             where: { id: ticketId },
@@ -46,15 +48,6 @@ export async function POST(req: Request) {
                 },
               },
             },
-          });
-      
-          // Create history entry for assignment change
-          await prisma.supportTicketHistory.create({
-            data: {
-              supportTicketId: ticketId,
-              changedBy: user,
-              createdAt: new Date()
-            }
           });
 
           return NextResponse.json({

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { SupportTicketPriority, SupportTicketStatus } from '@/prisma/generated';
-import { Button } from '@/components/ui/button';
-import { Filter } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { SupportTicketPriority, SupportTicketStatus } from "@/prisma/generated";
+import { Button } from "@/components/ui/button";
+import { Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -12,14 +12,19 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from '@/components/ui/dialog';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { useState } from 'react';
+} from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { useEffect, useState } from "react";
+import { getFilterTeamMembers } from "@/actions/team-members";
 
 type Status = SupportTicketStatus;
 type Priority = SupportTicketPriority;
-type FilterType = 'status' | 'priority';
+type FilterType = "status" | "priority";
 type AssignedTo = string;
 
 interface KanbanFilterProps {
@@ -29,9 +34,13 @@ interface KanbanFilterProps {
   onStatusChange: (statuses: Status[]) => void;
   selectedPriorities: Priority[];
   onPriorityChange: (priorities: Priority[]) => void;
-  assignedTo?: AssignedTo;
-  onAssignedToChange?: (assignedTo: AssignedTo) => void;
-  onApplyFilter?: (filter: { priorities: Priority[]; statuses: Status[]; assignedTo: string }) => void;
+  assignedTo: AssignedTo;
+  onAssignedToChange: (assignedTo: AssignedTo) => void;
+  onApplyFilter?: (filter: {
+    priorities: Priority[];
+    statuses: Status[];
+    assignedTo: string;
+  }) => void;
 }
 
 // MultiSelectPopover component for priorities and statuses
@@ -46,11 +55,15 @@ function MultiSelectPopover<T extends string>({
   selected: T[];
   onChange: (selected: T[]) => void;
 }) {
-  let display = 'Select...';
+  let display = "Select...";
   if (selected.length === 1) {
-    display = options.find(o => o.value === selected[0])?.label || 'Select...';
+    display =
+      options.find((o) => o.value === selected[0])?.label || "Select...";
   } else if (selected.length === 2) {
-    display = options.filter(o => selected.includes(o.value)).map(o => o.label).join(', ');
+    display = options
+      .filter((o) => selected.includes(o.value))
+      .map((o) => o.label)
+      .join(", ");
   } else if (selected.length > 2) {
     display = `${selected.length} selected`;
   }
@@ -64,7 +77,10 @@ function MultiSelectPopover<T extends string>({
       <PopoverContent className="w-56">
         <div className="flex flex-col gap-2">
           {options.map(({ value, label }) => (
-            <label key={value} className="flex items-center gap-2 cursor-pointer">
+            <label
+              key={value}
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <Checkbox
                 checked={selected.includes(value)}
                 onCheckedChange={() => {
@@ -91,32 +107,40 @@ export function KanbanFilter({
   onStatusChange,
   selectedPriorities,
   onPriorityChange,
-  assignedTo = '',
+  assignedTo = "",
   onAssignedToChange = () => {},
   onApplyFilter = () => {},
 }: KanbanFilterProps) {
   const [open, setOpen] = useState(false);
   const statuses: { value: Status; label: string }[] = [
-    { value: SupportTicketStatus.New, label: 'New' },
-    { value: SupportTicketStatus.Acknowledged, label: 'Acknowledged' },
-    { value: SupportTicketStatus.Investigation, label: 'Investigation' },
-    { value: SupportTicketStatus.Awaiting_Customer_Response, label: 'Awaiting Customer' },
-    { value: SupportTicketStatus.In_Progress, label: 'In Progress' },
-    { value: SupportTicketStatus.Resolved, label: 'Resolved' },
-    { value: SupportTicketStatus.Closed, label: 'Closed' },
+    { value: SupportTicketStatus.New, label: "New" },
+    { value: SupportTicketStatus.Acknowledged, label: "Acknowledged" },
+    { value: SupportTicketStatus.Investigation, label: "Investigation" },
+    {
+      value: SupportTicketStatus.Awaiting_Customer_Response,
+      label: "Awaiting Customer",
+    },
+    { value: SupportTicketStatus.In_Progress, label: "In Progress" },
+    { value: SupportTicketStatus.Resolved, label: "Resolved" },
+    { value: SupportTicketStatus.Closed, label: "Closed" },
   ];
 
   const priorities: { value: Priority; label: string }[] = [
-    { value: SupportTicketPriority.Low, label: 'Low' },
-    { value: SupportTicketPriority.Medium, label: 'Medium' },
-    { value: SupportTicketPriority.High, label: 'High' },
+    { value: SupportTicketPriority.Low, label: "Low" },
+    { value: SupportTicketPriority.Medium, label: "Medium" },
+    { value: SupportTicketPriority.High, label: "High" },
   ];
 
   return (
     <div className="flex justify-end gap-2 mb-4">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" size="sm" className="h-8 border-dashed" onClick={() => setOpen(true)}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 border-dashed"
+            onClick={() => setOpen(true)}
+          >
             <Filter className="mr-2 h-4 w-4" />
             Filter
           </Button>
@@ -155,14 +179,17 @@ export function KanbanFilter({
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" onClick={() => {
-              onApplyFilter({
-                priorities: selectedPriorities,
-                statuses: selectedStatuses,
-                assignedTo,
-              });
-              setOpen(false);
-            }}>
+            <Button
+              type="button"
+              onClick={() => {
+                onApplyFilter({
+                  priorities: selectedPriorities,
+                  statuses: selectedStatuses,
+                  assignedTo,
+                });
+                setOpen(false);
+              }}
+            >
               Filter
             </Button>
           </DialogFooter>
