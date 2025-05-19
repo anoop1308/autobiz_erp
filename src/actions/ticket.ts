@@ -58,7 +58,7 @@ export async function getTicket(ticketId: string) {
   }
 }
 
-export async function updateTicket(ticketId: string, data: any) {
+export async function updateTicket(ticketId: string, data: unknown) {
   const session = await auth.api.getSession({
     headers: await headers()
   });
@@ -76,7 +76,7 @@ export async function updateTicket(ticketId: string, data: any) {
     if (!currentTicket) {
       throw new Error('Ticket not found');
     }
-    const { history, assignedTo, assignedToIds, ...updateData } = data;
+    const { assignedToIds, ...updateData } = data as any;
 
     const historyEntries = [];
     if (updateData.status && updateData.status !== currentTicket.status) {

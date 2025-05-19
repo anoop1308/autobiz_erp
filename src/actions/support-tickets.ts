@@ -17,6 +17,11 @@ export async function getSupportTickets(filter?: {
   statuses?: SupportTicketStatus[];
   assignedTo?: string;
 }): Promise<KanbanTask[]> {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+  const activeOrgId = session?.session.activeOrganizationId;
+  if(!activeOrgId) return [];
   try {
     const where: any = {};
     if (filter) {
@@ -36,6 +41,7 @@ export async function getSupportTickets(filter?: {
       //   };
       // }
     }
+    where.organizationId = activeOrgId;
     const tickets = await prisma.supportTicket.findMany({
       where,
       orderBy: {

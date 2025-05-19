@@ -150,6 +150,10 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
     return <div className="p-8 text-center">Loading tasks...</div>;
   }
 
+  if (tasks.length === 0) {
+    return <div className="p-8 text-center">No tasks found.</div>;
+  }
+
   return (
     <div className="p-8 bg-gray-50 rounded-xl shadow-lg border border-gray-200 mx-4 my-6">
       <DndContext
@@ -158,7 +162,7 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
       >
-        <div className="relative w-full overflow-x-auto">
+        <div className="relative overflow-x-auto">
           <div className="flex gap-5 p-2 min-h-[600px]" style={{ minWidth: columns.length * 320 }}>
             {filterType === 'status' ? (
               columns

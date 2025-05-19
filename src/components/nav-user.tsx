@@ -44,7 +44,7 @@ export function NavUser() {
   }
 
   if (!session?.data?.user) {
-    return <div className="h-9 animate-pulse bg-muted"></div>;
+    return <div className="h-9 animate-pulse bg-red-600"></div>;
   }
 
   const { user: userData } = session.data;

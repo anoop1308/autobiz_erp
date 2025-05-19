@@ -8,7 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
-import { signUp, useSession } from '@/lib/auth-client'
+import { signUp } from '@/lib/auth-client'
+// import { signUp, useSession } from '@/lib/auth-client'
 
 
 export default function SignUpPage() {
@@ -21,11 +22,11 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false)
   const redirect = useRouter().push
   const { toast } = useToast()
-  const session = useSession()
+  // const session = useSession()
 
-  if (session.data?.session) {
-    redirect('/dashboard')
-  }
+  // if (session.data?.session) {
+  //   redirect('/dashboard')
+  // }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')

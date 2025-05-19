@@ -63,6 +63,7 @@ export default function TeamsPage() {
     const [selectedRole, setSelectedRole] = useState<Role>('member')
     const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
     const [teamFetched, setTeamFetched] = useState(false)
+    const [fullOrgFetched, setFullOrgFetched] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
@@ -84,31 +85,35 @@ export default function TeamsPage() {
         //     return res()
         // })
         // console.log("🚀 ~ fetchFullOrganization ~ invitationsWithTeamNames:", invitationsWithTeamNames)
-
+        if(!data) return
+        setFullOrgFetched(true)
 
         setInvitationsData(data as Invitation[])
     }
 
     useEffect(() => {
+        if (fullOrgFetched) return
         fetchFullOrganization()
-    }, [])
+    }, [fullOrgFetched])
 
     const fetchTeams = async () => {
         setIsLoading(true)
         try {
             const { data, error } = await getAllTeams()
+            console.log("🚀 ~ fetchTeams ~ data:", data)
             if (error) throw new Error(error.message)
             setTeams(data as Team[])
         } finally {
             setIsLoading(false)
+            setTeamFetched(true)
         }
     }
 
     useEffect(() => {
         if (teamFetched) return
         fetchTeams()
-        setTeamFetched(true)
     }, [teamFetched])
+        console.log("🚀 ~ useEffect ~ teamFetched:", teamFetched)
 
     const handleAddTeam = async () => {
         setIsLoading(true)

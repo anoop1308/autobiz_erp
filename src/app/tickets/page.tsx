@@ -1,7 +1,6 @@
 import { getTicketsList } from "@/actions/ticket";
 import TicketActions from "@/components/ticket/TicketAction";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,

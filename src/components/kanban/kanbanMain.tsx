@@ -46,20 +46,22 @@ export function KanbanMain() {
   });
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-6">Kanban Board</h1>
-      <KanbanFilter
-        filterType={filterType}
-        onFilterTypeChange={setFilterType}
-        selectedStatuses={selectedStatuses}
-        onStatusChange={setSelectedStatuses}
-        selectedPriorities={selectedPriorities}
-        onPriorityChange={setSelectedPriorities}
-        assignedTo={assignedTo}
-        onAssignedToChange={setAssignedTo}
-        onApplyFilter={(filter) => setFilterObj(filter)}
-      />
-      <KanbanBoard 
+    <div className="py-8 px-5">
+      <div className='flex gap-5 w-1/2'>
+        <h1 className="text-2xl font-bold mb-6">Kanban Board</h1>
+        <KanbanFilter
+          filterType={filterType}
+          onFilterTypeChange={setFilterType}
+          selectedStatuses={selectedStatuses}
+          onStatusChange={setSelectedStatuses}
+          selectedPriorities={selectedPriorities}
+          onPriorityChange={setSelectedPriorities}
+          assignedTo={assignedTo}
+          onAssignedToChange={setAssignedTo}
+          onApplyFilter={(filter) => setFilterObj(filter)}
+        />
+      </div>
+      <KanbanBoard
         filter={filterObj}
         filterType={filterType}
       />
