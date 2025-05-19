@@ -9,6 +9,7 @@ import {
   // IconInnerShadowTop,
   IconListDetails,
   IconUsers,
+  IconList
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -50,6 +51,11 @@ const sidebarData = {
       url: "/kanban",
       icon: IconListDetails,
     },
+    {
+      title: "Tickets",
+      url: "/tickets",
+      icon: IconList,
+    }
     // {
     //   title: "Lifecycle",
     //   url: "#",

@@ -9,7 +9,7 @@ export interface KanbanTask {
   status: SupportTicketStatus;
   description?: string;
   priority?: SupportTicketPriority;
-  assignedTo?: string;
+  assignedTo?: { id: string; name: string; email: string; }[];
 }
 
 export async function getSupportTickets(filter?: {
@@ -26,15 +26,15 @@ export async function getSupportTickets(filter?: {
       if (filter.statuses && filter.statuses.length > 0) {
         where.status = { in: filter.statuses };
       }
-      if (filter.assignedTo && filter.assignedTo.trim() !== '') {
-        where.assignedTo = {
-          some: {
-            user: {
-              name: { contains: filter.assignedTo, mode: 'insensitive' }
-            }
-          }
-        };
-      }
+      // if (Array.isArray(filter.assignedTo) && filter.assignedTo.length > 0) {
+      //   where.assignedTo = {
+      //     some: {
+      //       user: {
+      //         id: { in: filter.assignedTo },
+      //       }
+      //     }
+      //   };
+      // }
     }
     const tickets = await prisma.supportTicket.findMany({
       where,

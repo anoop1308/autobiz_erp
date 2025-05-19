@@ -27,7 +27,6 @@ export default function SupportPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<{
     customerName: string;
-    assignedTo: string;
     product: string;
     priority: SupportTicketPriority;
     issueType: string;
@@ -35,7 +34,6 @@ export default function SupportPage() {
     whatsapp: string;
   }>({
     customerName: "",
-    assignedTo: "",
     product: "",
     priority: SupportTicketPriority.Low,
     issueType: "",
@@ -46,7 +44,6 @@ export default function SupportPage() {
   const resetForm = () => {
     setFormData({
       customerName: "",
-      assignedTo: "",
       product: "",
       priority: SupportTicketPriority.Low,
       issueType: "",
@@ -137,18 +134,6 @@ export default function SupportPage() {
                 id="customerName"
                 name="customerName"
                 value={formData.customerName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="assignedTo">Assigned To</Label>
-              <Input
-                type="text"
-                id="assignedTo"
-                name="assignedTo"
-                value={formData.assignedTo}
                 onChange={handleChange}
                 required
               />
