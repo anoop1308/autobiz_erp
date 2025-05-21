@@ -20,10 +20,9 @@ import {
 } from "@/prisma/generated";
 import { useState, useEffect, FC } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { FlagIcon, UserIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { getEngineerTeamMembers } from "@/actions/team-members";
-import { Checkbox } from "@/components/ui/checkbox";
+import { FlagIcon } from "lucide-react";
+import { getAllOrganizationMembers } from "@/actions/team-members";
+import { MemberSelector } from "@/components/member-selector";
 
 const priorityColors = {
   Low: "text-green-500",
@@ -56,15 +55,15 @@ const IndividualTicket = () => {
     fetchTicket();
   }, [id]);
 
-  const [engineers, setEngineers] = useState<{ id: string; name: string; email: string }[]>([]);
+  const [organizationMembers, setOrganizationMembers] = useState<{ id: string; name: string; email: string }[]>([]);
 
 useEffect(() => {
-  const fetchEngineers = async () => {
-    const data = await getEngineerTeamMembers();
-    setEngineers(data);
+  const fetchOrganizationMembers = async () => {
+    const data = await getAllOrganizationMembers();
+    setOrganizationMembers(data);
   };
 
-  fetchEngineers();
+  fetchOrganizationMembers();
 }, []);
 
   if (isLoading) {
@@ -77,15 +76,15 @@ useEffect(() => {
 
   return (
     <div className="container mx-auto p-6">
-      <TicketEditor initialTicket={ticket} engineers={engineers} />
+      <TicketEditor initialTicket={ticket} organizationMembers={organizationMembers} />
     </div>
   );
 };
 
 const TicketEditor: FC<{
   initialTicket: SupportTicket & { history: SupportTicketHistory[], assignedTo: Member[] };
-  engineers: { id: string; name: string; email: string }[];
-}> = ({ initialTicket, engineers }) => {
+  organizationMembers: { id: string; name: string; email: string }[];
+}> = ({ initialTicket, organizationMembers }) => {
   const router = useRouter();
   const [ticket, setTicket] = useState(initialTicket);
   const [isLoading, setIsLoading] = useState(false);
@@ -108,11 +107,21 @@ const TicketEditor: FC<{
   const handleSave = async () => {
     setIsLoading(true);
     try {
+      // Only send scalar fields and assignedToIds to avoid Prisma relation update errors
       const updated = await updateTicket(ticket.id, {
-        ...ticket,
+        customerName: ticket.customerName,
+        product: ticket.product,
+        issueType: ticket.issueType,
+        description: ticket.description,
+        whatsapp: ticket.whatsapp,
+        status: ticket.status,
+        priority: ticket.priority,
         assignedToIds,
       });
-      setTicket((prev) => ({ ...prev, assignedTo: updated?.assignedTo }));
+      
+      if (updated && updated.assignedTo) {
+        setTicket((prev) => ({ ...prev, assignedTo: updated.assignedTo || [] }));
+      }
       router.push("/tickets");
     } catch (error) {
       console.error("Failed to save ticket:", error);
@@ -176,29 +185,12 @@ const TicketEditor: FC<{
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex items-center gap-2">
-                <label htmlFor="assignedTo" className="text-sm font-medium">
-                  Assigned To
-                </label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline">
-                      <UserIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    {engineers.map((member) => (
-                      <div key={member.id} className="flex items-center gap-2">
-                        <Checkbox
-                          value={member.id}
-                          checked={assignedToIds.includes(member.id)}
-                          onCheckedChange={() => handleAssignedToChange(member.id)}
-                        />
-                        <p>{member.name}</p>
-                      </div>
-                    ))}
-                  </PopoverContent>
-                </Popover>
+              <div className="flex items-center gap-2 w-full">
+                <MemberSelector
+                  members={organizationMembers}
+                  selectedMemberIds={assignedToIds}
+                  onMemberSelectionChange={handleAssignedToChange}
+                />
               </div>
               <div className="flex items-center gap-2">
                 <label className="text-sm font-medium">WhatsApp</label>

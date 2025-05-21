@@ -9,7 +9,7 @@ export async function getEngineerTeamMembers() {
   });
   const activeOrgId = session?.session.activeOrganizationId;
   if(!activeOrgId) return [];
-  
+
   try {
     const engineerTeam = await prisma.team.findFirst({
       where: {
@@ -45,13 +45,55 @@ export async function getEngineerTeamMembers() {
   }
 }
 
+export async function getAllOrganizationMembers() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+  const activeOrgId = session?.session.activeOrganizationId;
+  if(!activeOrgId) return [];
+
+  try {
+    const organization = await prisma.organization.findUnique({
+      where: {
+        id: activeOrgId,
+      },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    if (!organization) {
+      return [];
+    }
+
+    return organization.members.map(member => ({
+      id: member.id,
+      name: member.user.name,
+      email: member.user.email
+    }));
+  } catch (error) {
+    console.error('Error fetching organization members:', error);
+    return [];
+  }
+}
+
 export async function getFilterTeamMembers() {
   const session = await auth.api.getSession({
     headers: await headers()
   });
   const activeOrgId = session?.session.activeOrganizationId;
   if(!activeOrgId) return [];
-  
+
   try {
     const engineerTeam = await prisma.team.findFirst({
       where: {
