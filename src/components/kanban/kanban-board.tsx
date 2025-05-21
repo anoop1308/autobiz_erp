@@ -93,6 +93,27 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
 
     if (activeIndex !== overIndex) {
       setTasks((tasks) => arrayMove(tasks, activeIndex, overIndex));
+
+
+    updateTicketStatus(activeTask.id, overTask.status)
+    .then(updatedTask => {
+      if (!updatedTask) {
+        console.error(`Failed to update status for task ${activeTask.id} in DB. Reverting UI (optional).`);
+        setTasks(prevTasks =>
+          prevTasks.map(task =>
+            task.id === activeTask.id ? { ...task, status: activeTask.status, assignedTo: task.assignedTo ?? [] } : { ...task, assignedTo: task.assignedTo ?? [] }
+          )
+        );
+      }
+    })
+    .catch(error => {
+      console.error("Error calling updateTicketStatus:", error);
+      setTasks(prevTasks =>
+        prevTasks.map(task =>
+          task.id === activeTask.id ? { ...task, status: activeTask.status, assignedTo: task.assignedTo ?? [] } : { ...task, assignedTo: task.assignedTo ?? [] }
+        )
+      );
+    });
     }
 
     setActiveTask(null);
@@ -117,33 +138,6 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
       )
     );
 
-    updateTicketStatus(activeId, overId)
-      .then(updatedTask => {
-        if (!updatedTask) {
-          console.error(`Failed to update status for task ${activeId} in DB. Reverting UI (optional).`);
-          setTasks(prevTasks =>
-            prevTasks.map(task =>
-              task.id === activeId ? { ...task, status: activeTask.status, assignedTo: task.assignedTo ?? [] } : { ...task, assignedTo: task.assignedTo ?? [] }
-            )
-          );
-        } else {
-          setTasks(prevTasks =>
-            prevTasks.map(task =>
-              task.id === updatedTask.id
-                ? { ...updatedTask, assignedTo: Array.isArray(updatedTask.assignedTo) ? updatedTask.assignedTo : [] }
-                : { ...task, assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : [] }
-            )
-          );
-        }
-      })
-      .catch(error => {
-        console.error("Error calling updateTicketStatus:", error);
-        setTasks(prevTasks =>
-          prevTasks.map(task =>
-            task.id === activeId ? { ...task, status: activeTask.status, assignedTo: task.assignedTo ?? [] } : { ...task, assignedTo: task.assignedTo ?? [] }
-          )
-        );
-      });
   };
 
   if (isLoading) {
@@ -173,7 +167,7 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
                     id={column.id}
                     title={column.title}
                     description={statusDescriptions[column.id]}
-                    tasks={tasks.filter((task) => 
+                    tasks={tasks.filter((task) =>
                       task.status === column.id &&
                       (!filter.assignedTo || (task.assignedTo && task.assignedTo.some(member => member.name.toLowerCase().includes(filter.assignedTo.toLowerCase()))))
                     )}
@@ -186,9 +180,9 @@ export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
                   id={column.id}
                   title={column.title}
                   description={statusDescriptions[column.id]}
-                  tasks={tasks.filter((task) => 
-                    task.status === column.id && 
-                    filter.priorities.includes(task.priority || SupportTicketPriority.Low) && 
+                  tasks={tasks.filter((task) =>
+                    task.status === column.id &&
+                    filter.priorities.includes(task.priority || SupportTicketPriority.Low) &&
                     (!filter.assignedTo || (task.assignedTo && task.assignedTo.some(member => member.name.toLowerCase().includes(filter.assignedTo.toLowerCase()))))
                   )}
                 />
