@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
+import { getAllOrganizationMembers } from "@/actions/team-members"
 
 type Member = {
   id: string
@@ -27,24 +28,42 @@ type Member = {
 }
 
 interface MemberSelectorProps {
-  members: Member[]
   selectedMemberIds: string[]
   onMemberSelectionChange: (memberId: string) => void
   label?: string
 }
 
 export function MemberSelector({
-  members,
   selectedMemberIds,
   onMemberSelectionChange,
   label = "Assign to"
 }: MemberSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
+  const [members, setMembers] = React.useState<Member[]>([]);
+  const fetchOrganizationMembers = async () => {
+    const data = await getAllOrganizationMembers();
+    setMembers(data);
+  };
+  React.useEffect(() => {
+    fetchOrganizationMembers()
+  },[])
 
-  const selectedMembers = members.filter(member => 
+  const selectedMembers = members.filter(member =>
     selectedMemberIds.includes(member.id)
   )
+
+  const filteredMembers = React.useMemo(() => {
+    if (searchQuery === "") {
+      return members
+    }
+    const query = searchQuery.toLowerCase()
+    
+    return members.filter(member =>
+      member.name.toLowerCase().includes(query) ||
+      member.email.toLowerCase().includes(query)
+    )
+  }, [members, searchQuery])
 
   return (
     <div className="flex flex-col gap-2">
@@ -72,15 +91,15 @@ export function MemberSelector({
         </PopoverTrigger>
         <PopoverContent className="w-[300px] p-0">
           <Command>
-            <CommandInput 
-              placeholder="Search members..." 
+            <CommandInput
+              placeholder="Search members..."
               value={searchQuery}
               onValueChange={setSearchQuery}
             />
             <CommandList className="max-h-[300px]">
               <CommandEmpty>No members found</CommandEmpty>
               <CommandGroup>
-                {members.map((member) => (
+                {filteredMembers.map((member) => (
                   <CommandItem
                     key={member.id}
                     value={member.id}
@@ -110,8 +129,8 @@ export function MemberSelector({
       {selectedMembers.length > 0 && (
         <div className="flex flex-wrap gap-1 mt-2">
           {selectedMembers.map(member => (
-            <Badge 
-              key={member.id} 
+            <Badge
+              key={member.id}
               variant="secondary"
               className="flex items-center gap-1"
             >

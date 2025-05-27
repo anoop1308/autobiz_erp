@@ -19,8 +19,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
-import { getFilterTeamMembers } from "@/actions/team-members";
+import { useState } from "react";
 
 type Status = SupportTicketStatus;
 type Priority = SupportTicketPriority;

@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation'
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { Toaster } from '@/components/ui/sonner';
+import Providers from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +39,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster />
+        <Providers>
         {isPublicRoute(pathname) ? children :
           <SidebarProvider style={
             {
@@ -51,6 +55,7 @@ export default function RootLayout({
             </SidebarInset>
           </SidebarProvider>
         }
+        </Providers>
       </body>
     </html>
   );

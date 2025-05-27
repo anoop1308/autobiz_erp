@@ -6,8 +6,8 @@ import { SquarePenIcon, TrashIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
 import { deleteTicket } from "@/actions/ticket";
-import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 interface TicketProps {
     ticket: {
         id: string;
@@ -24,19 +24,11 @@ export default function TicketActions({ ticket }: TicketProps) {
     const handleDelete = async () => {
         const result = await deleteTicket(ticket.id);
         if (result) {
-            toast({
-                title: "Success",
-                description: "Your support ticket has been deleted successfully",
-                variant: "default",
-            });
+            toast.success("Your support ticket has been deleted successfully");
             setOpen(false);
             router.refresh();
         } else {
-            toast({
-                title: "Error",
-                description: "Failed to delete support ticket. Please try again.",
-                variant: "destructive",
-            });
+            toast.error("Failed to delete support ticket. Please try again.");
         }
     }
   return (

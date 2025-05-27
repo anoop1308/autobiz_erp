@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { authClient, createOrganization, updateOrganization, deleteOrganization, inviteOrgMember } from '@/lib/auth-client'
+import { useOrganizations, useCreateOrganization, useUpdateOrganization, useDeleteOrganization, useInviteOrgMember } from '@/hooks/useOrganization'
 import {
     Table,
     TableBody,
@@ -31,9 +31,15 @@ import {
 } from "@/components/ui/select"
 import { copyToClipboard, createInviteLink, getOrgsPendingInvitations } from '@/lib/commonFunc'
 import { Invitation } from '../team/page'
+import { toast } from 'sonner'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function CreateOrganizationPage() {
-    const { data: organizationsList, isRefetching: isLoadingOrgs } = authClient.useListOrganizations()
+    const { data: organizationsList, isLoading: isLoadingOrgs } = useOrganizations()
+    const createOrgMutation = useCreateOrganization()
+    const updateOrgMutation = useUpdateOrganization()
+    const deleteOrgMutation = useDeleteOrganization()
+    const inviteOrgMemberMutation = useInviteOrgMember()
     const [organizationName, setOrganizationName] = useState('')
     const [inviteEmail, setInviteEmail] = useState('')
     const [inviteRole, setInviteRole] = useState<'member' | 'admin' | 'owner'>('member')
@@ -59,88 +65,82 @@ export default function CreateOrganizationPage() {
     }
     useEffect(() => {
         getInvitations()
-    })
+    }, [])
 
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsCreating(true)
-        try {
-            const data = await createOrganization(organizationName)
-            if (data.error) {
-                throw new Error(data.error.message)
+        createOrgMutation.mutate(organizationName, {
+            onSuccess: () => {
+                setOrganizationName('')
+                setIsDialogOpen(false)
+                setIsCreating(false)
+                toast.success("Organization created successfully!")
+            },
+            onError: (error) => {
+                console.error('Error creating organization:', error)
+                toast.error("Failed to create successfully!")
             }
-            setOrganizationName('')
-            setIsDialogOpen(false)
-            alert('Organization created successfully!')
-        } catch (error) {
-            console.error('Error creating organization:', error)
-            alert('Failed to create organization')
-        } finally {
-            setIsCreating(false)
-        }
+        })
     }
 
     const handleEdit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!editingOrg) return
         setIsUpdating(true)
-        try {
-            const data = await updateOrganization(editingOrg.id, organizationName)
-            if (data.error) {
-                throw new Error(data.error.message)
+        updateOrgMutation.mutate({ organizationId: editingOrg.id, name: organizationName }, {
+            onSuccess: () => {
+                setOrganizationName('')
+                setIsEditDialogOpen(false)
+                setIsUpdating(false)
+                setEditingOrg(null)
+                toast.success("Organization updated successfully!")
+            },
+            onError: (error) => {
+                console.error('Error updating organization:', error)
+                toast.error("Failed to update successfully!")
             }
-            setOrganizationName('')
-            setIsEditDialogOpen(false)
-            setEditingOrg(null)
-            alert('Organization updated successfully!')
-        } catch (error) {
-            console.error('Error updating organization:', error)
-            alert('Failed to update organization')
-        } finally {
-            setIsUpdating(false)
-        }
+        })
     }
 
     const handleDelete = async () => {
         if (!orgToDelete) return
         setIsDeleting(orgToDelete.id)
-        try {
-            const data = await deleteOrganization(orgToDelete.id)
-            if (data.error) {
-                throw new Error(data.error.message)
+        deleteOrgMutation.mutate(orgToDelete.id, {
+            onSuccess: () => {
+                setIsDeleteDialogOpen(false)
+                setOrgToDelete(null)
+                toast.success("Organization deleted successfully!")
+                setIsDeleting(null)
+            },
+            onError: (error) => {
+                console.error('Error deleting organization:', error)
+                toast.error("Failed to delete successfully!")
+                setIsDeleting(null)
             }
-            setIsDeleteDialogOpen(false)
-            setOrgToDelete(null)
-            alert('Organization deleted successfully!')
-        } catch (error) {
-            console.error('Error deleting organization:', error)
-            alert('Failed to delete organization')
-        } finally {
-            setIsDeleting(null)
-        }
+        })
     }
 
     const handleInvite = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!invitingOrg) return
         setIsInviting(true)
-        try {
-            const data = await inviteOrgMember(inviteEmail, inviteRole)
-            if (data.error) {
-                throw new Error(data.error.message)
+        inviteOrgMemberMutation.mutate({ email: inviteEmail, role: inviteRole }, {
+            onSuccess: () => {
+                setInviteEmail('')
+                setInviteRole('member')
+                setIsInviteDialogOpen(false)
+                setInvitingOrg(null)
+                toast.success("Invitation sent successfully!")
+                setIsInviting(false)
+            },
+            onError: (error) => {
+                console.error('Error inviting member:', error)
+                toast.error("Failed to send invitation")
+                setIsInviting(false)
             }
-            setInviteEmail('')
-            setInviteRole('member')
-            setIsInviteDialogOpen(false)
-            setInvitingOrg(null)
-            alert('Invitation sent successfully!')
-        } catch (error) {
-            console.error('Error inviting member:', error)
-            alert('Failed to send invitation')
-        } finally {
-            setIsInviting(false)
-        }
+        })
     }
 
     const openEditDialog = (org: { id: string; name: string }) => {
@@ -159,6 +159,13 @@ export default function CreateOrganizationPage() {
         setIsInviteDialogOpen(true)
     }
     const pendingInvitationsCount = invitationsData.filter(inv => inv.status === 'pending').length
+    if (isLoadingOrgs) {
+        return <div>
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+        </div>
+    }
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="space-y-8">
@@ -166,104 +173,104 @@ export default function CreateOrganizationPage() {
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-semibold">Organizations</h2>
                         <div className='flex gap-5'>
-                        <Dialog open={isPendingInvitationsOpen} onOpenChange={setIsPendingInvitationsOpen}>
-                        <DialogTrigger asChild>
-                            <Button variant="outline">
-                                <Clock className="h-4 w-4 mr-2" />
-                                Pending Invitations ({pendingInvitationsCount})
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-4xl">
-                            <DialogHeader>
-                                <DialogTitle>Pending Invitations</DialogTitle>
-                            </DialogHeader>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Email</TableHead>
-                                        <TableHead>Role</TableHead>
-                                        <TableHead>Team</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead>Invite Link</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {invitationsData.filter(inv => inv.status === 'pending').map((invitation) => (
-                                        <TableRow key={invitation.id}>
-                                            <TableCell>{invitation.email}</TableCell>
-                                            <TableCell>{invitation.role}</TableCell>
-                                            <TableCell>{invitation.teamName || 'N/A'}</TableCell>
-                                            <TableCell>
-                                                <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded">
-                                                    Pending
-                                                </span>
-                                            </TableCell>
-                                            <TableCell>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-sm truncate max-w-[200px]">
-                                                        {createInviteLink(invitation.id)}
-                                                    </span>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        onClick={() => copyToClipboard(createInviteLink(invitation.id))}
-                                                    >
-                                                        <Copy className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                    {invitationsData.filter(inv => inv.status === 'pending').length === 0 && (
-                                        <TableRow>
-                                            <TableCell colSpan={5} className="text-center text-gray-500">
-                                                No pending invitations
-                                            </TableCell>
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </DialogContent>
-                    </Dialog>
-                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button
-                                    className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2"
-                                >
-                                    <Plus className="h-4 w-4" /> Add Organization
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Create Organization</DialogTitle>
-                                </DialogHeader>
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="space-y-2">
-                                        <label htmlFor="organizationName" className="text-sm font-semibold text-gray-700">
-                                            Organization Name
-                                        </label>
-                                        <Input
-                                            id="organizationName"
-                                            type="text"
-                                            value={organizationName}
-                                            onChange={(e) => setOrganizationName(e.target.value)}
-                                            placeholder="Enter organization name"
-                                            required
-                                            disabled={isCreating}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        />
-                                    </div>
-                                    <Button
-                                        type="submit"
-                                        disabled={isCreating}
-                                        className="w-full bg-black hover:bg-black text-white font-semibold py-3 rounded-lg transition-colors duration-200"
-                                    >
-                                        {isCreating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                        Create Organization
+                            <Dialog open={isPendingInvitationsOpen} onOpenChange={setIsPendingInvitationsOpen}>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                        <Clock className="h-4 w-4 mr-2" />
+                                        Pending Invitations ({pendingInvitationsCount})
                                     </Button>
-                                </form>
-                            </DialogContent>
-                        </Dialog>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-4xl">
+                                    <DialogHeader>
+                                        <DialogTitle>Pending Invitations</DialogTitle>
+                                    </DialogHeader>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Email</TableHead>
+                                                <TableHead>Role</TableHead>
+                                                <TableHead>Team</TableHead>
+                                                <TableHead>Status</TableHead>
+                                                <TableHead>Invite Link</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {invitationsData.filter(inv => inv.status === 'pending').map((invitation) => (
+                                                <TableRow key={invitation.id}>
+                                                    <TableCell>{invitation.email}</TableCell>
+                                                    <TableCell>{invitation.role}</TableCell>
+                                                    <TableCell>{invitation.teamName || 'N/A'}</TableCell>
+                                                    <TableCell>
+                                                        <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded">
+                                                            Pending
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm truncate max-w-[200px]">
+                                                                {createInviteLink(invitation.id)}
+                                                            </span>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => copyToClipboard(createInviteLink(invitation.id))}
+                                                            >
+                                                                <Copy className="h-4 w-4" />
+                                                            </Button>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                            {invitationsData.filter(inv => inv.status === 'pending').length === 0 && (
+                                                <TableRow>
+                                                    <TableCell colSpan={5} className="text-center text-gray-500">
+                                                        No pending invitations
+                                                    </TableCell>
+                                                </TableRow>
+                                            )}
+                                        </TableBody>
+                                    </Table>
+                                </DialogContent>
+                            </Dialog>
+                            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button
+                                        className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                                    >
+                                        <Plus className="h-4 w-4" /> Add Organization
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Create Organization</DialogTitle>
+                                    </DialogHeader>
+                                    <form onSubmit={handleSubmit} className="space-y-6">
+                                        <div className="space-y-2">
+                                            <label htmlFor="organizationName" className="text-sm font-semibold text-gray-700">
+                                                Organization Name
+                                            </label>
+                                            <Input
+                                                id="organizationName"
+                                                type="text"
+                                                value={organizationName}
+                                                onChange={(e) => setOrganizationName(e.target.value)}
+                                                placeholder="Enter organization name"
+                                                required
+                                                disabled={isCreating}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            />
+                                        </div>
+                                        <Button
+                                            type="submit"
+                                            disabled={isCreating}
+                                            className="w-full bg-black hover:bg-black text-white font-semibold py-3 rounded-lg transition-colors duration-200"
+                                        >
+                                            {isCreating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                            Create Organization
+                                        </Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
 

@@ -28,11 +28,12 @@ import {
     TableRow,
 } from '@/components/ui/table'
 import { Loader2, PencilIcon, PlusIcon, TrashIcon, UserPlusIcon, Copy, Clock } from 'lucide-react'
-import { createTeam, deleteTeam, getAllTeams, inviteTeamMember, updateTeam } from '@/lib/auth-client'
+import { useTeams, useCreateTeam, useUpdateTeam, useDeleteTeam, useInviteTeamMember } from '@/hooks/useTeam'
 import { copyToClipboard, createInviteLink, getTeamsPendingInvitations } from '@/lib/commonFunc'
+import { toast } from 'sonner'
 // import { getTeamById } from '@/lib/auth-helper'
 
-interface Team {
+type Team = {
     id: string
     name: string
     memberCount: number
@@ -53,7 +54,11 @@ export interface Invitation {
 type Role = 'member' | 'admin' | 'owner'
 
 export default function TeamsPage() {
-    const [teams, setTeams] = useState<Team[]>([])
+    const { data: teams, isLoading } = useTeams()
+    const createTeamMutation = useCreateTeam()
+    const updateTeamMutation = useUpdateTeam()
+    const deleteTeamMutation = useDeleteTeam()
+    const inviteTeamMemberMutation = useInviteTeamMember()
     const [isAddTeamOpen, setIsAddTeamOpen] = useState(false)
     const [isEditTeamOpen, setIsEditTeamOpen] = useState(false)
     const [isInviteMemberOpen, setIsInviteMemberOpen] = useState(false)
@@ -62,111 +67,83 @@ export default function TeamsPage() {
     const [invitationEmail, setInvitationEmail] = useState('')
     const [selectedRole, setSelectedRole] = useState<Role>('member')
     const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
-    const [teamFetched, setTeamFetched] = useState(false)
-    const [fullOrgFetched, setFullOrgFetched] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
     })
     const [invitationsData, setInvitationsData] = useState<Invitation[]>([])
 
-    const fetchFullOrganization = async () => {
+    const getInvitations = async () => {
         const data = await getTeamsPendingInvitations()
-
-
-        // const invitationsWithTeamNames = invitations.map(inv => {
-        //     const res = async () => {
-        //         const team = await getTeamById(inv.teamId ?? '')
-        //         return {
-        //             ...inv,
-        //             teamName: team?.name || 'N/A'
-        //         }
-        //     }
-        //     return res()
-        // })
-        // console.log("🚀 ~ fetchFullOrganization ~ invitationsWithTeamNames:", invitationsWithTeamNames)
-        if(!data) return
-        setFullOrgFetched(true)
-
-        setInvitationsData(data as Invitation[])
-    }
-
-    useEffect(() => {
-        if (fullOrgFetched) return
-        fetchFullOrganization()
-    }, [fullOrgFetched])
-
-    const fetchTeams = async () => {
-        setIsLoading(true)
-        try {
-            const { data, error } = await getAllTeams()
-            console.log("🚀 ~ fetchTeams ~ data:", data)
-            if (error) throw new Error(error.message)
-            setTeams(data as Team[])
-        } finally {
-            setIsLoading(false)
-            setTeamFetched(true)
+        if (data) {
+            setInvitationsData(data as Invitation[])
         }
     }
-
     useEffect(() => {
-        if (teamFetched) return
-        fetchTeams()
-    }, [teamFetched])
-        console.log("🚀 ~ useEffect ~ teamFetched:", teamFetched)
+        getInvitations()
+    }, [])
 
     const handleAddTeam = async () => {
-        setIsLoading(true)
-        try {
-            await createTeam(formData.name)
-            await fetchTeams()
-            setIsAddTeamOpen(false)
-            setFormData({ name: '' })
-        } finally {
-            setIsLoading(false)
-        }
+        createTeamMutation.mutate(formData.name, {
+            onSuccess: (data: any) => {
+                if (data?.error) {
+                    console.error('Error creating organization:', data.error)
+                    toast.error('Failed to create Team')
+                    return
+                }
+                toast.success(`${data.data?.name} is created successfully`)
+                setIsAddTeamOpen(false)
+                setFormData({ name: '' })
+            },
+            onError: () => {
+                toast.error('Failed to create Team')
+            }
+        })
     }
 
     const handleEditTeam = async () => {
-        setIsLoading(true)
-        try {
-            await updateTeam(formData.name, selectedTeam?.id || '')
-            await fetchTeams()
-            setIsEditTeamOpen(false)
-            setSelectedTeam(null)
-            setFormData({ name: '' })
-        } finally {
-            setIsLoading(false)
-        }
+        if (!selectedTeam) return
+        updateTeamMutation.mutate({ name: formData.name, teamId: selectedTeam.id }, {
+            onSuccess: () => {
+                toast.success(`${selectedTeam?.name} is updated successfully`)
+                setIsEditTeamOpen(false)
+                setSelectedTeam(null)
+                setFormData({ name: '' })
+            },
+            onError: () => {
+                toast.error('Failed to update Team')
+            }
+        })
     }
 
     const handleDeleteTeam = async (teamId: string) => {
-        setIsLoading(true)
-        try {
-            await deleteTeam(teamId)
-            setIsDeleteConfirmOpen(false)
-            await fetchTeams()
-        } finally {
-            setIsLoading(false)
-        }
+        deleteTeamMutation.mutate(teamId, {
+            onSuccess: () => {
+                toast.success(`${selectedTeam?.name} is deleted successfully`)
+                setIsDeleteConfirmOpen(false)
+            },
+            onError: () => {
+                toast.error('Failed to delete Team')
+            }
+        })
     }
 
     const handleInviteMember = async (teamId: string) => {
-        setIsLoading(true)
-        try {
-            const data = await inviteTeamMember(invitationEmail, selectedRole, teamId)
-            if (data.error) {
-                console.error('Error creating organization:', data.error)
-                alert('Failed to create organization')
-                return
+        inviteTeamMemberMutation.mutate({ email: invitationEmail, role: selectedRole, teamId }, {
+            onSuccess: (data: any) => {
+                if (data?.error) {
+                    toast.error("Failed to invite member")
+                    return
+                }
+                toast.success(`${data.data.email} is invited successfully`)
+                setIsInviteMemberOpen(false)
+                setInvitationEmail('')
+                setSelectedRole('member')
+                // TODO: Refetch invitations if needed
+            },
+            onError: () => {
+                toast.error("Failed to invite member")
             }
-            setIsInviteMemberOpen(false)
-            setInvitationEmail('')
-            setSelectedRole('member')
-            await fetchFullOrganization()
-        } finally {
-            setIsLoading(false)
-        }
+        })
     }
 
     const pendingInvitationsCount = invitationsData.filter(inv => inv.status === 'pending').length
@@ -279,18 +256,20 @@ export default function TeamsPage() {
                             </TableCell>
                         </TableRow>
                     ) : (
-                        teams?.map((team) => (
-                            <TableRow key={team.id}>
-                                <TableCell>{team.name}</TableCell>
-                                <TableCell>{team.memberCount}</TableCell>
+                        teams?.map((team: unknown) => {
+                            const typedTeam = team as Team;
+                            return (
+                            <TableRow key={typedTeam.id}>
+                                <TableCell>{typedTeam.name}</TableCell>
+                                <TableCell>{typedTeam.memberCount}</TableCell>
                                 <TableCell>
                                     <div className="flex space-x-2">
                                         <Button
                                             variant="outline"
                                             size="sm"
                                             onClick={() => {
-                                                setSelectedTeam(team)
-                                                setFormData({ name: team.name })
+                                                setSelectedTeam(typedTeam)
+                                                setFormData({ name: typedTeam.name })
                                                 setIsEditTeamOpen(true)
                                             }}
                                             disabled={isLoading}
@@ -302,7 +281,7 @@ export default function TeamsPage() {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => {
-                                                    setSelectedTeam(team)
+                                                    setSelectedTeam(typedTeam)
                                                     setIsDeleteConfirmOpen(true)
                                                 }}
                                                 disabled={isLoading}
@@ -314,7 +293,7 @@ export default function TeamsPage() {
                                             variant="outline"
                                             size="sm"
                                             onClick={() => {
-                                                setSelectedTeam(team)
+                                                setSelectedTeam(typedTeam)
                                                 setIsInviteMemberOpen(true)
                                             }}
                                             disabled={isLoading}
@@ -324,7 +303,7 @@ export default function TeamsPage() {
                                     </div>
                                 </TableCell>
                             </TableRow>
-                        ))
+                        )})
                     )}
                 </TableBody>
             </Table>

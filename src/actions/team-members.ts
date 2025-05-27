@@ -45,42 +45,71 @@ export async function getEngineerTeamMembers() {
   }
 }
 
-export async function getAllOrganizationMembers() {
+export async function getAllOrganizationMembers(filter?: { name?: string; email?: string }) {
   const session = await auth.api.getSession({
     headers: await headers()
   });
+
   const activeOrgId = session?.session.activeOrganizationId;
   if(!activeOrgId) return [];
 
   try {
-    const organization = await prisma.organization.findUnique({
-      where: {
-        id: activeOrgId,
-      },
-      include: {
-        members: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true
+    // If filter is provided and only one field is present, try to filter at DB level
+    let membersData;
+    if (filter && (filter.name || filter.email)) {
+      // Only filter by name or email if provided
+      membersData = await prisma.organization.findUnique({
+        where: { id: activeOrgId },
+        include: {
+          members: {
+            include: {
+              user: {
+                select: { id: true, name: true, email: true }
+              }
+            },
+            where: filter.name || filter.email ? {
+              user: {
+                ...(filter.name ? { name: { contains: filter.name, mode: 'insensitive' } } : {}),
+                ...(filter.email ? { email: { contains: filter.email, mode: 'insensitive' } } : {})
+              }
+            } : undefined
+          }
+        }
+      });
+    } else {
+      membersData = await prisma.organization.findUnique({
+        where: { id: activeOrgId },
+        include: {
+          members: {
+            include: {
+              user: {
+                select: { id: true, name: true, email: true }
               }
             }
           }
         }
-      }
-    });
+      });
+    }
 
-    if (!organization) {
+    if (!membersData) {
       return [];
     }
 
-    return organization.members.map(member => ({
+    let members = membersData.members.map(member => ({
       id: member.id,
       name: member.user.name,
       email: member.user.email
     }));
+
+    // If both name and email filters are provided, filter in-memory for AND logic
+    if (filter && filter.name && filter.email) {
+      members = members.filter(member =>
+        member.name.toLowerCase().includes(filter.name!.toLowerCase()) &&
+        member.email.toLowerCase().includes(filter.email!.toLowerCase())
+      );
+    }
+
+    return members;
   } catch (error) {
     console.error('Error fetching organization members:', error);
     return [];

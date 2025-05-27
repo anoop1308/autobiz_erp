@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner"
 import {
   Select,
   SelectContent,
@@ -21,10 +21,10 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { SupportTicketPriority } from "@/prisma/generated";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useCreateSupportTicket } from "@/hooks/useSupportTickets";
 
 export default function SupportPage() {
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<{
     customerName: string;
     product: string;
@@ -57,48 +57,22 @@ export default function SupportPage() {
     return whatsappRegex.test(number);
   };
 
+  const createTicketMutation = useCreateSupportTicket();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!validateWhatsAppNumber(formData.whatsapp)) {
-      toast({
-        title: "Invalid WhatsApp Number",
-        description: "Please enter a valid WhatsApp number with country code",
-        variant: "destructive",
-      });
+      toast.error("Invalid WhatsApp Number");
       return;
     }
-
-    setIsLoading(true);
-    try {
-
-      const response = await fetch("/api/support/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-
-      if (!response.ok) throw new Error("Failed to submit ticket");
-
-      toast({
-        title: "Success",
-        description: "Your support ticket has been submitted successfully",
-        variant: "default",
-      });
-      resetForm();
-    } catch (error) {
-      console.error("Error submitting ticket:", error);
-      toast({
-        title: "Error",
-        description: "Failed to submit support ticket. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    createTicketMutation.mutate(formData, {
+      onSuccess: () => {
+        toast.success("Your support ticket has been submitted successfully");
+        resetForm();
+      },
+      onError: () => {
+        toast.error("Failed to submit support ticket. Please try again.");
+      },
+    });
   };
 
   const handleChange = (
@@ -115,6 +89,17 @@ export default function SupportPage() {
   const handleSelectPriorityChange = (value: string) => {
     setFormData((prev) => ({ ...prev, priority: value as SupportTicketPriority }));
   };
+
+  if (createTicketMutation.isPending) {
+    return (
+    <div className="gap-4 flex flex-col p-5">
+      <Skeleton className="h-36 w-full" />
+      <Skeleton className="h-36 w-full" />
+      <Skeleton className="h-36 w-full" />
+      <Skeleton className="h-36 w-full" />
+    </div>
+    )
+  }
 
   return (
     <div className="w-full flex justify-center">
@@ -211,8 +196,8 @@ export default function SupportPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Submitting..." : "Submit Ticket"}
+            <Button type="submit" className="w-full" disabled={createTicketMutation.isPending}>
+              {createTicketMutation.isPending ? "Submitting..." : "Submit Ticket"}
             </Button>
           </form>
         </CardContent>

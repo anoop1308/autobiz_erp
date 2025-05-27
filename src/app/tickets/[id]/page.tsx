@@ -1,6 +1,5 @@
 "use client";
 
-import { getTicket, updateTicket } from "@/actions/ticket";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,53 +17,23 @@ import {
   SupportTicketPriority,
   SupportTicketStatus,
 } from "@/prisma/generated";
-import { useState, useEffect, FC } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState, FC } from "react";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useTicket, useUpdateTicket } from "@/hooks/useTickets";
 import { FlagIcon } from "lucide-react";
-import { getAllOrganizationMembers } from "@/actions/team-members";
 import { MemberSelector } from "@/components/member-selector";
 
-const priorityColors = {
-  Low: "text-green-500",
-  Medium: "text-yellow-500",
-  High: "text-red-500",
-} as const;
+// const priorityColors = {
+//   Low: "text-green-500",
+//   Medium: "text-yellow-500",
+//   High: "text-red-500",
+// } as const;
 
 const IndividualTicket = () => {
-  const params = useParams();
-  const router = useRouter();
-  const id = params.id;
-  const [ticket, setTicket] = useState<
-    (SupportTicket & { history: SupportTicketHistory[], assignedTo: Member[] }) | null
-  >(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTicket = async () => {
-      try {
-        const data = await getTicket(id as string);
-        console.log(data);
-        setTicket(data);
-      } catch (error) {
-        console.error("Failed to fetch ticket:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTicket();
-  }, [id]);
-
-  const [organizationMembers, setOrganizationMembers] = useState<{ id: string; name: string; email: string }[]>([]);
-
-useEffect(() => {
-  const fetchOrganizationMembers = async () => {
-    const data = await getAllOrganizationMembers();
-    setOrganizationMembers(data);
-  };
-
-  fetchOrganizationMembers();
-}, []);
+  const { id } = useParams();
+  const { data: ticket, isLoading } = useTicket(id as string);
+  const updateTicketMutation = useUpdateTicket();
 
   if (isLoading) {
     return <div className="container mx-auto p-6">Loading...</div>;
@@ -76,23 +45,22 @@ useEffect(() => {
 
   return (
     <div className="container mx-auto p-6">
-      <TicketEditor initialTicket={ticket} organizationMembers={organizationMembers} />
+      <TicketEditor initialTicket={ticket} updateTicketMutation={updateTicketMutation} />
     </div>
   );
 };
 
 const TicketEditor: FC<{
   initialTicket: SupportTicket & { history: SupportTicketHistory[], assignedTo: Member[] };
-  organizationMembers: { id: string; name: string; email: string }[];
-}> = ({ initialTicket, organizationMembers }) => {
+  updateTicketMutation: ReturnType<typeof useUpdateTicket>;
+}> = ({ initialTicket, updateTicketMutation }) => {
   const router = useRouter();
   const [ticket, setTicket] = useState(initialTicket);
-  const [isLoading, setIsLoading] = useState(false);
   const [assignedToIds, setAssignedToIds] = useState<string[]>(
     initialTicket.assignedTo.map((m) => m.id)
   );
 
-  const handleChange = (field: keyof SupportTicket, value: any) => {
+  const handleChange = (field: keyof SupportTicket, value: string) => {
     setTicket((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -105,10 +73,8 @@ const TicketEditor: FC<{
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
-    try {
-      // Only send scalar fields and assignedToIds to avoid Prisma relation update errors
-      const updated = await updateTicket(ticket.id, {
+    updateTicketMutation.mutate(
+      { ticketId: ticket.id, data: {
         customerName: ticket.customerName,
         product: ticket.product,
         issueType: ticket.issueType,
@@ -117,17 +83,19 @@ const TicketEditor: FC<{
         status: ticket.status,
         priority: ticket.priority,
         assignedToIds,
-      });
-      
-      if (updated && updated.assignedTo) {
-        setTicket((prev) => ({ ...prev, assignedTo: updated.assignedTo || [] }));
+      } },
+      {
+        onSuccess: (updated) => {
+          if (updated && updated.assignedTo) {
+            // Optionally update local state if needed
+          }
+          router.push("/tickets");
+        },
+        onError: () => {
+          // Optionally show error toast
+        },
       }
-      router.push("/tickets");
-    } catch (error) {
-      console.error("Failed to save ticket:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    );
   };
 
   return (
@@ -187,7 +155,6 @@ const TicketEditor: FC<{
               </div>
               <div className="flex items-center gap-2 w-full">
                 <MemberSelector
-                  members={organizationMembers}
                   selectedMemberIds={assignedToIds}
                   onMemberSelectionChange={handleAssignedToChange}
                 />
@@ -227,10 +194,10 @@ const TicketEditor: FC<{
 
             <Button
               onClick={handleSave}
-              disabled={isLoading}
+              disabled={updateTicketMutation.isPending}
               className="w-full"
             >
-              {isLoading ? "Saving..." : "Save Changes"}
+              {updateTicketMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </CardContent>
         </Card>
@@ -242,12 +209,14 @@ const TicketEditor: FC<{
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {ticket.history.map((entry, index) => (
+              {ticket.history.toReversed().map((entry, index) => (
                 <div key={entry.id} className="border-b pb-2">
-                  <p className="text-sm text-gray-500">
-                    {new Date(entry.createdAt).toLocaleString()}
-                  </p>
-                  {index === 0 && (
+                  {index !== 0 && (
+                    <p className="text-sm text-gray-500">
+                      {new Date(entry.createdAt).toLocaleString()}
+                    </p>
+                  )}
+                  {/* {index === 0 && (
                     <p>
                       New Ticket Created of priority{" "}
                       <span
@@ -260,38 +229,36 @@ const TicketEditor: FC<{
                         {entry.beforePriority}
                       </span>
                     </p>
-                  )}
+                  )} */}
                   {index !== 0 && entry.beforeStatus !== entry.afterStatus && (
                     <p>
-                      Status changed from {entry.beforeStatus} to{" "}
-                      {entry.afterStatus}
+                      {entry.afterStatus ? `Status changed from ${entry.beforeStatus} to
+                      ${entry.afterStatus}` : `Status changed to ${entry.beforeStatus}`}
                     </p>
                   )}
-                  {index !== 0 &&
+                  {/* {index !== 0 &&
                     entry.beforePriority !== entry.afterPriority && (
                       <p>
                         Priority changed from{" "}
                         <span
-                          className={`${
-                            priorityColors[
-                              entry.beforePriority as keyof typeof priorityColors
+                          className={`${priorityColors[
+                            entry.beforePriority as keyof typeof priorityColors
                             ]
-                          }`}
+                            }`}
                         >
                           {entry.beforePriority}
                         </span>{" "}
                         to{" "}
                         <span
-                          className={`${
-                            priorityColors[
-                              entry.afterPriority as keyof typeof priorityColors
+                          className={`${priorityColors[
+                            entry.afterPriority as keyof typeof priorityColors
                             ]
-                          }`}
+                            }`}
                         >
                           {entry.afterPriority}
                         </span>
                       </p>
-                    )}
+                    )} */}
                 </div>
               ))}
             </div>

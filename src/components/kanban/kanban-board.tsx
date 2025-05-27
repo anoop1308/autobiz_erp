@@ -7,6 +7,7 @@ import { KanbanColumn } from './kanban-column';
 import { KanbanCard } from './kanban-card';
 import { SupportTicketStatus, SupportTicketPriority } from '@/prisma/generated';
 import { getSupportTickets, updateTicketStatus } from '@/actions/support-tickets';
+import { useQuery } from '@tanstack/react-query';
 
 
 export type Status = SupportTicketStatus;
@@ -41,7 +42,7 @@ interface KanbanBoardProps {
   filterType: 'status' | 'priority' ;
 }
 
-type KanbanTask = {
+export type KanbanTask = {
   id: string;
   title: string;
   status: Status;
@@ -51,20 +52,37 @@ type KanbanTask = {
 };
 
 export function KanbanBoard({ filter, filterType }: KanbanBoardProps) {
-  const [tasks, setTasks] = useState<KanbanTask[]>([]);
+  const { priorities, statuses } = filter;
+  const {
+    data: tasksData = [],
+    isLoading,
+    // refetch
+  } = useQuery({
+    queryKey: ['supportTickets', priorities, statuses],
+    queryFn: async () => {
+      const fetchedTasks = await getSupportTickets({ priorities, statuses });
+      return fetchedTasks.map(task => ({
+        ...task,
+        assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : []
+      }));
+    }
+  });
+  const [tasks, setTasks] = useState<KanbanTask[]>(tasksData);
   const [activeTask, setActiveTask] = useState<KanbanTask | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Keep local tasks in sync with query data
+  useEffect(() => {
+    setTasks(tasksData);
+  }, [tasksData]);
 
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true);
       const { priorities, statuses } = filter;
       const fetchedTasks = await getSupportTickets({ priorities, statuses });
       setTasks(fetchedTasks.map(task => ({
         ...task,
         assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : []
       })));
-      setIsLoading(false);
     }
     fetchData();
   }, [filter]);

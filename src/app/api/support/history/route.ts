@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   try {
     const history = await prisma.supportTicketHistory.findMany({
       where: { supportTicketId: ticketId },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
         beforeStatus: true,
@@ -23,6 +23,6 @@ export async function GET(req: NextRequest) {
     });
     return NextResponse.json({ history });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch history' }, { status: 500 });
+    return NextResponse.json({ error: error ?? 'Failed to fetch history' }, { status: 500 });
   }
 } 
